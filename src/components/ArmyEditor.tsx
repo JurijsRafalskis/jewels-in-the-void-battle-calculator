@@ -1,9 +1,20 @@
-import {IUnit} from '../model/armyComposition/Unit';
+import React from 'react';
+import { IUnit } from '../model/armyComposition/Unit';
+import { UnitEditor } from './UnitEditor';
 
-export default function ArmyEditor(units:IUnit[]){
+export interface ArmyEditorProps {
+  units: IUnit[];
+  onChange(unitProps: IUnit): void;
+}
+
+export class ArmyEditor extends React.Component<ArmyEditorProps> {
+  render() {
     return (
-        <div>
-            
-        </div>
-      );
+      <div>
+        {this.props.units.map(unit => (
+          <UnitEditor unit={unit} onChange={() => { }} />
+        ))}
+      </div>
+    );
+  }
 }

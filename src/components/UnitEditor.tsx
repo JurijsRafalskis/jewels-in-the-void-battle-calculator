@@ -1,52 +1,57 @@
 import React from 'react';
-import {IUnit} from '../model/armyComposition/Unit';
+import { IUnit } from '../model/armyComposition/Unit';
 
 
-export interface IUnitEditorProps {
- unit:IUnit;
- onChange(unitProps:IUnit):void;
+export interface UnitEditorProps {
+    unit: IUnit;
+    onChange(unitProps: IUnit): void;
 }
 
-export default class UnitEditor extends React.Component{
+export class UnitEditor extends React.Component<UnitEditorProps> {
     render() {
         return (
             <div>
                 <table>
                     <tbody>
                         <tr>
-                            <td>Label: </td>
-                            <td>Value: </td>
+                            <td>Name: </td>
+                            <td>{this.props.unit.Title}</td>
                         </tr>
                         <tr>
-                            <td>Label: </td>
-                            <td>Value: </td>
+                            <td>Organization: </td>
+                            <td>{this.props.unit.Health}</td>
                         </tr>
                         <tr>
-                            <td>Label: </td>
-                            <td>Value: </td>
+                            <td>Morale: </td>
+                            <td>{this.props.unit.Morale}</td>
                         </tr>
                         <tr>
-                            <td>Label: </td>
-                            <td>Value: </td>
+                            <td>Manuever: </td>
+                            <td>{this.props.unit.Maneuver}</td>
                         </tr>
                         <tr>
-                            <td>Label: </td>
-                            <td>Value: </td>
+                            <td>Health: </td>
+                            <td>{this.props.unit.Health}</td>
+                        </tr>
+                        <tr>
+                            <td>Offensive fire: </td>
+                            <td>{this.props.unit.FireBonus.Offensive}</td>
+                        </tr>
+                        <tr>
+                            <td>Defensive fire: </td>
+                            <td>{this.props.unit.FireBonus.Defensive}</td>
+                        </tr>
+                        <tr>
+                            <td>Offensive shock: </td>
+                            <td>{this.props.unit.ShockBonus.Offensive}</td>
+                        </tr>
+                        <tr>
+                            <td>Defensive shock: </td>
+                            <td>{this.props.unit.ShockBonus.Defensive}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-          );
+        );
     }
 }
-
-
-//UnitEditor; 
-/*UnitEditor({unit:IUnit}){
-
-    return (
-        <div>
-
-        </div>
-      );
-}*/
