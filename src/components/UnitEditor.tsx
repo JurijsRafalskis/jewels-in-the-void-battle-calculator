@@ -42,7 +42,7 @@ export default class UnitEditor extends React.Component{
 
 
 //UnitEditor; 
-// /*UnitEditor({unit:IUnit}){
+/*UnitEditor({unit:IUnit}){
 
     return (
         <div>
