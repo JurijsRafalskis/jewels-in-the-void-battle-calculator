@@ -11,8 +11,8 @@ export class ArmyEditor extends React.Component<ArmyEditorProps> {
   render() {
     return (
       <div>
-        {this.props.units.map(unit => (
-          <UnitEditor unit={unit} onChange={() => { }} />
+        {this.props.units.map((unit, index) => (
+          <UnitEditor key={unit.Title + index} unit={unit} onChange={() => { }} />
         ))}
       </div>
     );

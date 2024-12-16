@@ -1,5 +1,6 @@
 import React from 'react';
 import { IBattleConfiguration }from '../model/BattleConfiguration';
+import TextField from '@mui/material/TextField';
 
 export interface ConfigurationEditorProps {
     config:IBattleConfiguration;
@@ -11,10 +12,20 @@ export class ConfigurationEditor extends React.Component<ConfigurationEditorProp
         return (
           <div>
             <table>
-                <tr>
-                    <td>Simulation Itterations: </td>
-                    <td>{this.props.config.SimulatedItterationsCount}</td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>
+                            <TextField
+                                size="small"
+                                type="number"
+                                margin="dense"
+                                label="Simulation Itterations"
+                                variant="standard"
+                                value={this.props.config.SimulatedItterationsCount}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
             </table>
           </div>
         );
