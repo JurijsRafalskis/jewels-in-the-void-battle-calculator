@@ -34,7 +34,7 @@ function AddFromTemplateModal(props: AddFromTemplateModalProps) {
         >
             {existingUnits.map((unit, index) =>
             (<>
-                <MenuItem onClick={() => {
+                <MenuItem key={unit.Title + index} onClick={() => {
                     setAnchorEl(null);
                     props.onSelect && props.onSelect(unit);
                 }}>
