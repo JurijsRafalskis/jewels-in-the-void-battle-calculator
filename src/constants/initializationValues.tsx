@@ -1,5 +1,5 @@
 import { IUnit } from "../model/armyComposition/Unit";
-import { IBattleConfiguration } from "../model/BattleConfiguration";
+import { IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
 
 export const CreateEmptyUnit = function(){
     const EmptyUnit: IUnit = {
@@ -20,7 +20,6 @@ export const CreateEmptyUnit = function(){
     return EmptyUnit;
 }
 
-
 export const SlayersOfFleshUnit: IUnit = {
     Title:"Slayers of Flesh",
     Health: 40,
@@ -35,7 +34,7 @@ export const SlayersOfFleshUnit: IUnit = {
         Offensive: 2,
         Defensive: 1
     }
-}
+};
 
 export const DiggerSwarm: IUnit = {
     Title:"Digger Swarm",
@@ -51,16 +50,51 @@ export const DiggerSwarm: IUnit = {
         Offensive: 1,
         Defensive: 0
     }
+};
+
+export const MycellumVanguard: IUnit = {
+    Title:"Mycellum Vanguard",
+    Health: 20,
+    Organisation: 100,
+    Morale:4,
+    Maneuver:0,
+    FireBonus: {
+        Offensive: 1,
+        Defensive: 1
+    },
+    ShockBonus:{
+        Offensive: 1,
+        Defensive: 2
+    }
+};
+
+export const InfestedMob: IUnit = {
+    Title:"Infested Mob",
+    Health: 40,
+    Organisation: 70,
+    Morale:8,
+    Maneuver:0,
+    FireBonus: {
+        Offensive: 0,
+        Defensive: 0
+    },
+    ShockBonus:{
+        Offensive: 1,
+        Defensive: 1
+    }
+};
+
+export function GetDefaultAttackerComposition(): IUnit[] {
+    return [structuredClone(SlayersOfFleshUnit)];
 }
 
-export const DefaultAttackerComposition : IUnit[] = [
-    SlayersOfFleshUnit
-]
-
-export const DefaultDefenderComposition : IUnit[] = [
-    DiggerSwarm
-]
-
-export const DefaultConfig : IBattleConfiguration = {
-    SimulatedItterationsCount : 100
+export function GetDefaultDefenderComposition() : IUnit[]{
+    return[structuredClone(DiggerSwarm)];
+}
+    
+export function GetDefaultConfig() : IBattleConfiguration {
+    return {
+        SimulatedIterationsCount : 100,
+        MoraleCalculationMode : MoraleCalculationModeValues.Sum
+    };
 }

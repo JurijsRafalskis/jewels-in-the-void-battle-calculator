@@ -1,3 +1,9 @@
+export enum MoraleCalculationModeValues {
+    Sum = 0,
+    Average = 1
+}
+
 export interface IBattleConfiguration {
-    SimulatedItterationsCount:number;
+    SimulatedIterationsCount:number;
+    MoraleCalculationMode:MoraleCalculationModeValues
 }
