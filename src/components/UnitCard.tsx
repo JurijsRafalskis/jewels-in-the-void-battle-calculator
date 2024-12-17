@@ -21,10 +21,10 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
                 <div>
                     <table>
                         <tbody>
-                            <tr>
+                            {!!props.unit.Title && <tr>
                                 <td>Name: </td>
                                 <td>{props.unit.Title}</td>
-                            </tr>
+                            </tr>}
                             <tr>
                                 <td>Organization: </td>
                                 <td>{props.unit.Health}</td>

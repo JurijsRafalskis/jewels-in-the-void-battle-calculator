@@ -18,6 +18,7 @@ import { CalculateTotalArmyStats } from "./buisnessLogic/ArmyTotals";
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import AddFromTemplateModal from './components/AddFromTemplateModal';
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
@@ -45,7 +46,11 @@ function App() {
                 newAttacker.push(CreateEmptyUnit());
                 setAttackerArmy(newAttacker);
               }}>Add Blank</Button>
-              <Button variant="contained" disabled={true}>Add Template</Button>
+              <AddFromTemplateModal onSelect={(newUnit) => {
+                const newAttacker = attackerArmy.map(u => u);
+                newAttacker.push(newUnit);
+                setAttackerArmy(newAttacker);
+              }}/>
             </ButtonGroup>
           </Box>
           {attackerArmy.length > 1 && <>
@@ -63,7 +68,11 @@ function App() {
                 newDefender.push(CreateEmptyUnit());
                 setDefenderArmy(newDefender);
               }}>Add Blank</Button>
-              <Button variant="contained" disabled={true}>Add Template</Button>
+              <AddFromTemplateModal onSelect={(newUnit) => {
+                const newDefender = defenderArmy.map(u => u);
+                newDefender.push(newUnit);
+                setDefenderArmy(newDefender);
+              }}/>
             </ButtonGroup>
           </Box>
           {defenderArmy.length > 1 &&

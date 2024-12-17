@@ -21,6 +21,7 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
         <>
             <Box>
                 <TextField
+                    disabled
                     size="small"
                     type="number"
                     margin="dense"

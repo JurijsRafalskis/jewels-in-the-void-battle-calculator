@@ -7,7 +7,7 @@ import { IBattleConfiguration, MoraleCalculationModeValues } from '../model/Batt
 //Morale mentioned twice, we are using the second intepretation.
 export function CalculateTotalArmyStats(units:IUnit[], configuration:IBattleConfiguration):IUnit{
     const armyStats = CreateEmptyUnit();
-    armyStats.Title = "Total";
+    //armyStats.Title = "Total";
     if(units.length == 0) return armyStats;
     armyStats.Maneuver = Number.MIN_SAFE_INTEGER;
     units.forEach(u => {

@@ -91,6 +91,16 @@ export function GetDefaultAttackerComposition(): IUnit[] {
 export function GetDefaultDefenderComposition() : IUnit[]{
     return[structuredClone(DiggerSwarm)];
 }
+
+export function GetAllExistingUnits(): IUnit[]{
+    return [
+        structuredClone(SlayersOfFleshUnit),
+        structuredClone(DiggerSwarm),
+        structuredClone(MycellumVanguard),
+        structuredClone(InfestedMob)
+    ];
+}
+
     
 export function GetDefaultConfig() : IBattleConfiguration {
     return {
