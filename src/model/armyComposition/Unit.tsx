@@ -14,4 +14,6 @@ export interface IBattleBonusStats {
     Defensive: number;
 }
 
-export interface IAdditionalUnitMetadata { }
+export interface IAdditionalUnitMetadata { 
+    Key?:string;
+}

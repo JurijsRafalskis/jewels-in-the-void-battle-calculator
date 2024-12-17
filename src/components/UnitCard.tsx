@@ -27,7 +27,7 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
                             </tr>}
                             <tr>
                                 <td>Organization: </td>
-                                <td>{props.unit.Health}</td>
+                                <td>{props.unit.Organisation}</td>
                             </tr>
                             <tr>
                                 <td>Morale: </td>

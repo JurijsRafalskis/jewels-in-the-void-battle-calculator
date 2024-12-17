@@ -33,15 +33,15 @@ function AddFromTemplateModal(props: AddFromTemplateModalProps) {
             }}
         >
             {existingUnits.map((unit, index) =>
-            (<>
-                <MenuItem key={unit.Title + index} onClick={() => {
+            (<React.Fragment key={unit.Metadata?.Key}>
+                <MenuItem onClick={() => {
                     setAnchorEl(null);
                     props.onSelect && props.onSelect(unit);
                 }}>
                     <Typography>{unit.Title}</Typography>
                 </MenuItem>
-                {index < existingUnits.length - 1 && <Divider />}
-            </>)
+                {index < existingUnits.length - 1 && <Divider/>}
+            </React.Fragment>)
             )}
         </Menu>
     </>

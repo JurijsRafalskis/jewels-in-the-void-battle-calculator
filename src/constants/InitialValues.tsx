@@ -1,8 +1,9 @@
 import { IUnit } from "../model/armyComposition/Unit";
 import { IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
+import { AppendKeyToUnit } from "../utils/GenericUtilities";
 
 export const CreateEmptyUnit = function(){
-    const EmptyUnit: IUnit = {
+    let EmptyUnit: IUnit = {
         Title:"",
         Health: 0,
         Organisation: 0,
@@ -17,7 +18,7 @@ export const CreateEmptyUnit = function(){
             Defensive: 0
         }
     }
-    return EmptyUnit;
+    return AppendKeyToUnit(EmptyUnit);
 }
 
 export const SlayersOfFleshUnit: IUnit = {
@@ -85,19 +86,19 @@ export const InfestedMob: IUnit = {
 };
 
 export function GetDefaultAttackerComposition(): IUnit[] {
-    return [structuredClone(SlayersOfFleshUnit)];
+    return [PrepareUnit(SlayersOfFleshUnit)];
 }
 
 export function GetDefaultDefenderComposition() : IUnit[]{
-    return[structuredClone(DiggerSwarm)];
+    return[PrepareUnit(DiggerSwarm)];
 }
 
 export function GetAllExistingUnits(): IUnit[]{
     return [
-        structuredClone(SlayersOfFleshUnit),
-        structuredClone(DiggerSwarm),
-        structuredClone(MycellumVanguard),
-        structuredClone(InfestedMob)
+        PrepareUnit(SlayersOfFleshUnit),
+        PrepareUnit(DiggerSwarm),
+        PrepareUnit(MycellumVanguard),
+        PrepareUnit(InfestedMob)
     ];
 }
 
@@ -107,4 +108,8 @@ export function GetDefaultConfig() : IBattleConfiguration {
         SimulatedIterationsCount : 100,
         MoraleCalculationMode : MoraleCalculationModeValues.Sum
     };
+}
+
+function PrepareUnit(unit:IUnit):IUnit{
+    return AppendKeyToUnit(structuredClone(unit));
 }

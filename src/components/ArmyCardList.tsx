@@ -11,7 +11,7 @@ function ArmyCardList(props: ArmyCardListProps) {
     return (
       <div>
         {props.units.map((unit, index) => (
-          <UnitCard key={unit.Title + index} unit={unit} onChange={(newUnit) => 
+          <UnitCard key={unit.Metadata?.Key || index} unit={unit} onChange={(newUnit) => 
             { 
               /*This feels like very dirty hack - to reuse same function for removal and changed values. Probably should rewrite. */
               let newUnits:IUnit[] = [];
