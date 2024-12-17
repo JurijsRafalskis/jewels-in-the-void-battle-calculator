@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
 import { IUnit } from './model/armyComposition/Unit'
-import { ArmyEditor } from './components/ArmyEditor';
+import ArmyCardList from './components/ArmyCardList';
 import { DefaultAttackerComposition, DefaultDefenderComposition, DefaultConfig } from './constants/initializationValues';
 import { ConfigurationEditor } from './components/ConfigurationEditor';
 import Button from '@mui/material/Button';
@@ -29,20 +29,20 @@ function App() {
         <Grid size={4}>
           <div className="AttackerArmyEditorDiv">
             <label><h3>Attacking forces:</h3></label>
-            <ArmyEditor units={attackerArmy} onChange={units => { }} />
+            <ArmyCardList units={attackerArmy} onChange={setAttackerArmy} />
           </div>
         </Grid>
         <Grid size={4}>
         <div className="DefenderArmyEditorDiv">
           <label><h3>Defending forces:</h3></label>
-          <ArmyEditor units={defenderArmy} onChange={units => { }} />
+          <ArmyCardList units={defenderArmy} onChange={(newUnits) => setDefenderArmy(newUnits)} />
         </div>
         </Grid>
         <Grid size={4}>
         <div className="ConfigPanelDiv">
           <label><h3>Battle configuration:</h3></label>
           <div className="ConfigPanelEditorDiv">
-            <ConfigurationEditor config={calculatorConfiguration} onChange={newConfig => { }} />
+            <ConfigurationEditor config={calculatorConfiguration} onChange={setConfiguration} />
           </div>
           <div className="ControlsDiv">
           <ButtonGroup variant="contained">

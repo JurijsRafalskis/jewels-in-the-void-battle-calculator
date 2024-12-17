@@ -1,6 +1,26 @@
 import { IUnit } from "../model/armyComposition/Unit";
 import { IBattleConfiguration } from "../model/BattleConfiguration";
 
+export const CreateEmptyUnit = function(){
+    const EmptyUnit: IUnit = {
+        Title:"",
+        Health: 0,
+        Organisation: 0,
+        Morale:0,
+        Maneuver:0,
+        FireBonus: {
+            Offensive: 0,
+            Defensive: 0
+        },
+        ShockBonus:{
+            Offensive: 0,
+            Defensive: 0
+        }
+    }
+    return EmptyUnit;
+}
+
+
 export const SlayersOfFleshUnit: IUnit = {
     Title:"Slayers of Flesh",
     Health: 40,
