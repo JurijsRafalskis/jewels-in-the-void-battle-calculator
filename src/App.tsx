@@ -19,11 +19,23 @@ import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AddFromTemplateModal from './components/AddFromTemplateModal';
+import FullBattleLogDisplay from './components/FullBattleLogDisplay';
+import { IBattleContext } from './model/BattleStructure';
+import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
   const [attackerArmy, setAttackerArmy] = useState<IUnit[]>(GetDefaultAttackerComposition());
   const [defenderArmy, setDefenderArmy] = useState<IUnit[]>(GetDefaultDefenderComposition());
+  const [currentLog, setCurrentLog] = useState<string[]>([]);
+
+  const runSingleSimulation = () => {
+    setCurrentLog([]);
+    const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
+    const result = calculator.execute();
+    setCurrentLog(result.log);
+  }
+  
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -88,13 +100,13 @@ function App() {
           </Box>
           <Box sx={{ margin: "25px 0 25px 0" }}>
             <ButtonGroup variant="contained">
-              <Button variant="contained">Run battle</Button>
+              <Button variant="contained" onClick={runSingleSimulation}>Run battle</Button>
               <Button variant="contained" disabled={true}>Simulate results</Button>
             </ButtonGroup>
           </Box>
         </Grid>
         <Grid size={12}>
-          <div className="ResultsDiv"></div>
+          {currentLog.length > 0 && <FullBattleLogDisplay logs={currentLog}/>}
         </Grid>
       </Grid>
     </>
