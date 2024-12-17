@@ -3,7 +3,7 @@ import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
 import { IUnit } from './model/armyComposition/Unit'
 import ArmyCardList from './components/ArmyCardList';
-import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, CreateEmptyUnit } from "./constants/initializationValues";
+import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, CreateEmptyUnit } from "./constants/InitialValues";
 import ConfigurationEditor from './components/ConfigurationEditor';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -15,7 +15,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import UnitCard from './components/UnitCard';
-import { CalculateTotalArmyStats } from "./buisnessLogic/armyTotals";
+import { CalculateTotalArmyStats } from "./buisnessLogic/ArmyTotals";
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());

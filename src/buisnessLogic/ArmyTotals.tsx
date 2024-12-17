@@ -1,5 +1,5 @@
 import { IUnit } from "../model/armyComposition/Unit";
-import { CreateEmptyUnit} from "../constants/initializationValues";
+import { CreateEmptyUnit } from  "../constants/InitialValues"
 import { IBattleConfiguration, MoraleCalculationModeValues } from '../model/BattleConfiguration';
 
 //Current logic:

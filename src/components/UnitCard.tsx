@@ -10,10 +10,10 @@ import Dialog from '@mui/material/Dialog';
 export interface UnitCardProps {
     unit: IUnit;
     renderActions?:boolean;
-    onChange(unitProps: IUnit | null): void;
+    onChange?(unitProps: IUnit | null): void;
 }
 
-function UnitCard( {renderActions = true, onChange = () => {}, ...props}:UnitCardProps) {
+function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCardProps) {
     const [editModalOpen, setEditModalOpen] = useState(false);
     return (
         <Card variant="outlined">
