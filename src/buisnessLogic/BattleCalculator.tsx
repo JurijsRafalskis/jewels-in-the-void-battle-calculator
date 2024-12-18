@@ -3,7 +3,6 @@ import { IBattleConfiguration } from "../model/BattleConfiguration";
 import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultLabel, GetVictoryLabel, BattleContactPhase, BattleRole } from "../model/BattleStructure";
 import { DieTypes, Roll, RollResult } from "../utils/DieUtilities";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
-import { LogInstance } from "./BattleLogs/GenericLogInstance";
 import { BattlePhaseLogInstance, EndOfBattleLogInstance, InitiativePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
 export class BattleCalculator {
@@ -72,15 +71,15 @@ export class BattleCalculator {
 }
 
 function initiative(context: IBattleContext, config: IBattleConfiguration): IBattleContext {
-    let attackerRoll = context.attackerCurrentState.Maneuver;
-    let defenderRoll = context.defenderCurrentState.Maneuver;
-    context.currentAttackersManeuverRollBonus = Math.round(Math.max(attackerRoll - defenderRoll, 0));
-    context.currentDefendersManeuverRollBonus = Math.round(Math.max(defenderRoll - attackerRoll, 0));
+    let attackerRoll = Roll(context.attackerCurrentState.Maneuver);
+    let defenderRoll = Roll(context.defenderCurrentState.Maneuver);
+    context.currentAttackersManeuverRollBonus = Math.round(Math.max(attackerRoll.total - defenderRoll.total, 0));
+    context.currentDefendersManeuverRollBonus = Math.round(Math.max(defenderRoll.total - attackerRoll.total, 0));
     context.log.push(
         new InitiativePhaseLogInstance(
             context,
-            { total: attackerRoll, dieType: DieTypes.None, rolls: [] },
-            { total: defenderRoll, dieType: DieTypes.None, rolls: [] })
+            attackerRoll,
+            defenderRoll)
     );
     return context;
 }

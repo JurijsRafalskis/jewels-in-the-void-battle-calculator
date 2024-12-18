@@ -11,13 +11,47 @@ export enum DieTypes {
     d100 = 100
 }
 
+export interface DieSet {
+    dieCount:number;
+    dieType:DieTypes;
+}
+
 export interface RollResult {
     total:number,
     rolls:number[],
     dieType:DieTypes
 }
 
-export function Roll(dieCount:number, dieType:DieTypes){
+export function FormatDieForReading(set:DieSet):string{
+    return set.dieCount.toString() + (set.dieType == DieTypes.None ? "" : "d" + DieToInt(set.dieType).toString());
+}
+
+export function GetMedianDieSetValue(set:DieSet){
+    if(set.dieType == DieTypes.None) return set.dieCount; //Exception for calculating straight values.
+    let maxValue = DieToInt(set.dieType);
+    return set.dieCount * ((1 + maxValue) / 2);
+}
+
+export function GetMaximumDieSetValue(set:DieSet){
+    if(set.dieType == DieTypes.None) return set.dieCount; //Exception for calculating straight values.
+    let maxValue = DieToInt(set.dieType);
+    return set.dieCount * maxValue;
+}
+
+export function Roll(die:DieSet):RollResult;
+export function Roll(dieCount:number, dieType:DieTypes):RollResult;
+export function Roll(a:number | DieSet, b?:DieTypes):RollResult {
+    if(typeof (a) === "number" && b){
+        return RollInternal(a as number, b);
+    }
+    const checkedA = a && a as DieSet;
+    if(checkedA && !b){
+        return RollInternal(checkedA.dieCount, checkedA.dieType);
+    }
+    throw new Error("Invalid argument for function Roll.");
+}
+
+function RollInternal(dieCount:number, dieType:DieTypes):RollResult{
     const result:RollResult = {
         total : 0,
         dieType : dieType,
@@ -32,10 +66,15 @@ export function Roll(dieCount:number, dieType:DieTypes){
 }
 
 function RollDice(dieType:DieTypes){ //type should be in its int form right now.
+    let int = DieToInt(dieType);
+    if(int == 0) return 0;
+    return 1 + Math.floor(Math.random() * int);
+}
+
+export function DieToInt(dieType:DieTypes):number{
     let int = parseInt(dieType.toString()); //Check for wrong enum form?
     if(Number.isNaN(int)){
         int = parseInt(DieTypes[dieType].toString());
     }
-    if(int == 0) return 0;
-    return 1 + Math.floor(Math.random() * int);
+    return int;
 }

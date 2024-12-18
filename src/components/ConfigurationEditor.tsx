@@ -1,5 +1,5 @@
 import React from 'react';
-import { IBattleConfiguration } from '../model/BattleConfiguration';
+import { DieSelectionModeValues, IBattleConfiguration } from '../model/BattleConfiguration';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -14,7 +14,8 @@ export interface ConfigurationEditorProps {
     onChange(config: IBattleConfiguration): void;
 }
 
-const enumValues = Object.keys(MoraleCalculationModeValues).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as MoraleCalculationModeValues);
+const moraleCalculationModeEnumValues = Object.keys(MoraleCalculationModeValues).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as MoraleCalculationModeValues);
+const dieSelectionModeEnumValues = Object.keys(DieSelectionModeValues).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieSelectionModeValues);
 
 function ConfigurationEditor(props: ConfigurationEditorProps) {
     const currentConfig = structuredClone(props.config);
@@ -31,8 +32,9 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                     onChange={(e) => { currentConfig.SimulatedIterationsCount = parseInt(e.target.value); props.onChange(currentConfig); }}
                 />
             </Box>
-            <Box>
+            <Box sx={{margin: "20px 0 0 0"}}>
                 <FormControlLabel 
+                
                     label={"Post full simulation history"} 
                     control={
                     <Checkbox 
@@ -49,7 +51,23 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                     style = {{width: "200px"}}
                     onChange={(e) => { currentConfig.MoraleCalculationMode = e.target.value as unknown as MoraleCalculationModeValues; props.onChange(currentConfig); }}
                 >
-                    {enumValues.map((v) => (
+                    {moraleCalculationModeEnumValues.map((v) => (
+                        <MenuItem key={v} value={v}>
+                            {MoraleCalculationModeValues[v]}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </Box>
+            <Box sx={{margin: "20px 0 0 0"}}>
+                <TextField
+                    size="small"
+                    select
+                    label="Die selection mode"
+                    defaultValue={currentConfig.DieSelectionMode}
+                    style = {{width: "200px"}}
+                    onChange={(e) => { currentConfig.DieSelectionMode = e.target.value as unknown as DieSelectionModeValues; props.onChange(currentConfig); }}
+                >
+                    {dieSelectionModeEnumValues.map((v) => (
                         <MenuItem key={v} value={v}>
                             {MoraleCalculationModeValues[v]}
                         </MenuItem>

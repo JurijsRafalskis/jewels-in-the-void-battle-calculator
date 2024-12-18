@@ -1,5 +1,6 @@
 import { IUnit } from "../model/armyComposition/Unit";
-import { IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
+import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
+import { DieTypes } from "../utils/DieUtilities";
 import { AppendKeyToUnit } from "../utils/GenericUtilities";
 
 export const CreateEmptyUnit = function () {
@@ -8,7 +9,10 @@ export const CreateEmptyUnit = function () {
         Health: 0,
         Organisation: 0,
         Morale: 0,
-        Maneuver: 0,
+        Maneuver: {
+            dieCount:0,
+            dieType:DieTypes.None
+        },
         FireBonus: {
             Offensive: 0,
             Defensive: 0
@@ -26,7 +30,10 @@ export const SlayersOfFleshUnit: IUnit = {
     Health: 40,
     Organisation: 90,
     Morale: 4,
-    Maneuver: 0,
+    Maneuver: {
+        dieCount:0,
+        dieType:DieTypes.None
+    },
     FireBonus: {
         Offensive: 1,
         Defensive: 0
@@ -37,12 +44,34 @@ export const SlayersOfFleshUnit: IUnit = {
     }
 };
 
+export const PinionsOfGodTest: IUnit = {
+    Title: "Pinion of God (speculative)",
+    Health: 20,
+    Organisation: 90,
+    Morale: 3,
+    Maneuver: {
+        dieCount:1,
+        dieType:DieTypes.d6
+    },
+    FireBonus: {
+        Offensive: 2,
+        Defensive: 2
+    },
+    ShockBonus: {
+        Offensive: 0,
+        Defensive: 0
+    }
+};
+
 export const DiggerSwarm: IUnit = {
     Title: "Digger Swarm",
     Health: 15,
     Organisation: 80,
     Morale: 2,
-    Maneuver: 0,
+    Maneuver: {
+        dieCount:0,
+        dieType:DieTypes.None
+    },
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -58,7 +87,10 @@ export const MycellumVanguard: IUnit = {
     Health: 20,
     Organisation: 100,
     Morale: 4,
-    Maneuver: 0,
+    Maneuver: {
+        dieCount:0,
+        dieType:DieTypes.None
+    },
     FireBonus: {
         Offensive: 1,
         Defensive: 1
@@ -74,7 +106,10 @@ export const InfestedMob: IUnit = {
     Health: 40,
     Organisation: 70,
     Morale: 8,
-    Maneuver: 0,
+    Maneuver: {
+        dieCount:0,
+        dieType:DieTypes.None
+    },
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -96,6 +131,7 @@ export function GetDefaultDefenderComposition(): IUnit[] {
 export function GetAllExistingUnits(): IUnit[] {
     return [
         PrepareUnit(SlayersOfFleshUnit),
+        PrepareUnit(PinionsOfGodTest),
         PrepareUnit(DiggerSwarm),
         PrepareUnit(MycellumVanguard),
         PrepareUnit(InfestedMob)
@@ -108,6 +144,7 @@ export function GetDefaultConfig(): IBattleConfiguration {
         SimulatedIterationsCount: 100,
         MoraleCalculationMode: MoraleCalculationModeValues.Sum,
         PostSimulatedHistory: false,
+        DieSelectionMode: DieSelectionModeValues.Median
     };
 }
 

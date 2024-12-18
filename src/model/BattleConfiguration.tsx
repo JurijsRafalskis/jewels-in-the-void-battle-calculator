@@ -3,8 +3,14 @@ export enum MoraleCalculationModeValues {
     Average = 1
 }
 
+export enum DieSelectionModeValues{
+    Max,
+    Median
+}
+
 export interface IBattleConfiguration {
     SimulatedIterationsCount:number;
     PostSimulatedHistory:boolean;
     MoraleCalculationMode:MoraleCalculationModeValues
+    DieSelectionMode:DieSelectionModeValues
 }
