@@ -148,6 +148,6 @@ export function GetDefaultConfig(): IBattleConfiguration {
     };
 }
 
-function PrepareUnit(unit: IUnit): IUnit {
+export function PrepareUnit(unit: IUnit): IUnit {
     return AppendKeyToUnit(structuredClone(unit));
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IUnit } from '../model/armyComposition/Unit';
 import Button from '@mui/material/Button';
-import { GetAllExistingUnits } from '../constants/InitialValues';
+import { GetAllExistingUnits, PrepareUnit } from '../constants/InitialValues';
 import Divider from '@mui/material/Divider';
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
@@ -34,7 +34,9 @@ function AddFromTemplateModal(props: AddFromTemplateModalProps) {
             (<React.Fragment key={unit.Metadata?.Key}>
                 <MenuItem onClick={() => {
                     setAnchorEl(null);
-                    props.onSelect && props.onSelect(unit);
+                    //Ensuring that new unit has unique ID.
+                    const newUnit = PrepareUnit(unit);
+                    props.onSelect && props.onSelect(newUnit);
                 }}>
                     <Typography>{unit.Title}</Typography>
                 </MenuItem>
