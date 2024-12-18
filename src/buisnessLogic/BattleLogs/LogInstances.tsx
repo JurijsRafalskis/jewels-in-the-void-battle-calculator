@@ -100,6 +100,24 @@ export class EndOfBattleLogInstance extends LogInstance {
     }
 }
 
+export class StartOfBattleLogInstance extends LogInstance{
+    constructor(context: IBattleContext) {
+        super(context);
+    }
+
+    public GetFormattedLogElement(): JSX.Element {
+        return <Box>
+                <Box>
+                    Battle started.
+                </Box>
+                <Box>
+                    <UnitHover unit={this.attacker}>Attacker's initial stats. <FlashOnIcon fontSize={"inherit"}/></UnitHover> {' '}
+                    <UnitHover unit={this.defender}>Defender's initial stats. <FlashOnIcon fontSize={"inherit"}/></UnitHover>
+                </Box>
+        </Box>
+    }
+}
+
 export class MultiSimulationLog implements ILogInstance{
     protected key:string;
 

@@ -4,7 +4,7 @@ import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultL
 import { DieTypes, Roll, RollResult } from "../utils/DieUtilities";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
 import { LogInstance } from "./BattleLogs/GenericLogInstance";
-import { BattlePhaseLogInstance, EndOfBattleLogInstance, InitiativePhaseLogInstance, MoralePhaseLogInstance } from "./BattleLogs/LogInstances";
+import { BattlePhaseLogInstance, EndOfBattleLogInstance, InitiativePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
 export class BattleCalculator {
     #attackers: IUnit[];
@@ -36,8 +36,8 @@ export class BattleCalculator {
         this.#attackers = attackers;
         this.#defenders = defenders;
         this.#config = config;
-        this.#AttackerAggregation = CalculateTotalArmyStats(attackers, this.#config);
-        this.#DefenderAggregation = CalculateTotalArmyStats(defenders, this.#config);
+        this.#AttackerAggregation = CalculateTotalArmyStats(this.#attackers, this.#config);
+        this.#DefenderAggregation = CalculateTotalArmyStats(this.#defenders, this.#config);
     }
 
 
@@ -56,6 +56,9 @@ export class BattleCalculator {
             battleResult: BattleResult.InProgress,
             victoryType: VictoryType.Undecided
         }
+
+        context.log.push(new StartOfBattleLogInstance(context));
+
         while (context.battleResult == BattleResult.InProgress) {
             for (let index in this.#battleSteps) {
                 context = this.#battleSteps[index].stepFunction(context, this.#config);
@@ -97,7 +100,7 @@ function moralePhase(context: IBattleContext, config: IBattleConfiguration): IBa
     if (context.defenderCurrentState.Morale == 0) {
         if (context.attackerCurrentState.Morale == 0) {
             context.battleResult = BattleResult.Stalemate;
-            context.victoryType = VictoryType.Morale;
+            context.victoryType = VictoryType.Undecided;
         }
         else {
             context.battleResult = BattleResult.AttackersVictory;
@@ -127,7 +130,7 @@ function damagePhase(context: IBattleContext, config: IBattleConfiguration, cont
         context.defenderCurrentState.Morale = Math.max(context.defenderCurrentState.Morale - 1, 0);
     }
     else {
-        context.attackerCurrentState.Morale -= Math.max(context.attackerCurrentState.Morale - 1, 0);
+        context.attackerCurrentState.Morale = Math.max(context.attackerCurrentState.Morale - 1, 0);
     }
 
     context.log.push(new BattlePhaseLogInstance(
