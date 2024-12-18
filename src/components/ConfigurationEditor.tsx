@@ -69,7 +69,7 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                 >
                     {dieSelectionModeEnumValues.map((v) => (
                         <MenuItem key={v} value={v}>
-                            {MoraleCalculationModeValues[v]}
+                            {DieSelectionModeValues[v]}
                         </MenuItem>
                     ))}
                 </TextField>
