@@ -1,9 +1,9 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
+import { ILogInstance, LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
 
 export interface IFullBattleLogDisplayProps {
-    logs: LogInstance[];
+    logs: ILogInstance[];
 }
 
 function FullBattleLogDisplay(props: IFullBattleLogDisplayProps) {

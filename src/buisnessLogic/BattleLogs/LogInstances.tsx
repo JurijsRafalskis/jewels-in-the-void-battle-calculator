@@ -1,9 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { BattleContactPhase, BattleResult, BattleRole, GetBattleResultLabel, GetVictoryLabel, IBattleContext, VictoryType } from "../../model/BattleStructure";
-import { LogInstance } from "./GenericLogInstance";
+import { ILogInstance, LogInstance } from "./GenericLogInstance";
 import { RollResult } from "../../utils/DieUtilities";
 import { IUnit } from "../../model/armyComposition/Unit";
-import UnitHover from "../../components/Unithover";
+import UnitHover from "../../components/UnitHover";
+import { GenerateKey } from "../../utils/GenericUtilities";
 
 export class InitiativePhaseLogInstance extends LogInstance {
     protected attackersRoll: RollResult;
@@ -85,5 +86,37 @@ export class EndOfBattleLogInstance extends LogInstance {
                     <UnitHover popoverText="Defender's final stats." unit={this.defender}></UnitHover>
                 </Typography>
             </>)
+    }
+}
+
+export class MultiSimulationLog implements ILogInstance{
+    protected key:string;
+
+    protected attackersVictoryCount:number = 0;
+    protected defendersVictoryCount:number = 0;
+    protected stalemateCount:number = 0;
+    protected mutualDestructionCount:number = 0;
+    protected totalCount:number = 0;
+
+    constructor(){
+        this.key = GenerateKey();
+    }
+
+    public RegisterResult(context:IBattleContext){
+        this.totalCount++;
+        if(context.battleResult == BattleResult.AttackersVictory) this.attackersVictoryCount++;
+        if(context.battleResult == BattleResult.DefendersVictory) this.defendersVictoryCount++;
+        if(context.battleResult == BattleResult.MutualDestruction) this.mutualDestructionCount++;
+        if(context.battleResult == BattleResult.Stalemate) this.stalemateCount++;
+    }
+
+    public GetKey(): string {
+        return this.key;
+    }
+
+    public GetFormattedLogElement(): JSX.Element {
+        return <>
+            <Typography>Total battles: {this.totalCount}. Attacker's victories: {this.attackersVictoryCount}. Defender's victories: {this.defendersVictoryCount}. Stalemates: {this.stalemateCount}. Mutual destruction: {this.mutualDestructionCount}.</Typography>
+        </>
     }
 }

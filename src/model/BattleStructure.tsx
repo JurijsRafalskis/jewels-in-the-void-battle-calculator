@@ -1,4 +1,4 @@
-import { LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
+import { ILogInstance, LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
 import { IUnit } from "./armyComposition/Unit";
 import { IBattleConfiguration } from "./BattleConfiguration";
 
@@ -43,7 +43,7 @@ export enum BattleRole {
 }
 
 export interface IBattleContext {
-    log:LogInstance[]
+    log:ILogInstance[]
     attackerCurrentState:IUnit;
     defenderCurrentState:IUnit;
     currentAttackersManeuverRollBonus:number;
