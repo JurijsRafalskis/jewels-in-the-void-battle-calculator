@@ -16,7 +16,10 @@ export class InitiativePhaseLogInstance extends LogInstance {
     }
 
     public GetFormattedLogElement(): JSX.Element {
-        return <Typography><Box component="span" sx={{ fontWeight: 'bold' }}>Executing initative phase:</Box>{` attacker's maneuver roll is ${this.attackersRoll.total}, defender's ${this.defendersRoll.total}.`}</Typography>
+        return <Typography>
+                <Box sx={{ fontWeight: 'bold' }}>Executing initative phase:</Box>
+                <Box>{`Attacker's maneuver roll is ${this.attackersRoll.total}, defender's ${this.defendersRoll.total}.`}</Box>
+            </Typography>
     }
 }
 
@@ -35,10 +38,10 @@ export class BattlePhaseLogInstance extends LogInstance {
 
     public GetFormattedLogElement(): JSX.Element {
         return <Typography>
-            <Box component="span" sx={{ fontWeight: 'bold' }}>{`Executing "${BattleContactPhase[this.contactPhase]}" phase: `}</Box>
-            {`Attacker's ${this.FormatDamageLog(this.attackerNumbers, this.attacker)}. `}
-            {`Defender's ${this.FormatDamageLog(this.defenderNumbers, this.defender)}. `}
-            {`${BattleRole[this.moraleLost]} lost morale this phase.`}
+            <Box><Box component="span" sx={{ fontWeight: 'bold' }}>{`Executing "${BattleContactPhase[this.contactPhase]}" phase: `}</Box></Box>
+            <Box>{`Attacker's ${this.FormatDamageLog(this.attackerNumbers, this.attacker)}. `}</Box>
+            <Box>{`Defender's ${this.FormatDamageLog(this.defenderNumbers, this.defender)}. `}</Box>
+            <Box>{`${BattleRole[this.moraleLost]} lost morale this phase.`}</Box>
         </Typography>
     }
 
@@ -59,7 +62,10 @@ export class MoralePhaseLogInstance extends LogInstance {
     }
 
     public GetFormattedLogElement(): JSX.Element {
-        return <Typography><Box component="span" sx={{ fontWeight: 'bold' }}>Executing morale phase:</Box>{` attacker's current morale ${this.attacker.Morale}, defender's current morale ${this.defender.Morale}`}</Typography>
+        return <Typography>
+            <Box sx={{ fontWeight: 'bold' }}>Executing morale phase:</Box>
+            <Box>{`Attacker's current morale ${this.attacker.Morale}, defender's current morale ${this.defender.Morale}`}</Box>
+        </Typography>
     }
 }
 
