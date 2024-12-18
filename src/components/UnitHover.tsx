@@ -36,6 +36,7 @@ function UnitHover(props: UnitHoverProps) {
                 vertical: 'top',
                 horizontal: 'left',
             }}
+            disableAutoFocus={true}
         >
             <UnitCard unit={props.unit} renderActions={false}></UnitCard>
         </Popover>
