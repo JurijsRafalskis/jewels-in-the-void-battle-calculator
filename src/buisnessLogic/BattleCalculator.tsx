@@ -91,7 +91,7 @@ function shockPhase(context: IBattleContext, config: IBattleConfiguration): IBat
 }
 
 function moralePhase(context: IBattleContext, config: IBattleConfiguration): IBattleContext {
-    context.attackerCurrentState.Morale -= Math.max(context.attackerCurrentState.Morale - 1, 0);
+    context.attackerCurrentState.Morale = Math.max(context.attackerCurrentState.Morale - 1, 0);
     context.defenderCurrentState.Morale = Math.max(context.defenderCurrentState.Morale - 1, 0);
     context.log.push(new MoralePhaseLogInstance(context));
     if (context.defenderCurrentState.Morale == 0) {

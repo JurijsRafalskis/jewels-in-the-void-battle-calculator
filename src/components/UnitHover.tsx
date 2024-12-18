@@ -1,12 +1,12 @@
 import Popover from '@mui/material/Popover';
 import { IUnit } from '../model/armyComposition/Unit';
 import { Box } from '@mui/material';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import UnitCard from './UnitCard';
 
 export interface UnitHoverProps {
-    popoverText: string;
     unit: IUnit;
+    children: ReactNode;
 }
 
 function UnitHover(props: UnitHoverProps) {
@@ -21,7 +21,7 @@ function UnitHover(props: UnitHoverProps) {
             aria-owns={popoverOpen ? id : undefined}
             aria-haspopup="true"
         >
-            {props.popoverText}
+            {props.children}
         </Box>
         <Popover
             id={id}

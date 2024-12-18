@@ -27,7 +27,7 @@ export enum VictoryType{
 
 export function GetVictoryLabel(result:VictoryType){
     //Can't really use switch with enums without a lot of additional work, using ifs.
-    if(result == VictoryType.Destruction) return "Enemy destruction";
+    if(result == VictoryType.Destruction) return "Opposition's destruction";
     if(result == VictoryType.Morale) return "Morale";
     return "Unknown";
 }
