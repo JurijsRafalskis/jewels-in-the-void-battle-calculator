@@ -12,7 +12,7 @@ export enum DieTypes {
 }
 
 export interface DieSet {
-    dieCount:number;
+    diceCount:number;
     dieType:DieTypes;
 }
 
@@ -23,19 +23,19 @@ export interface RollResult {
 }
 
 export function FormatDieForReading(set:DieSet):string{
-    return set.dieCount.toString() + (set.dieType == DieTypes.None ? "" : "d" + DieToInt(set.dieType).toString());
+    return set.diceCount.toString() + (set.dieType == DieTypes.None ? "" : "d" + DieToInt(set.dieType).toString());
 }
 
 export function GetMedianDieSetValue(set:DieSet){
-    if(set.dieType == DieTypes.None) return set.dieCount; //Exception for calculating straight values.
+    if(set.dieType == DieTypes.None) return set.diceCount; //Exception for calculating straight values.
     let maxValue = DieToInt(set.dieType);
-    return set.dieCount * ((1 + maxValue) / 2);
+    return set.diceCount * ((1 + maxValue) / 2);
 }
 
 export function GetMaximumDieSetValue(set:DieSet){
-    if(set.dieType == DieTypes.None) return set.dieCount; //Exception for calculating straight values.
+    if(set.dieType == DieTypes.None) return set.diceCount; //Exception for calculating straight values.
     let maxValue = DieToInt(set.dieType);
-    return set.dieCount * maxValue;
+    return set.diceCount * maxValue;
 }
 
 export function Roll(die:DieSet):RollResult;
@@ -46,7 +46,7 @@ export function Roll(a:number | DieSet, b?:DieTypes):RollResult {
     }
     const checkedA = a && a as DieSet;
     if(checkedA && !b){
-        return RollInternal(checkedA.dieCount, checkedA.dieType);
+        return RollInternal(checkedA.diceCount, checkedA.dieType);
     }
     throw new Error("Invalid argument for function Roll.");
 }

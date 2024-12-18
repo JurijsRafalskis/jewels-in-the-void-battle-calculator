@@ -19,8 +19,8 @@ function DieField(props:DieFieldProps){
             margin="dense"
             label={props.fieldLabel}
             variant="standard"
-            defaultValue={die.dieCount}
-            onChange={v => { die.dieCount = parseInt(v.currentTarget.value); setDie(die); props.onChange(die); }}
+            defaultValue={die.diceCount}
+            onChange={v => { die.diceCount = parseInt(v.currentTarget.value); setDie(die); props.onChange(die); }}
         />
         <TextField
             size="small"

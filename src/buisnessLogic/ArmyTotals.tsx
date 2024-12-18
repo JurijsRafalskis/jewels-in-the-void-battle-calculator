@@ -10,7 +10,7 @@ export function CalculateTotalArmyStats(units:IUnit[], configuration:IBattleConf
     const armyStats = CreateEmptyUnit();
     //armyStats.Title = "Total";
     if(units.length == 0) return armyStats;
-    armyStats.Maneuver = {dieCount:0, dieType: DieTypes.None};
+    armyStats.Maneuver = {diceCount:0, dieType: DieTypes.None};
     units.forEach(u => {
         armyStats.Maneuver = DieSelector(configuration, armyStats.Maneuver, u.Maneuver);
         armyStats.Morale += u.Morale;

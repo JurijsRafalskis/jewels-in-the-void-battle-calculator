@@ -10,7 +10,7 @@ export const CreateEmptyUnit = function () {
         Organisation: 0,
         Morale: 0,
         Maneuver: {
-            dieCount:0,
+            diceCount:0,
             dieType:DieTypes.None
         },
         FireBonus: {
@@ -31,7 +31,7 @@ export const SlayersOfFleshUnit: IUnit = {
     Organisation: 90,
     Morale: 4,
     Maneuver: {
-        dieCount:0,
+        diceCount:0,
         dieType:DieTypes.None
     },
     FireBonus: {
@@ -50,7 +50,7 @@ export const PinionsOfGodTest: IUnit = {
     Organisation: 90,
     Morale: 3,
     Maneuver: {
-        dieCount:1,
+        diceCount:1,
         dieType:DieTypes.d6
     },
     FireBonus: {
@@ -69,7 +69,7 @@ export const DiggerSwarm: IUnit = {
     Organisation: 80,
     Morale: 2,
     Maneuver: {
-        dieCount:0,
+        diceCount:0,
         dieType:DieTypes.None
     },
     FireBonus: {
@@ -88,7 +88,7 @@ export const MycellumVanguard: IUnit = {
     Organisation: 100,
     Morale: 4,
     Maneuver: {
-        dieCount:0,
+        diceCount:0,
         dieType:DieTypes.None
     },
     FireBonus: {
@@ -107,7 +107,7 @@ export const InfestedMob: IUnit = {
     Organisation: 70,
     Morale: 8,
     Maneuver: {
-        dieCount:0,
+        diceCount:0,
         dieType:DieTypes.None
     },
     FireBonus: {
