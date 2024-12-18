@@ -24,33 +24,50 @@ import { IBattleContext } from './model/BattleStructure';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 import { MultiSimulationLog } from './buisnessLogic/BattleLogs/LogInstances';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
   const [attackerArmy, setAttackerArmy] = useState<IUnit[]>(GetDefaultAttackerComposition());
   const [defenderArmy, setDefenderArmy] = useState<IUnit[]>(GetDefaultDefenderComposition());
   const [currentLog, setCurrentLog] = useState<ILogInstance[]>([]);
+  const [backdropOpened, setBackdropOpened] = useState(false);
 
-  const runSingleSimulation = () => {
-    setCurrentLog([]);
-    const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
-    const result = calculator.execute();
-    setCurrentLog(result.log);
-  }
-
-  const runMultiSimulation = () =>{
-    setCurrentLog([]);
-    const aggregatedLog = new MultiSimulationLog();
-    for(var i = 0; i < calculatorConfiguration.SimulatedIterationsCount; i++){
+  const runSingleSimulation = async () => {
+    setBackdropOpened(true);
+    setTimeout(()=>{
+      setCurrentLog([]);
       const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
       const result = calculator.execute();
-      aggregatedLog.RegisterResult(result);
-    }
-    setCurrentLog([aggregatedLog]);
+      setCurrentLog(result.log);
+      setBackdropOpened(false);
+    },100);
+  }
+
+  const runMultiSimulation = async () =>{
+    setBackdropOpened(true);
+    setTimeout(() =>{
+      setCurrentLog([]);
+      const aggregatedLog = new MultiSimulationLog(calculatorConfiguration);
+      for(var i = 0; i < calculatorConfiguration.SimulatedIterationsCount; i++){
+        const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
+        const result = calculator.execute();
+        aggregatedLog.RegisterResult(result);
+      }
+      const additionalLogs = !calculatorConfiguration.PostSimulatedHistory ? [] : aggregatedLog.GetExtraLogs();
+      setCurrentLog([aggregatedLog, ...additionalLogs]);
+      setBackdropOpened(false);
+    }, 100);
   }
 
   return (
     <>
+      <Backdrop
+          sx={(theme) => ({ color: '#fff', zIndex: () => Math.max.apply(Math, Object.values(theme.zIndex)) + 1 })}
+          open={backdropOpened}
+        >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>

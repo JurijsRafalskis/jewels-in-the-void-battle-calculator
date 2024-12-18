@@ -6,6 +6,7 @@ import { IUnit } from "../../model/armyComposition/Unit";
 import UnitHover from "../../components/UnitHover";
 import { GenerateKey } from "../../utils/GenericUtilities";
 import FlashOnIcon from '@mui/icons-material/FlashOn';
+import { IBattleConfiguration } from "../../model/BattleConfiguration";
 
 export class InitiativePhaseLogInstance extends LogInstance {
     protected attackersRoll: RollResult;
@@ -120,6 +121,7 @@ export class StartOfBattleLogInstance extends LogInstance{
 
 export class MultiSimulationLog implements ILogInstance{
     protected key:string;
+    protected config:IBattleConfiguration;
 
     protected attackersVictoryCount:number = 0;
     protected defendersVictoryCount:number = 0;
@@ -130,8 +132,11 @@ export class MultiSimulationLog implements ILogInstance{
     protected damageVictoriesCount:number = 0;
     protected undecidedCount:number = 0;
 
-    constructor(){
+    protected extraLogs:ILogInstance[] = [];
+
+    constructor(config:IBattleConfiguration){
         this.key = GenerateKey();
+        this.config = config;
     }
 
     public RegisterResult(context:IBattleContext){
@@ -143,6 +148,7 @@ export class MultiSimulationLog implements ILogInstance{
         if(context.victoryType == VictoryType.Destruction) this.damageVictoriesCount++;
         if(context.victoryType == VictoryType.Morale) this.moraleVictoriesCount++;
         if(context.victoryType == VictoryType.Undecided) this.undecidedCount++;
+        if(this.config.PostSimulatedHistory) this.extraLogs = this.extraLogs.concat(context.log);
     }
 
     public GetKey(): string {
@@ -154,5 +160,9 @@ export class MultiSimulationLog implements ILogInstance{
             <Box>Total battles: {this.totalCount}. Attacker's victories: {this.attackersVictoryCount}. Defender's victories: {this.defendersVictoryCount}. Stalemates: {this.stalemateCount}. Mutual destruction: {this.mutualDestructionCount}.</Box>
             <Box>Victories through damage: {this.damageVictoriesCount}. Victories through morale: {this.moraleVictoriesCount}. Undecided battles: {this.undecidedCount}.</Box>
         </Box>
+    }
+
+    public GetExtraLogs(){
+        return this.extraLogs;
     }
 }

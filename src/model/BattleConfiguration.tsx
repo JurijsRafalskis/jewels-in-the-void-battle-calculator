@@ -5,5 +5,6 @@ export enum MoraleCalculationModeValues {
 
 export interface IBattleConfiguration {
     SimulatedIterationsCount:number;
+    PostSimulatedHistory:boolean;
     MoraleCalculationMode:MoraleCalculationModeValues
 }

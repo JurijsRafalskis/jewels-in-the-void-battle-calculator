@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { MoraleCalculationModeValues } from "../model/BattleConfiguration"
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import { Checkbox, FormControlLabel } from '@mui/material';
 
 export interface ConfigurationEditorProps {
     config: IBattleConfiguration;
@@ -29,6 +30,15 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                     defaultValue={currentConfig.SimulatedIterationsCount}
                     onChange={(e) => { currentConfig.SimulatedIterationsCount = parseInt(e.target.value); props.onChange(currentConfig); }}
                 />
+            </Box>
+            <Box>
+                <FormControlLabel 
+                    label={"Post full simulation history"} 
+                    control={
+                    <Checkbox 
+                        checked={currentConfig.PostSimulatedHistory}
+                        onChange={(e) => {currentConfig.PostSimulatedHistory = e.target.checked; props.onChange(currentConfig)}}
+                />}/>
             </Box>
             <Box sx={{margin: "20px 0 0 0"}}>
                 <TextField
