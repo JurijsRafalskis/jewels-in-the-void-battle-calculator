@@ -1,3 +1,4 @@
+import { LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
 import { IUnit } from "./armyComposition/Unit";
 import { IBattleConfiguration } from "./BattleConfiguration";
 
@@ -31,8 +32,18 @@ export function GetVictoryLabel(result:VictoryType){
     return "Unknown";
 }
 
+export enum BattleContactPhase {
+    Fire,
+    Shock
+}
+
+export enum BattleRole {
+    Attacker,
+    Defender
+}
+
 export interface IBattleContext {
-    log:string[]
+    log:LogInstance[]
     attackerCurrentState:IUnit;
     defenderCurrentState:IUnit;
     currentAttackersManeuverRollBonus:number;

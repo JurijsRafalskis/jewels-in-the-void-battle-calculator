@@ -1,18 +1,17 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
 
 export interface IFullBattleLogDisplayProps {
-    logs: string[];
+    logs: LogInstance[];
 }
 
 function FullBattleLogDisplay(props: IFullBattleLogDisplayProps) {
     return (
         <>
             {props.logs.map(l => (
-                <Box>
-                    <Typography>
-                        {l}
-                    </Typography>
+                <Box key={l.GetKey()}>
+                    {l.GetFormattedLogElement()}
                 </Box>
             ))}
         </>

@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { IUnit } from '../model/armyComposition/Unit';
-import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import { GetAllExistingUnits } from '../constants/InitialValues';
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { GenerateKey } from '../utils/GenericUtilities';
 
 const existingUnits: IUnit[] = GetAllExistingUnits();
 
@@ -20,8 +17,9 @@ export interface AddFromTemplateModalProps {
 function AddFromTemplateModal(props: AddFromTemplateModalProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const menuOpen = Boolean(anchorEl);
+    const [buttonId] = useState("AddTemplateButton_" + GenerateKey())
     return <>
-        <Button id='addTempalteButton' variant="contained" onClick={(e) => setAnchorEl(e.currentTarget)}>Add Template</Button>
+        <Button id={buttonId} variant="contained" onClick={(e) => setAnchorEl(e.currentTarget)}>Add Template</Button>
         <Menu
             anchorEl={anchorEl}
             open={menuOpen}
@@ -29,7 +27,7 @@ function AddFromTemplateModal(props: AddFromTemplateModalProps) {
                 setAnchorEl(null);
             }}
             MenuListProps={{
-                'aria-labelledby': 'addTempalteButton',
+                'aria-labelledby': buttonId,
             }}
         >
             {existingUnits.map((unit, index) =>

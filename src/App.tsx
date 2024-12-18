@@ -22,12 +22,13 @@ import AddFromTemplateModal from './components/AddFromTemplateModal';
 import FullBattleLogDisplay from './components/FullBattleLogDisplay';
 import { IBattleContext } from './model/BattleStructure';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
+import { LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
   const [attackerArmy, setAttackerArmy] = useState<IUnit[]>(GetDefaultAttackerComposition());
   const [defenderArmy, setDefenderArmy] = useState<IUnit[]>(GetDefaultDefenderComposition());
-  const [currentLog, setCurrentLog] = useState<string[]>([]);
+  const [currentLog, setCurrentLog] = useState<LogInstance[]>([]);
 
   const runSingleSimulation = () => {
     setCurrentLog([]);
@@ -35,7 +36,7 @@ function App() {
     const result = calculator.execute();
     setCurrentLog(result.log);
   }
-  
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -106,6 +107,7 @@ function App() {
           </Box>
         </Grid>
         <Grid size={12}>
+          <Typography variant="h5">Battle results:</Typography>
           {currentLog.length > 0 && <FullBattleLogDisplay logs={currentLog}/>}
         </Grid>
       </Grid>
