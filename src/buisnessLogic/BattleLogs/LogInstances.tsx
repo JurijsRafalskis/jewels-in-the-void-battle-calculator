@@ -128,16 +128,13 @@ export class StartOfBattleLogInstance extends LogInstance{
 export class MultiSimulationLog implements ILogInstance{
     protected key:string;
     protected config:IBattleConfiguration;
-
-    protected attackersVictoryCount:number = 0;
-    protected defendersVictoryCount:number = 0;
+    protected attackersVictoryThroughDamageCount:number = 0;
+    protected attackersVictoryThroughMoraleCount:number = 0;
+    protected defendersVictoryThroughDamageCount:number = 0;
+    protected defendersVictoryThroughMoraleCount:number = 0;
     protected stalemateCount:number = 0;
     protected mutualDestructionCount:number = 0;
     protected totalCount:number = 0;
-    protected moraleVictoriesCount:number = 0;
-    protected damageVictoriesCount:number = 0;
-    protected undecidedCount:number = 0;
-
     protected extraLogs:ILogInstance[] = [];
 
     constructor(config:IBattleConfiguration){
@@ -147,13 +144,12 @@ export class MultiSimulationLog implements ILogInstance{
 
     public RegisterResult(context:IBattleContext){
         this.totalCount++;
-        if(context.battleResult == BattleResult.AttackersVictory) this.attackersVictoryCount++;
-        if(context.battleResult == BattleResult.DefendersVictory) this.defendersVictoryCount++;
+        if(context.battleResult == BattleResult.AttackersVictory && context.victoryType == VictoryType.Destruction) this.attackersVictoryThroughDamageCount++;
+        if(context.battleResult == BattleResult.AttackersVictory && context.victoryType == VictoryType.Morale) this.attackersVictoryThroughMoraleCount++;
+        if(context.battleResult == BattleResult.DefendersVictory && context.victoryType == VictoryType.Destruction) this.defendersVictoryThroughDamageCount++;
+        if(context.battleResult == BattleResult.DefendersVictory && context.victoryType == VictoryType.Morale) this.defendersVictoryThroughMoraleCount++;
         if(context.battleResult == BattleResult.MutualDestruction) this.mutualDestructionCount++;
         if(context.battleResult == BattleResult.Stalemate) this.stalemateCount++;
-        if(context.victoryType == VictoryType.Destruction) this.damageVictoriesCount++;
-        if(context.victoryType == VictoryType.Morale) this.moraleVictoriesCount++;
-        if(context.victoryType == VictoryType.Undecided) this.undecidedCount++;
         if(this.config.PostSimulatedHistory) this.extraLogs = this.extraLogs.concat(context.log);
     }
 
@@ -163,8 +159,13 @@ export class MultiSimulationLog implements ILogInstance{
 
     public GetFormattedLogElement(): JSX.Element {
         return <Box>
-            <Box>Total battles: {this.totalCount}. Attacker's victories: {this.attackersVictoryCount}. Defender's victories: {this.defendersVictoryCount}. Stalemates: {this.stalemateCount}. Mutual destruction: {this.mutualDestructionCount}.</Box>
-            <Box>Victories through damage: {this.damageVictoriesCount}. Victories through morale: {this.moraleVictoriesCount}. Undecided battles: {this.undecidedCount}.</Box>
+            <Box>Total battles: {this.totalCount}.</Box>
+            <Box>Attacker's victories through damage: {this.attackersVictoryThroughDamageCount}/{Math.round(this.attackersVictoryThroughDamageCount * 100 / this.totalCount)}%.</Box>
+            <Box>Attacker's victories through morale: {this.attackersVictoryThroughMoraleCount}/{Math.round(this.attackersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
+            <Box>Defender's victories through damage: {this.defendersVictoryThroughDamageCount}/{Math.round(this.defendersVictoryThroughDamageCount * 100 / this.totalCount)}%.</Box>
+            <Box>Defender's victories through morale: {this.defendersVictoryThroughMoraleCount}/{Math.round(this.defendersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
+            <Box>Stalemetes: {this.stalemateCount}/{Math.round(this.stalemateCount * 100 / this.totalCount)}%.</Box>
+            <Box>Mutual destruction: {this.mutualDestructionCount}/{Math.round(this.mutualDestructionCount * 100 / this.totalCount)}%.</Box>
         </Box>
     }
 
