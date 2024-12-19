@@ -2,6 +2,7 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, B
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { GetDefaultBattleFieldModifier } from "../constants/InitialValues";
 
 
 export interface IBattleFieldModifierViewProps {
@@ -35,6 +36,9 @@ export function BattleFieldModifierAccordionView(props: IBattleFieldModifierView
                         onClose={() => setEditFormOpen(false)}
                     />
             </Dialog>
+            <Button size="small" onClick={() => props.onSave && props.onSave(GetDefaultBattleFieldModifier())}>
+                Reset
+            </Button>
         </AccordionActions>}
     </Accordion>
 }

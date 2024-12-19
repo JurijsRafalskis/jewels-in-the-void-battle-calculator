@@ -1,3 +1,4 @@
+import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
 import { DieType } from "../utils/DieUtilities";
@@ -127,44 +128,24 @@ export function GetDefaultConfig(): IBattleConfiguration {
         MoraleCalculationMode: MoraleCalculationModeValues.Sum,
         PostSimulatedHistory: false,
         DieSelectionMode: DieSelectionModeValues.Median,
-        AttackersBattleFieldModifiers:{
-            ManeuverRollBonus: 0,
-            ManeuverStaticBonus: 0,
-            OrganisationBonus: 0,
-            FireBonus: {
-                Defensive: 0,
-                Offensive: 0
-            },
-            ShockBonus: {
-                Defensive: 0,
-                Offensive: 0
-            }
+        AttackersBattleFieldModifiers:GetDefaultBattleFieldModifier(),
+        DefenderBattleFieldModifiers: GetDefaultBattleFieldModifier(),
+        GlobalBattlefieldModifiers: GetDefaultBattleFieldModifier()
+    };
+}
+
+export function GetDefaultBattleFieldModifier():IBattleFieldModifier{
+    return {
+        ManeuverRollBonus: 0,
+        ManeuverStaticBonus: 0,
+        OrganisationBonus: 0,
+        FireBonus: {
+            Defensive: 0,
+            Offensive: 0
         },
-        DefenderBattleFieldModifiers: {
-            ManeuverRollBonus: 0,
-            ManeuverStaticBonus: 0,
-            OrganisationBonus: 0,
-            FireBonus: {
-                Defensive: 0,
-                Offensive: 0
-            },
-            ShockBonus: {
-                Defensive: 0,
-                Offensive: 0
-            }
-        },
-        GlobalBattlefieldModifiers: {
-            ManeuverRollBonus: 0,
-            ManeuverStaticBonus: 0,
-            OrganisationBonus: 0,
-            FireBonus: {
-                Defensive: 0,
-                Offensive: 0
-            },
-            ShockBonus: {
-                Defensive: 0,
-                Offensive: 0
-            }
+        ShockBonus: {
+            Defensive: 0,
+            Offensive: 0
         }
     };
 }
