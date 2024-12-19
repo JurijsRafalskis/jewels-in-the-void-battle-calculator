@@ -49,7 +49,7 @@ function BattleFieldModifierTableContent(props: IBattleFieldModifierViewProps) {
         <tr>
             <td>Manuever: </td>
             <td>
-                <Tooltip title="Roll/Static">
+                <Tooltip title="Die/Static">
                     <Box component={"span"}>
                         {props.modifier.ManeuverRollBonus}/{props.modifier.ManeuverStaticBonus}
                     </Box>
@@ -102,7 +102,7 @@ export function BattleFieldModifierEditor(props: IBattleFieldModifierEditorProps
                             size="small"
                             type="number"
                             margin="dense"
-                            label="Maneuver roll"
+                            label="Maneuver die"
                             variant="standard"
                             defaultValue={curentModifier.ManeuverRollBonus}
                             onChange={v => { curentModifier.ManeuverRollBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
