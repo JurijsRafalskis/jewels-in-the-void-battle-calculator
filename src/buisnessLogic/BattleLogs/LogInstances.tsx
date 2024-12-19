@@ -99,8 +99,8 @@ export class EndOfBattleLogInstance extends LogInstance {
                     </>}
                 </Box>
                 <Box>
-                    <UnitHover unit={this.attacker}>Attacker's final stats. <FlashOnIcon fontSize={"inherit"}/></UnitHover> {' '}
-                    <UnitHover unit={this.defender}>Defender's final stats. <FlashOnIcon fontSize={"inherit"}/></UnitHover>
+                    <UnitHover unit={this.attacker}>Attacker's final stats <FlashOnIcon fontSize={"inherit"}/></UnitHover> {' '}
+                    <UnitHover unit={this.defender}>Defender's final stats <FlashOnIcon fontSize={"inherit"}/></UnitHover>
                 </Box>
             </Box>
             )
@@ -118,8 +118,8 @@ export class StartOfBattleLogInstance extends LogInstance{
                     Battle started.
                 </Box>
                 <Box>
-                    <UnitHover unit={this.attacker}>Attacker's initial stats. <FlashOnIcon fontSize={"inherit"}/></UnitHover> {' '}
-                    <UnitHover unit={this.defender}>Defender's initial stats. <FlashOnIcon fontSize={"inherit"}/></UnitHover>
+                    <UnitHover unit={this.attacker}>Attacker's initial stats <FlashOnIcon fontSize={"inherit"}/></UnitHover> {' '}
+                    <UnitHover unit={this.defender}>Defender's initial stats <FlashOnIcon fontSize={"inherit"}/></UnitHover>
                 </Box>
         </Box>
     }
