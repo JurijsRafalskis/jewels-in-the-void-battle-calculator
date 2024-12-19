@@ -66,32 +66,6 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <DieField fieldLabel="Maneuver" dieSet={currentUnit.Maneuver} onChange={(newDie) => {currentUnit.Maneuver = newDie; setCurrentUnit(currentUnit)} }/>
-                                    {/*
-                                    <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
-                                        label="Maneuver"
-                                        variant="standard"
-                                        defaultValue={currentUnit.Maneuver.dieCount}
-                                        onChange={v => { currentUnit.Maneuver.dieCount = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
-                                    />
-                                    <TextField
-                                        size="small"
-                                        select
-                                        label="Die"
-                                        margin="dense"
-                                        variant="standard"
-                                        defaultValue={currentUnit.Maneuver.dieType}
-                                        style={{ width: "100px" }}
-                                        onChange={(e) => { currentUnit.Maneuver.dieType = e.target.value as unknown as DieTypes; setCurrentUnit(currentUnit); }}
-                                    >
-                                        {dieValues.map((v) => (
-                                            <MenuItem key={v} value={v}>
-                                                {DieTypes[v]}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>*/}
                                 </td>
                             </tr>
                             <tr>

@@ -11,16 +11,22 @@ import { IBattleConfiguration } from "../../model/BattleConfiguration";
 export class InitiativePhaseLogInstance extends LogInstance {
     protected attackersRoll: RollResult;
     protected defendersRoll: RollResult;
+    protected attackersTotalBonus:number;
+    protected defendersTotalBonus:number;
     constructor(context: IBattleContext, attackersRoll: RollResult, defendersRoll: RollResult) {
         super(context);
         this.attackersRoll = attackersRoll;
         this.defendersRoll = defendersRoll;
+        this.attackersTotalBonus = context.currentAttackersManeuverRollBonus;
+        this.defendersTotalBonus = context.currentDefendersManeuverRollBonus;
     }
 
     public GetFormattedLogElement(): JSX.Element {
         return <Box>
                 <Box sx={{ fontWeight: 'bold' }}>Executing initative phase:</Box>
-                <Box>{`Attacker's maneuver roll is ${this.attackersRoll.total}, defender's ${this.defendersRoll.total}.`}</Box>
+                <Box>
+                    {`Attacker's maneuver roll is ${this.attackersRoll.total}${this.attackersRoll.total != this.attackersTotalBonus ? ` and total bonus is ${this.attackersTotalBonus}` : ""}, defender's ${this.defendersRoll.total}${this.defendersRoll.total != this.defendersTotalBonus ? ` and total bonus is ${this.defendersTotalBonus}` : ""}.`}
+                    </Box>
             </Box>
     }
 }

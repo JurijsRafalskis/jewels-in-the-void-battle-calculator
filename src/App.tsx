@@ -20,7 +20,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AddFromTemplateModal from './components/AddFromTemplateModal';
 import FullBattleLogDisplay from './components/FullBattleLogDisplay';
-import { IBattleContext } from './model/BattleStructure';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 import { MultiSimulationLog } from './buisnessLogic/BattleLogs/LogInstances';
@@ -131,7 +130,7 @@ function App() {
           <Box sx={{ margin: "25px 0 25px 0" }}>
             <ButtonGroup variant="contained">
               <Button variant="contained" onClick={runSingleSimulation}>Run battle</Button>
-              <Button variant="contained"onClick={runMultiSimulation}>Simulate results</Button>
+              <Button variant="contained" onClick={runMultiSimulation}>Simulate results</Button>
             </ButtonGroup>
           </Box>
         </Grid>

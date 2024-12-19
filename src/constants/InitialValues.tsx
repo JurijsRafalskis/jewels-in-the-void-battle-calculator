@@ -144,7 +144,43 @@ export function GetDefaultConfig(): IBattleConfiguration {
         SimulatedIterationsCount: 100,
         MoraleCalculationMode: MoraleCalculationModeValues.Sum,
         PostSimulatedHistory: false,
-        DieSelectionMode: DieSelectionModeValues.Median
+        DieSelectionMode: DieSelectionModeValues.Median,
+        AttackersBattleFieldModifiers:{
+            ManeuverBonus: 0,
+            OrganisationBonus: 0,
+            FireBonus: {
+                Defensive: 0,
+                Offensive: 0
+            },
+            ShockBonus: {
+                Defensive: 0,
+                Offensive: 0
+            }
+        },
+        DefenderBattleFieldModifiers: {
+            ManeuverBonus: 0,
+            OrganisationBonus: 0,
+            FireBonus: {
+                Defensive: 0,
+                Offensive: 0
+            },
+            ShockBonus: {
+                Defensive: 0,
+                Offensive: 0
+            }
+        },
+        GlobalBattlefieldModifiers: {
+            ManeuverBonus: 0,
+            OrganisationBonus: 0,
+            FireBonus: {
+                Defensive: 0,
+                Offensive: 0
+            },
+            ShockBonus: {
+                Defensive: 0,
+                Offensive: 0
+            }
+        }
     };
 }
 
