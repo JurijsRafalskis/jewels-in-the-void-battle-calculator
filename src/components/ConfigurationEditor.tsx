@@ -71,6 +71,7 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                             ))}
                         </TextField>
                     </Box>
+                    {/* 
                     <Box sx={{ margin: "20px 0 0 0" }}>
                         <TextField
                             size="small"
@@ -86,7 +87,7 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                                 </MenuItem>
                             ))}
                         </TextField>
-                    </Box>
+                    </Box>*/}
                 </AccordionDetails>
             </Accordion>
         </>

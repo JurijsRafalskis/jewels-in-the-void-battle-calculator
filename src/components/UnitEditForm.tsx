@@ -6,10 +6,10 @@ import CardActions from '@mui/material/CardActions';
 import { MenuItem, TextField } from '@mui/material';
 import { CreateEmptyUnit } from "../constants/InitialValues"
 import Button from '@mui/material/Button';
-import { DieTypes } from '../utils/DieUtilities';
+import { DieType } from '../utils/DieUtilities';
 import DieField from './DieField';
 
-const dieValues = Object.keys(DieTypes).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieTypes);
+const dieValues = Object.keys(DieType).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieType);
 
 export interface UnitFormProps {
     unit?: IUnit;
@@ -65,7 +65,16 @@ function UnitEditForm(props: UnitFormProps) {
                             </tr>
                             <tr>
                                 <td>
-                                    <DieField fieldLabel="Maneuver" dieSet={currentUnit.Maneuver} onChange={(newDie) => {currentUnit.Maneuver = newDie; setCurrentUnit(currentUnit)} }/>
+                                    <TextField
+                                        size="small"
+                                        type="number"
+                                        margin="dense"
+                                        label="Maneuver"
+                                        variant="standard"
+                                        defaultValue={currentUnit.Maneuver}
+                                        onChange={v => { currentUnit.Maneuver = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                    />
+                                    {/*<DieField fieldLabel="Maneuver" dieSet={currentUnit.Maneuver} onChange={(newDie) => {currentUnit.Maneuver = newDie; setCurrentUnit(currentUnit)} }/>*/}
                                 </td>
                             </tr>
                             <tr>

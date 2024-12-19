@@ -48,7 +48,13 @@ function BattleFieldModifierTableContent(props: IBattleFieldModifierViewProps) {
         </tr>
         <tr>
             <td>Manuever: </td>
-            <td>{props.modifier.ManeuverBonus}</td>
+            <td>
+                <Tooltip title="Roll/Static">
+                    <Box component={"span"}>
+                        {props.modifier.ManeuverRollBonus}/{props.modifier.ManeuverStaticBonus}
+                    </Box>
+                </Tooltip>
+            </td>
         </tr>
         <tr>
             <td>Damage:</td>
@@ -96,10 +102,23 @@ export function BattleFieldModifierEditor(props: IBattleFieldModifierEditorProps
                             size="small"
                             type="number"
                             margin="dense"
-                            label="Maneuver"
+                            label="Maneuver roll"
                             variant="standard"
-                            defaultValue={curentModifier.ManeuverBonus}
-                            onChange={v => { curentModifier.ManeuverBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
+                            defaultValue={curentModifier.ManeuverRollBonus}
+                            onChange={v => { curentModifier.ManeuverRollBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <TextField
+                            size="small"
+                            type="number"
+                            margin="dense"
+                            label="Maneuver static"
+                            variant="standard"
+                            defaultValue={curentModifier.ManeuverStaticBonus}
+                            onChange={v => { curentModifier.ManeuverStaticBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
                         />
                     </td>
                 </tr>

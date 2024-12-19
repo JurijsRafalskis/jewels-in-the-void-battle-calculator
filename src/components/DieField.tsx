@@ -1,8 +1,8 @@
 import { MenuItem, TextField } from "@mui/material";
-import { DieSet, DieTypes } from "../utils/DieUtilities";
+import { DieSet, DieType } from "../utils/DieUtilities";
 import { useState } from "react";
 
-const dieValues = Object.keys(DieTypes).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieTypes);
+const dieValues = Object.keys(DieType).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieType);
 
 export interface DieFieldProps{
     fieldLabel:string;
@@ -30,11 +30,11 @@ function DieField(props:DieFieldProps){
             variant="standard"
             defaultValue={die.dieType}
             style={{ width: "100px" }}
-            onChange={(e) => { props.dieSet.dieType = e.target.value as unknown as DieTypes; setDie(die); props.onChange(die); }}
+            onChange={(e) => { props.dieSet.dieType = e.target.value as unknown as DieType; setDie(die); props.onChange(die); }}
         >
             {dieValues.map((v) => (
                 <MenuItem key={v} value={v}>
-                    {DieTypes[v]}
+                    {DieType[v]}
                 </MenuItem>
             ))}
         </TextField>

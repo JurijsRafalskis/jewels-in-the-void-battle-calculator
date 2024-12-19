@@ -6,7 +6,6 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import UnitEditForm from "./UnitEditForm";
 import Dialog from '@mui/material/Dialog';
-import { FormatDieForReading } from '../utils/DieUtilities';
 
 export interface UnitCardProps {
     unit: IUnit;
@@ -36,7 +35,7 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
                             </tr>
                             <tr>
                                 <td>Manuever: </td>
-                                <td>{FormatDieForReading(props.unit.Maneuver)}</td>
+                                <td>{props.unit.Maneuver}</td>
                             </tr>
                             <tr>
                                 <td>Health: </td>

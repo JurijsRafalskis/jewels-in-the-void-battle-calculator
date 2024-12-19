@@ -1,6 +1,6 @@
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
-import { DieTypes } from "../utils/DieUtilities";
+import { DieType } from "../utils/DieUtilities";
 import { AppendKeyToUnit } from "../utils/GenericUtilities";
 
 export const CreateEmptyUnit = function () {
@@ -9,10 +9,7 @@ export const CreateEmptyUnit = function () {
         Health: 0,
         Organisation: 0,
         Morale: 0,
-        Maneuver: {
-            diceCount:0,
-            dieType:DieTypes.None
-        },
+        Maneuver: 0,
         FireBonus: {
             Offensive: 0,
             Defensive: 0
@@ -30,10 +27,7 @@ export const SlayersOfFleshUnit: IUnit = {
     Health: 40,
     Organisation: 90,
     Morale: 4,
-    Maneuver: {
-        diceCount:0,
-        dieType:DieTypes.None
-    },
+    Maneuver: 0,
     FireBonus: {
         Offensive: 1,
         Defensive: 0
@@ -49,10 +43,7 @@ export const PinionsOfGodTest: IUnit = {
     Health: 20,
     Organisation: 90,
     Morale: 3,
-    Maneuver: {
-        diceCount:1,
-        dieType:DieTypes.d6
-    },
+    Maneuver: 6,
     FireBonus: {
         Offensive: 2,
         Defensive: 2
@@ -68,10 +59,7 @@ export const DiggerSwarm: IUnit = {
     Health: 15,
     Organisation: 80,
     Morale: 2,
-    Maneuver: {
-        diceCount:0,
-        dieType:DieTypes.None
-    },
+    Maneuver: 0,
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -87,10 +75,7 @@ export const MycellumVanguard: IUnit = {
     Health: 20,
     Organisation: 100,
     Morale: 4,
-    Maneuver: {
-        diceCount:0,
-        dieType:DieTypes.None
-    },
+    Maneuver: 0,
     FireBonus: {
         Offensive: 1,
         Defensive: 1
@@ -106,10 +91,7 @@ export const InfestedMob: IUnit = {
     Health: 40,
     Organisation: 70,
     Morale: 8,
-    Maneuver: {
-        diceCount:0,
-        dieType:DieTypes.None
-    },
+    Maneuver: 0,
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -146,7 +128,8 @@ export function GetDefaultConfig(): IBattleConfiguration {
         PostSimulatedHistory: false,
         DieSelectionMode: DieSelectionModeValues.Median,
         AttackersBattleFieldModifiers:{
-            ManeuverBonus: 0,
+            ManeuverRollBonus: 0,
+            ManeuverStaticBonus: 0,
             OrganisationBonus: 0,
             FireBonus: {
                 Defensive: 0,
@@ -158,7 +141,8 @@ export function GetDefaultConfig(): IBattleConfiguration {
             }
         },
         DefenderBattleFieldModifiers: {
-            ManeuverBonus: 0,
+            ManeuverRollBonus: 0,
+            ManeuverStaticBonus: 0,
             OrganisationBonus: 0,
             FireBonus: {
                 Defensive: 0,
@@ -170,7 +154,8 @@ export function GetDefaultConfig(): IBattleConfiguration {
             }
         },
         GlobalBattlefieldModifiers: {
-            ManeuverBonus: 0,
+            ManeuverRollBonus: 0,
+            ManeuverStaticBonus: 0,
             OrganisationBonus: 0,
             FireBonus: {
                 Defensive: 0,

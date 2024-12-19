@@ -1,7 +1,7 @@
 import { IBattleBonusStats, IDamageBonusStats, IUnit } from "../model/armyComposition/Unit";
 import { IBattleConfiguration } from "../model/BattleConfiguration";
 import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultLabel, GetVictoryLabel, BattleContactPhase, BattleRole } from "../model/BattleStructure";
-import { DieTypes, Roll, RollResult } from "../utils/DieUtilities";
+import { DieType, Roll, RollResult } from "../utils/DieUtilities";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
 import { BattlePhaseLogInstance, EndOfBattleLogInstance, InitiativePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
@@ -71,16 +71,16 @@ export class BattleCalculator {
 }
 
 function initiative(context: IBattleContext, config: IBattleConfiguration): IBattleContext {
-    let attackerRoll = Roll(context.attackerCurrentState.Maneuver);
-    let defenderRoll = Roll(context.defenderCurrentState.Maneuver);
+    let attackerRoll = Roll(context.attackerCurrentState.Maneuver + config.AttackersBattleFieldModifiers.ManeuverRollBonus + config.GlobalBattlefieldModifiers.ManeuverRollBonus);
+    let defenderRoll = Roll(context.defenderCurrentState.Maneuver + config.DefenderBattleFieldModifiers.ManeuverRollBonus + config.GlobalBattlefieldModifiers.ManeuverRollBonus);
     context.currentAttackersManeuverRollBonus = Math.round(
         Math.max(
-            attackerRoll.total - defenderRoll.total + config.AttackersBattleFieldModifiers.ManeuverBonus - config.DefenderBattleFieldModifiers.ManeuverBonus + config.GlobalBattlefieldModifiers.ManeuverBonus,
+            attackerRoll.total - defenderRoll.total + config.AttackersBattleFieldModifiers.ManeuverStaticBonus - config.DefenderBattleFieldModifiers.ManeuverStaticBonus + config.GlobalBattlefieldModifiers.ManeuverStaticBonus,
             0)
     );
     context.currentDefendersManeuverRollBonus = Math.round(
         Math.max(
-            defenderRoll.total - attackerRoll.total - config.DefenderBattleFieldModifiers.ManeuverBonus + config.DefenderBattleFieldModifiers.ManeuverBonus + config.GlobalBattlefieldModifiers.ManeuverBonus,
+            defenderRoll.total - attackerRoll.total - config.AttackersBattleFieldModifiers.ManeuverStaticBonus + config.DefenderBattleFieldModifiers.ManeuverStaticBonus + config.GlobalBattlefieldModifiers.ManeuverStaticBonus,
             0)
     );
     context.log.push(
@@ -124,14 +124,14 @@ function moralePhase(context: IBattleContext, config: IBattleConfiguration): IBa
 
 function damagePhase(context: IBattleContext, config: IBattleConfiguration, contactPhase: BattleContactPhase) {
     let phaseBonusSelector: (unit: IDamageBonusStats) => IBattleBonusStats = contactPhase == BattleContactPhase.Fire ? (u => u.FireBonus) : (u => u.ShockBonus);
-    let attackerDamgeRoll = Roll(1, DieTypes.d10);
+    let attackerDamgeRoll = Roll(1, DieType.d10);
     let attackersAttack = Math.round(
         ((context.attackerCurrentState.Organisation + config.AttackersBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
         (attackerDamgeRoll.total + phaseBonusSelector(context.attackerCurrentState).Offensive + phaseBonusSelector(config.AttackersBattleFieldModifiers).Offensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Offensive)
     );
     let attackersDamage = attackersAttack - context.currentDefendersManeuverRollBonus;
     context.defenderCurrentState.Health = Math.max(context.defenderCurrentState.Health - attackersDamage, 0);
-    let defenderDamageRoll = Roll(1, DieTypes.d10);
+    let defenderDamageRoll = Roll(1, DieType.d10);
     let defenderAttack = Math.round(
         ((context.defenderCurrentState.Organisation + config.DefenderBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
         (defenderDamageRoll.total + phaseBonusSelector(context.defenderCurrentState).Defensive + phaseBonusSelector(config.DefenderBattleFieldModifiers).Defensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Defensive)

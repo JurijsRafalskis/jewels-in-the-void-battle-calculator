@@ -164,7 +164,7 @@ export class MultiSimulationLog implements ILogInstance{
             <Box>Attacker's victories through morale: {this.attackersVictoryThroughMoraleCount}/{Math.round(this.attackersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
             <Box>Defender's victories through damage: {this.defendersVictoryThroughDamageCount}/{Math.round(this.defendersVictoryThroughDamageCount * 100 / this.totalCount)}%.</Box>
             <Box>Defender's victories through morale: {this.defendersVictoryThroughMoraleCount}/{Math.round(this.defendersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
-            <Box>Stalemetes: {this.stalemateCount}/{Math.round(this.stalemateCount * 100 / this.totalCount)}%.</Box>
+            <Box>Stalemates: {this.stalemateCount}/{Math.round(this.stalemateCount * 100 / this.totalCount)}%.</Box>
             <Box>Mutual destruction: {this.mutualDestructionCount}/{Math.round(this.mutualDestructionCount * 100 / this.totalCount)}%.</Box>
         </Box>
     }
