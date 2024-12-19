@@ -3,9 +3,11 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import { MoraleCalculationModeValues } from "../model/BattleConfiguration"
-import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { BattleFieldModifierAccordionView } from './BattleFieldModiffierEditor';
+
+const historyPostingLimit = 2000;
 
 export interface ConfigurationEditorProps {
     config: IBattleConfiguration;
@@ -39,21 +41,35 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                             size="small"
                             type="number"
                             margin="dense"
-                            label="Simulation Iterations"
+                            label="Simulation iterations"
                             variant="standard"
                             defaultValue={currentConfig.SimulatedIterationsCount}
-                            onChange={(e) => { currentConfig.SimulatedIterationsCount = parseInt(e.target.value); props.onChange(currentConfig); }}
+                            onChange={(e) => { 
+                                currentConfig.SimulatedIterationsCount = parseInt(e.target.value); 
+                                if(currentConfig.SimulatedIterationsCount > historyPostingLimit){
+                                    currentConfig.PostSimulatedHistory = false;
+                                }
+                                props.onChange(currentConfig); 
+                            }}
                         />
                     </Box>
                     <Box sx={{ margin: "20px 0 0 0" }}>
-                        <FormControlLabel
-
+                        <Tooltip  
+                            title={"Disabled due to 'Simulation itterations' having value over " + historyPostingLimit}
+                            disableFocusListener={currentConfig.SimulatedIterationsCount <= historyPostingLimit}
+                            disableHoverListener={currentConfig.SimulatedIterationsCount <= historyPostingLimit}
+                            disableTouchListener={currentConfig.SimulatedIterationsCount <= historyPostingLimit}
+                        >
+                            <FormControlLabel
                             label={"Post full simulation history"}
                             control={
                                 <Checkbox
+                                    disabled={currentConfig.SimulatedIterationsCount > historyPostingLimit}
                                     checked={currentConfig.PostSimulatedHistory}
                                     onChange={(e) => { currentConfig.PostSimulatedHistory = e.target.checked; props.onChange(currentConfig) }}
                                 />} />
+                        </Tooltip>
+                        
                     </Box>
                     <Box sx={{ margin: "20px 0 0 0" }}>
                         <TextField
