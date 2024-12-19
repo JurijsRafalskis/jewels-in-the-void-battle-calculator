@@ -73,8 +73,16 @@ export class BattleCalculator {
 function initiative(context: IBattleContext, config: IBattleConfiguration): IBattleContext {
     let attackerRoll = Roll(context.attackerCurrentState.Maneuver);
     let defenderRoll = Roll(context.defenderCurrentState.Maneuver);
-    context.currentAttackersManeuverRollBonus = Math.round(Math.max(attackerRoll.total - defenderRoll.total, 0)) + config.AttackersBattleFieldModifiers.ManeuverBonus + config.DefenderBattleFieldModifiers.ManeuverBonus;
-    context.currentDefendersManeuverRollBonus = Math.round(Math.max(defenderRoll.total - attackerRoll.total, 0)) + config.DefenderBattleFieldModifiers.ManeuverBonus + config.DefenderBattleFieldModifiers.ManeuverBonus;
+    context.currentAttackersManeuverRollBonus = Math.round(
+        Math.max(
+            attackerRoll.total - defenderRoll.total + config.AttackersBattleFieldModifiers.ManeuverBonus - config.DefenderBattleFieldModifiers.ManeuverBonus + config.GlobalBattlefieldModifiers.ManeuverBonus,
+            0)
+    );
+    context.currentDefendersManeuverRollBonus = Math.round(
+        Math.max(
+            defenderRoll.total - attackerRoll.total - config.DefenderBattleFieldModifiers.ManeuverBonus + config.DefenderBattleFieldModifiers.ManeuverBonus + config.GlobalBattlefieldModifiers.ManeuverBonus,
+            0)
+    );
     context.log.push(
         new InitiativePhaseLogInstance(
             context,
@@ -118,14 +126,14 @@ function damagePhase(context: IBattleContext, config: IBattleConfiguration, cont
     let phaseBonusSelector: (unit: IDamageBonusStats) => IBattleBonusStats = contactPhase == BattleContactPhase.Fire ? (u => u.FireBonus) : (u => u.ShockBonus);
     let attackerDamgeRoll = Roll(1, DieTypes.d10);
     let attackersAttack = Math.round(
-        ((context.attackerCurrentState.Organisation + config.AttackersBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) * 
+        ((context.attackerCurrentState.Organisation + config.AttackersBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
         (attackerDamgeRoll.total + phaseBonusSelector(context.attackerCurrentState).Offensive + phaseBonusSelector(config.AttackersBattleFieldModifiers).Offensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Offensive)
     );
     let attackersDamage = attackersAttack - context.currentDefendersManeuverRollBonus;
     context.defenderCurrentState.Health = Math.max(context.defenderCurrentState.Health - attackersDamage, 0);
     let defenderDamageRoll = Roll(1, DieTypes.d10);
     let defenderAttack = Math.round(
-        ((context.defenderCurrentState.Organisation + config.DefenderBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) * 
+        ((context.defenderCurrentState.Organisation + config.DefenderBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
         (defenderDamageRoll.total + phaseBonusSelector(context.defenderCurrentState).Defensive + phaseBonusSelector(config.DefenderBattleFieldModifiers).Defensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Defensive)
     );
     let defendersDamage = defenderAttack - context.currentAttackersManeuverRollBonus;
@@ -141,8 +149,8 @@ function damagePhase(context: IBattleContext, config: IBattleConfiguration, cont
     context.log.push(new BattlePhaseLogInstance(
         context,
         contactPhase,
-        {roll:attackerDamgeRoll, totalAttack:attackersAttack, totalDamage:attackersDamage},
-        {roll:defenderDamageRoll, totalAttack:defenderAttack, totalDamage:defendersDamage},
+        { roll: attackerDamgeRoll, totalAttack: attackersAttack, totalDamage: attackersDamage },
+        { roll: defenderDamageRoll, totalAttack: defenderAttack, totalDamage: defendersDamage },
         lostMoraleFlag ? BattleRole.Defender : BattleRole.Attacker
     ));
 
