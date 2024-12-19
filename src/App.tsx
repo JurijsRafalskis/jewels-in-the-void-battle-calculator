@@ -78,7 +78,7 @@ function App() {
         </AppBar>
       </Box>
       <Grid container spacing={2}>
-        <Grid size={4}>
+        <Grid size={{xs: 12, sm: 6, md:4}}>
           <Typography variant="h5">Attacking forces:</Typography>
           <ArmyCardList units={attackerArmy} onChange={setAttackerArmy} />
           <Box sx={{ margin: "25px 0 25px 0" }}>
@@ -100,7 +100,7 @@ function App() {
             <UnitCard unit={CalculateTotalArmyStats(attackerArmy, calculatorConfiguration)} renderActions={false} />
           </>}
         </Grid>
-        <Grid size={4}>
+        <Grid size={{xs: 12, sm: 6, md:4}}>
           <Typography variant="h5">Defending forces:</Typography>
           <ArmyCardList units={defenderArmy} onChange={(newUnits) => setDefenderArmy(newUnits)} />
           <Box sx={{ margin: "25px 0 25px 0" }}>
@@ -123,7 +123,7 @@ function App() {
               <UnitCard unit={CalculateTotalArmyStats(defenderArmy, calculatorConfiguration)} renderActions={false} />
             </>}
         </Grid>
-        <Grid size={4}>
+        <Grid size={{xs: 12, sm: 12, md:4}}>
           <Typography variant="h5">Battle configuration:</Typography>
           <Box>
             <ConfigurationEditor config={calculatorConfiguration} onChange={setConfiguration} />
