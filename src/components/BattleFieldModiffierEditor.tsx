@@ -4,18 +4,20 @@ import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { GetDefaultBattleFieldModifier } from "../constants/InitialValues";
 import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
+import "../styles/ComponentStyles/StatsCardTables.css";
+
 
 
 export interface IBattleFieldModifierViewProps {
     modifier: IBattleFieldModifier;
+}
+
+interface IBattleFieldModifierAccordeonExtensionProps {
+    accordeonTitle: string;
     onSave?(modifier: IBattleFieldModifier): void;
 }
 
-interface IBattleFieldModifierAccordeonTitleProp {
-    accordeonTitle: string;
-}
-
-export function BattleFieldModifierAccordionView(props: IBattleFieldModifierViewProps & IBattleFieldModifierAccordeonTitleProp) {
+export function BattleFieldModifierAccordionView(props: IBattleFieldModifierViewProps & IBattleFieldModifierAccordeonExtensionProps) {
     const [editFormOpen, setEditFormOpen] = useState(false);
     return <Accordion>
         <AccordionSummary
@@ -44,35 +46,47 @@ export function BattleFieldModifierAccordionView(props: IBattleFieldModifierView
     </Accordion>
 }
 
-function BattleFieldModifierTableContent(props: IBattleFieldModifierViewProps) {
-    return <table>
-        <tbody>
-            <tr>
-                <td>Organisation: </td>
-                <td>{props.modifier.OrganisationBonus}</td>
-            </tr>
-            <tr>
-                <td>Manuever: </td>
-                <td>
-                    <Tooltip title="Die/Static">
-                        <Box component={"span"}>
-                            {props.modifier.ManeuverRollBonus}/{props.modifier.ManeuverStaticBonus}
-                        </Box>
-                    </Tooltip>
-                </td>
-            </tr>
-            <tr>
-                <td>Damage:</td>
-                <td>
-                    <Tooltip title="Offensive fire/Defensive fire/Offensive shock/Defensive shock">
-                        <Box component={"span"}>
-                            {props.modifier.FireBonus.Offensive}/{props.modifier.FireBonus.Defensive}/{props.modifier.ShockBonus.Offensive}/{props.modifier.ShockBonus.Defensive}
-                        </Box>
-                    </Tooltip>
-                </td>
-            </tr>
-        </tbody>
-    </table>;
+export interface IBattleFieldModifierTableRendering {
+    shouldRenderWrapperTable?: boolean;
+}
+
+function BattleFieldModifierTableContent({ shouldRenderWrapperTable = true, ...props }: IBattleFieldModifierViewProps & IBattleFieldModifierTableRendering) {
+    const tableContent = (<>
+        <tr>
+            <td>Organisation: </td>
+            <td>{props.modifier.OrganisationBonus}</td>
+        </tr>
+        <tr>
+            <td>Manuever: </td>
+            <td>
+                <Tooltip title="Die/Static">
+                    <Box component={"span"}>
+                        {props.modifier.ManeuverRollBonus}/{props.modifier.ManeuverStaticBonus}
+                    </Box>
+                </Tooltip>
+            </td>
+        </tr>
+        <tr>
+            <td>Damage:</td>
+            <td>
+                <Tooltip title="Offensive fire/Defensive fire/Offensive shock/Defensive shock">
+                    <Box component={"span"}>
+                        {props.modifier.FireBonus.Offensive}/{props.modifier.FireBonus.Defensive}/{props.modifier.ShockBonus.Offensive}/{props.modifier.ShockBonus.Defensive}
+                    </Box>
+                </Tooltip>
+            </td>
+        </tr></>
+    );
+    return <>
+        {shouldRenderWrapperTable ?
+            <table className="statsCardTable">
+                <tbody>
+                    {tableContent}
+                </tbody>
+            </table>
+            :
+            tableContent}
+    </>;
 }
 
 export interface IBattleFieldModifierEditorProps {

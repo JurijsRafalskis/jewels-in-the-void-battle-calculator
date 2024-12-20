@@ -6,6 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import UnitEditForm from "./UnitEditForm";
 import Dialog from '@mui/material/Dialog';
+import "../styles/ComponentStyles/StatsCardTables.css";
 
 export interface UnitCardProps {
     unit: IUnit;
@@ -18,8 +19,7 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
     return (
         <Card variant="outlined">
             <CardContent>
-                <div>
-                    <table>
+                    <table className={"statsCardTable"}>
                         <tbody>
                             {!!props.unit.Title && <tr>
                                 <td>Name: </td>
@@ -51,7 +51,6 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
                             </tr>
                         </tbody>
                     </table>
-                </div>
             </CardContent>
             {renderActions && <CardActions>
                 <Button size="small" onClick={() => setEditModalOpen(true)}>Edit</Button>

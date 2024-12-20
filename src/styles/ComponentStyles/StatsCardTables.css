@@ -1,0 +1,8 @@
+.statsCardTable {
+    width: 100%;
+    text-align: left;
+}
+
+.statsCardTable td:nth-child(1){
+    max-width: 100px;
+}
