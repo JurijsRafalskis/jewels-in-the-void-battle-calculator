@@ -16,7 +16,7 @@ export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfigu
         armyStats.Maneuver = armyStats.Maneuver < u.Maneuver ? u.Maneuver : armyStats.Maneuver;
         armyStats.Morale += u.Morale;
         armyStats.Health += u.Health;
-        armyStats.Organisation += u.Organisation;
+        armyStats.Organization += u.Organization;
         armyStats.FireBonus.Offensive += u.FireBonus.Offensive;
         armyStats.FireBonus.Defensive += u.FireBonus.Defensive;
         armyStats.ShockBonus.Offensive += u.ShockBonus.Offensive;
@@ -25,7 +25,7 @@ export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfigu
     if(configuration.MoraleCalculationMode == MoraleCalculationModeValues.Average){
         armyStats.Morale = Math.round(armyStats.Morale / army.units.length);
     }
-    armyStats.Organisation = Math.round(armyStats.Organisation / army.units.length);
+    armyStats.Organization = Math.round(armyStats.Organization / army.units.length);
     return armyStats;
 }
 

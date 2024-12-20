@@ -126,20 +126,20 @@ function moralePhase(context: IBattleContext, config: IBattleConfiguration): IBa
 function damagePhase(context: IBattleContext, config: IBattleConfiguration, contactPhase: BattleContactPhase) {
     let phaseBonusSelector: (unit: IDamageBonusStats) => IBattleBonusStats = contactPhase == BattleContactPhase.Fire ? (u => u.FireBonus) : (u => u.ShockBonus);
     let attackerDamgeRoll = Roll(1, DieType.d10);
-    let attackersAttack = Math.round(
-        ((context.attackerCurrentState.Organisation + config.AttackersBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
+    let attackersAttack = Math.max(Math.round(
+        ((context.attackerCurrentState.Organization + config.AttackersBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
         (attackerDamgeRoll.total + phaseBonusSelector(context.attackerCurrentState).Offensive + phaseBonusSelector(config.AttackersBattleFieldModifiers).Offensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Offensive)
-    );
+    ),0 );
     let attackersDamage = attackersAttack - context.currentDefendersManeuverRollBonus;
     context.defenderCurrentState.Health = Math.max(context.defenderCurrentState.Health - attackersDamage, 0);
     let defenderDamageRoll = Roll(1, DieType.d10);
-    let defenderAttack = Math.round(
-        ((context.defenderCurrentState.Organisation + config.DefenderBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
+    let defenderAttack = Math.max(Math.round(
+        ((context.defenderCurrentState.Organization + config.DefenderBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
         (defenderDamageRoll.total + phaseBonusSelector(context.defenderCurrentState).Defensive + phaseBonusSelector(config.DefenderBattleFieldModifiers).Defensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Defensive)
-    );
+    ),0);
     let defendersDamage = defenderAttack - context.currentAttackersManeuverRollBonus;
     context.attackerCurrentState.Health = Math.max(context.attackerCurrentState.Health - defendersDamage, 0);
-    let lostMoraleFlag = attackersDamage > defendersDamage || (attackersDamage == defendersDamage && context.attackerCurrentState.Organisation > context.defenderCurrentState.Organisation);
+    let lostMoraleFlag = attackersDamage > defendersDamage || (attackersDamage == defendersDamage && context.attackerCurrentState.Organization > context.defenderCurrentState.Organization);
     if (lostMoraleFlag) {
         context.defenderCurrentState.Morale = Math.max(context.defenderCurrentState.Morale - 1, 0);
     }

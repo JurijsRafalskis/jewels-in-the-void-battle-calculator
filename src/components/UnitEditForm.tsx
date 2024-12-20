@@ -6,23 +6,7 @@ import CardActions from '@mui/material/CardActions';
 import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
 import { CreateEmptyUnit } from "../constants/InitialValues"
 import Button from '@mui/material/Button';
-import { DieType } from '../utils/DieUtilities';
-
-const dieValues = Object.keys(DieType).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieType);
-
-interface defaultProps {
-    size: 'small' | 'medium',
-    type: React.InputHTMLAttributes<unknown>['type'],
-    margin:'dense' | 'normal' | 'none',
-    variant:TextFieldVariants
-}
-
-const defaultNumberFieldProps:defaultProps = {
-    size:"small",
-    type:"number",
-    margin:"dense",
-    variant: "standard"
-}
+import { UncontrolledLimitedIntegerNumberField } from './ControlledIntegerNumberField';
 
 export interface UnitFormProps {
     unit?: IUnit;
@@ -46,87 +30,83 @@ function UnitEditForm(props: UnitFormProps) {
                                         label="Name"
                                         variant="standard"
                                         defaultValue={currentUnit.Title}
-                                        onChange={v => setCurrentUnit(u => {u.Title = v.currentTarget.value; return u;}) }
+                                        onChange={v => setCurrentUnit(u => { return { ...u, Title: v.currentTarget.value } })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Organization"
-                                        defaultValue={currentUnit.Organisation}
-                                        onChange={v => setCurrentUnit(u => {u.Organisation = parseInt(v.currentTarget.value); return u;})}
+                                        defaultValue={currentUnit.Organization}
+                                        min={0}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, Organization: v }; })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Morale"
                                         defaultValue={currentUnit.Morale}
-                                        onChange={v => setCurrentUnit(u => {u.Morale = parseInt(v.currentTarget.value); return u;})}
+                                        min={0}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, Morale: v }; })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Maneuver"
                                         defaultValue={currentUnit.Maneuver}
-                                        onChange={v => setCurrentUnit(u => {u.Maneuver = parseInt(v.currentTarget.value); return u;})}
+                                        min={0}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, Maneuver: v }; })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Health"
                                         defaultValue={currentUnit.Health}
-                                        onChange={v => setCurrentUnit(u => {u.Health = parseInt(v.currentTarget.value); return u;})}
+                                        min={0}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, Health: v }; })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Offensive fire"
                                         defaultValue={currentUnit.FireBonus.Offensive}
-                                        onChange={v => setCurrentUnit(u => {u.FireBonus.Offensive = parseInt(v.currentTarget.value); return u;})}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, FireBonus: { ...u.FireBonus, Offensive: v } } })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Defensive fire"
                                         defaultValue={currentUnit.FireBonus.Defensive}
-                                        onChange={v => setCurrentUnit(u => {u.FireBonus.Defensive = parseInt(v.currentTarget.value); return u;})}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, FireBonus: { ...u.FireBonus, Defensive: v } } })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
+                                    <UncontrolledLimitedIntegerNumberField
                                         label="Offensive shock"
                                         defaultValue={currentUnit.ShockBonus.Offensive}
-                                        onChange={v => setCurrentUnit(u => {u.ShockBonus.Offensive = parseInt(v.currentTarget.value); return u;})}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, ShockBonus: { ...u.ShockBonus, Offensive: v } } })}
                                     />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <TextField
-                                        {...defaultNumberFieldProps}
-                                        label="Defensive shock"
+                                    <UncontrolledLimitedIntegerNumberField
+                                        label="Offensive shock"
                                         defaultValue={currentUnit.ShockBonus.Defensive}
-                                        onChange={v => setCurrentUnit(u => {u.ShockBonus.Defensive = parseInt(v.currentTarget.value); return u;})}
+                                        onChange={v => setCurrentUnit(u => { return { ...u, ShockBonus: { ...u.ShockBonus, Defensive: v } } })}
                                     />
                                 </td>
                             </tr>
@@ -141,5 +121,6 @@ function UnitEditForm(props: UnitFormProps) {
         </Card>
     );
 }
+
 
 export default UnitEditForm;

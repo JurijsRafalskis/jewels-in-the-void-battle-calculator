@@ -4,7 +4,7 @@ export interface IUnit extends IDamageBonusStats {
     Title: string;
     Health: number;
     Morale: number;
-    Organisation: number;
+    Organization: number;
     Maneuver: number;
     Metadata?: IAdditionalUnitMetadata;
 };

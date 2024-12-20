@@ -9,7 +9,7 @@ export const CreateEmptyUnit = function () {
     let EmptyUnit: IUnit = {
         Title: "",
         Health: 0,
-        Organisation: 0,
+        Organization: 0,
         Morale: 0,
         Maneuver: 0,
         FireBonus: {
@@ -27,7 +27,7 @@ export const CreateEmptyUnit = function () {
 export const SlayersOfFleshUnit: IUnit = {
     Title: "Slayers of Flesh",
     Health: 40,
-    Organisation: 90,
+    Organization: 90,
     Morale: 4,
     Maneuver: 0,
     FireBonus: {
@@ -43,7 +43,7 @@ export const SlayersOfFleshUnit: IUnit = {
 export const PinionsOfGodTest: IUnit = {
     Title: "Pinion of God (speculative)",
     Health: 20,
-    Organisation: 90,
+    Organization: 90,
     Morale: 3,
     Maneuver: 6,
     FireBonus: {
@@ -59,7 +59,7 @@ export const PinionsOfGodTest: IUnit = {
 export const DiggerSwarm: IUnit = {
     Title: "Digger Swarm",
     Health: 15,
-    Organisation: 80,
+    Organization: 80,
     Morale: 2,
     Maneuver: 0,
     FireBonus: {
@@ -75,7 +75,7 @@ export const DiggerSwarm: IUnit = {
 export const MycellumVanguard: IUnit = {
     Title: "Mycellum Vanguard",
     Health: 20,
-    Organisation: 100,
+    Organization: 100,
     Morale: 4,
     Maneuver: 0,
     FireBonus: {
@@ -91,7 +91,7 @@ export const MycellumVanguard: IUnit = {
 export const InfestedMob: IUnit = {
     Title: "Infested Mob",
     Health: 40,
-    Organisation: 70,
+    Organization: 70,
     Morale: 8,
     Maneuver: 0,
     FireBonus: {

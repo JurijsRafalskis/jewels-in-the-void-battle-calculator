@@ -3,6 +3,7 @@ import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifi
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { GetDefaultBattleFieldModifier } from "../constants/InitialValues";
+import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
 
 
 export interface IBattleFieldModifierViewProps {
@@ -11,7 +12,7 @@ export interface IBattleFieldModifierViewProps {
 }
 
 interface IBattleFieldModifierAccordeonTitleProp {
-    accordeonTitle:string;
+    accordeonTitle: string;
 }
 
 export function BattleFieldModifierAccordionView(props: IBattleFieldModifierViewProps & IBattleFieldModifierAccordeonTitleProp) {
@@ -19,22 +20,22 @@ export function BattleFieldModifierAccordionView(props: IBattleFieldModifierView
     return <Accordion>
         <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            >
+        >
             {props.accordeonTitle}
         </AccordionSummary>
         <AccordionDetails>
-            <BattleFieldModifierTableContent {...props}/>
+            <BattleFieldModifierTableContent {...props} />
         </AccordionDetails>
         {props.onSave && <AccordionActions>
             <Button size="small" onClick={() => setEditFormOpen(true)}>
                 Edit
             </Button>
             <Dialog open={editFormOpen}>
-                    <BattleFieldModifierEditor
-                        modifier={props.modifier}
-                        onSave={(modifier: IBattleFieldModifier) => { setEditFormOpen(false); props.onSave && props.onSave(modifier); }}
-                        onClose={() => setEditFormOpen(false)}
-                    />
+                <BattleFieldModifierEditor
+                    modifier={props.modifier}
+                    onSave={(modifier: IBattleFieldModifier) => { setEditFormOpen(false); props.onSave && props.onSave(modifier); }}
+                    onClose={() => setEditFormOpen(false)}
+                />
             </Dialog>
             <Button size="small" onClick={() => props.onSave && props.onSave(GetDefaultBattleFieldModifier())}>
                 Reset
@@ -45,39 +46,39 @@ export function BattleFieldModifierAccordionView(props: IBattleFieldModifierView
 
 function BattleFieldModifierTableContent(props: IBattleFieldModifierViewProps) {
     return <table>
-    <tbody>
-        <tr>
-            <td>Organisation: </td>
-            <td>{props.modifier.OrganisationBonus}</td>
-        </tr>
-        <tr>
-            <td>Manuever: </td>
-            <td>
-                <Tooltip title="Die/Static">
-                    <Box component={"span"}>
-                        {props.modifier.ManeuverRollBonus}/{props.modifier.ManeuverStaticBonus}
-                    </Box>
-                </Tooltip>
-            </td>
-        </tr>
-        <tr>
-            <td>Damage:</td>
-            <td>
-                <Tooltip title="Offensive fire/Defensive fire/Offensive shock/Defensive shock">
-                    <Box component={"span"}>
-                        {props.modifier.FireBonus.Offensive}/{props.modifier.FireBonus.Defensive}/{props.modifier.ShockBonus.Offensive}/{props.modifier.ShockBonus.Defensive}
-                    </Box>
-                </Tooltip>
-            </td>
-        </tr>
-    </tbody>
-</table>;
+        <tbody>
+            <tr>
+                <td>Organisation: </td>
+                <td>{props.modifier.OrganisationBonus}</td>
+            </tr>
+            <tr>
+                <td>Manuever: </td>
+                <td>
+                    <Tooltip title="Die/Static">
+                        <Box component={"span"}>
+                            {props.modifier.ManeuverRollBonus}/{props.modifier.ManeuverStaticBonus}
+                        </Box>
+                    </Tooltip>
+                </td>
+            </tr>
+            <tr>
+                <td>Damage:</td>
+                <td>
+                    <Tooltip title="Offensive fire/Defensive fire/Offensive shock/Defensive shock">
+                        <Box component={"span"}>
+                            {props.modifier.FireBonus.Offensive}/{props.modifier.FireBonus.Defensive}/{props.modifier.ShockBonus.Offensive}/{props.modifier.ShockBonus.Defensive}
+                        </Box>
+                    </Tooltip>
+                </td>
+            </tr>
+        </tbody>
+    </table>;
 }
 
 export interface IBattleFieldModifierEditorProps {
     modifier: IBattleFieldModifier;
     onSave(modifier: IBattleFieldModifier): void;
-    onClose():void;
+    onClose(): void;
 }
 
 export function BattleFieldModifierEditor(props: IBattleFieldModifierEditorProps) {
@@ -85,103 +86,78 @@ export function BattleFieldModifierEditor(props: IBattleFieldModifierEditorProps
 
     return <Card variant="outlined">
         <CardContent>
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            type="number"
-                            margin="dense"
-                            label="Organization"
-                            variant="standard"
-                            defaultValue={curentModifier.OrganisationBonus}
-                            onChange={v => { curentModifier.OrganisationBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            type="number"
-                            margin="dense"
-                            label="Maneuver die"
-                            variant="standard"
-                            defaultValue={curentModifier.ManeuverRollBonus}
-                            onChange={v => { curentModifier.ManeuverRollBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            type="number"
-                            margin="dense"
-                            label="Maneuver static"
-                            variant="standard"
-                            defaultValue={curentModifier.ManeuverStaticBonus}
-                            onChange={v => { curentModifier.ManeuverStaticBonus = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            type="number"
-                            margin="dense"
-                            label="Offensive fire"
-                            variant="standard"
-                            defaultValue={curentModifier.FireBonus.Offensive}
-                            onChange={v => { curentModifier.FireBonus.Offensive = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            type="number"
-                            margin="dense"
-                            label="Defensive fire"
-                            variant="standard"
-                            defaultValue={curentModifier.FireBonus.Defensive}
-                            onChange={v => { curentModifier.FireBonus.Defensive = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            margin="dense"
-                            label="Offensive shock"
-                            variant="standard"
-                            defaultValue={curentModifier.ShockBonus.Offensive}
-                            onChange={v => { curentModifier.ShockBonus.Offensive = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <TextField
-                            size="small"
-                            margin="dense"
-                            label="Defensive shock"
-                            variant="standard"
-                            defaultValue={curentModifier.ShockBonus.Defensive}
-                            onChange={v => { curentModifier.ShockBonus.Defensive = parseInt(v.currentTarget.value); setCurrentModifier(curentModifier); }}
-                        />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Organization"
+                                defaultValue={curentModifier.OrganisationBonus}
+                                onChange={v => setCurrentModifier(u => { return { ...u, OrganisationBonus: v }; })}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Maneuver die"
+                                defaultValue={curentModifier.ManeuverRollBonus}
+                                onChange={v => setCurrentModifier(u => { return { ...u, ManeuverRollBonus: v }; })}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Maneuver static"
+                                defaultValue={curentModifier.ManeuverStaticBonus}
+                                onChange={v => setCurrentModifier(u => { return { ...u, ManeuverStaticBonus: v }; })}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Offensive fire"
+                                defaultValue={curentModifier.FireBonus.Offensive}
+                                onChange={v => setCurrentModifier(u => { return { ...u, FireBonus: { ...u.FireBonus, Offensive: v } }; })}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Defensive fire"
+                                defaultValue={curentModifier.FireBonus.Defensive}
+                                onChange={v => setCurrentModifier(u => { return { ...u, FireBonus: { ...u.FireBonus, Defensive: v } }; })}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Offensive shock"
+                                defaultValue={curentModifier.ShockBonus.Offensive}
+                                onChange={v => setCurrentModifier(u => { return { ...u, ShockBonus: { ...u.ShockBonus, Offensive: v } }; })}
+                            />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Defensive shock"
+                                defaultValue={curentModifier.ShockBonus.Defensive}
+                                onChange={v => setCurrentModifier(u => { return { ...u, ShockBonus: { ...u.ShockBonus, Defensive: v } }; })}
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </CardContent>
         <CardActions>
-            <Button size="small" onClick={()=>{props.onSave(curentModifier)}}>Save</Button>
-            <Button size="small" onClick={()=>{props.onClose()}}>Close</Button>
+            <Button size="small" onClick={() => { props.onSave(curentModifier) }}>Save</Button>
+            <Button size="small" onClick={() => { props.onClose() }}>Close</Button>
         </CardActions>
     </Card>
 }
