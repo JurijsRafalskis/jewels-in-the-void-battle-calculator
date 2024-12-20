@@ -2,8 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
 import { IUnit } from './model/armyComposition/Unit'
-import UnitCardList from './components/ArmyCardList';
-import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, CreateEmptyUnit } from "./constants/InitialValues";
+import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig } from "./constants/InitialValues";
 import ConfigurationEditor from './components/ConfigurationEditor';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -13,19 +12,22 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import UnitCard from './components/UnitCard';
-import { CalculateTotalArmyStats } from "./buisnessLogic/ArmyTotals";
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import AddFromTemplateModal from './components/AddFromTemplateModal';
 import FullBattleLogDisplay from './components/FullBattleLogDisplay';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 import { MultiSimulationLog } from './buisnessLogic/BattleLogs/LogInstances';
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress, createTheme, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { IArmy } from './model/armyComposition/Army';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyCard } from './components/FullArmyEditor';
+
+const defaultTheme = createTheme({
+  //here you set palette, typography ect...
+})
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
@@ -33,30 +35,28 @@ function App() {
   const [defenderArmy, setDefenderArmy] = useState<IArmy>(GetDefaultDefenderComposition());
   const [currentLog, setCurrentLog] = useState<ILogInstance[]>([]);
   const [backdropOpened, setBackdropOpened] = useState(false);
-
-  const setArmyUnits = (army:IArmy, units:IUnit[], setter:(army:IArmy) => any) =>{
-    let newArmy = structuredClone(army); 
-    newArmy.units = units;
-    setter(newArmy);
-  };
+  const isUnderSmallSized = useMediaQuery(defaultTheme.breakpoints.down("sm"));
+  const isOverMediumSized = useMediaQuery(defaultTheme.breakpoints.up("md"));
+  const isUnderLargeSized = useMediaQuery(defaultTheme.breakpoints.down("lg"));
+  const isMediumSized = isOverMediumSized && isUnderLargeSized;
 
   const runSingleSimulation = async () => {
     setBackdropOpened(true);
-    setTimeout(()=>{
+    setTimeout(() => {
       setCurrentLog([]);
       const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
       const result = calculator.execute();
       setCurrentLog(result.log);
       setBackdropOpened(false);
-    },100);
+    }, 100);
   }
 
-  const runMultiSimulation = async () =>{
+  const runMultiSimulation = async () => {
     setBackdropOpened(true);
-    setTimeout(() =>{
+    setTimeout(() => {
       setCurrentLog([]);
       const aggregatedLog = new MultiSimulationLog(calculatorConfiguration);
-      for(var i = 0; i < calculatorConfiguration.SimulatedIterationsCount; i++){
+      for (var i = 0; i < calculatorConfiguration.SimulatedIterationsCount; i++) {
         const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
         const result = calculator.execute();
         aggregatedLog.RegisterResult(result);
@@ -70,9 +70,9 @@ function App() {
   return (
     <>
       <Backdrop
-          sx={(theme) => ({ color: '#fff', zIndex: () => Math.max.apply(Math, Object.values(theme.zIndex)) + 1 })}
-          open={backdropOpened}
-        >
+        sx={(theme) => ({ color: '#fff', zIndex: () => Math.max.apply(Math, Object.values(theme.zIndex)) + 1 })}
+        open={backdropOpened}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
       <Box sx={{ flexGrow: 1 }}>
@@ -84,14 +84,30 @@ function App() {
           </Toolbar>
         </AppBar>
       </Box>
-      <Grid container spacing={2}>
-        <Grid size={{xs: 12, sm: 6, md:4}}>
-          <FullArmyCard armyTitle={"Attacking forces"} army={attackerArmy} config={calculatorConfiguration} onChange={setAttackerArmy}/>
+      <Grid container spacing={1} columns={26}>
+        <Grid size={{ xs: 26, sm: 12, md: 8 }}>
+          <FullArmyCard armyTitle={"Attacking forces"} army={attackerArmy} config={calculatorConfiguration} onChange={setAttackerArmy} />
         </Grid>
-        <Grid size={{xs: 12, sm: 6, md:4}}>
-        <FullArmyCard armyTitle={"Defending forces"} army={defenderArmy} config={calculatorConfiguration} onChange={setDefenderArmy}/>
+        <Grid size={{ xs: 26, sm: 2, md: 1 }} justifyContent="center">
+          <Tooltip title="Swap armies">
+            <IconButton
+              onClick={() => {
+                const attackerArmyTemp = attackerArmy;
+                const defenderArmyTemp = defenderArmy
+                setAttackerArmy(defenderArmyTemp);
+                setDefenderArmy(attackerArmyTemp);
+              }}>
+              {isUnderSmallSized ? <SwapVertIcon fontSize='large'></SwapVertIcon> : <SwapHorizIcon fontSize={isMediumSized ? "small" : "medium"} />}
+            </IconButton>
+          </Tooltip>
         </Grid>
-        <Grid size={{xs: 12, sm: 12, md:4}}>
+        <Grid size={{ xs: 26, sm: 12, md: 8 }}>
+          <FullArmyCard armyTitle={"Defending forces"} army={defenderArmy} config={calculatorConfiguration} onChange={setDefenderArmy} />
+        </Grid>
+        <Grid size={{ xs: 26, sm: 0, md: 1 }}>
+
+        </Grid>
+        <Grid size={{ xs: 26, sm: 26, md: 8 }}>
           <Typography variant="h5">Battle configuration:</Typography>
           <Box>
             <ConfigurationEditor config={calculatorConfiguration} onChange={setConfiguration} />
@@ -103,9 +119,9 @@ function App() {
             </ButtonGroup>
           </Box>
         </Grid>
-        <Grid size={12}>
+        <Grid size={26}>
           <Typography variant="h5">Battle results:</Typography>
-          {currentLog.length > 0 && <FullBattleLogDisplay logs={currentLog}/>}
+          {currentLog.length > 0 && <FullBattleLogDisplay logs={currentLog} />}
         </Grid>
       </Grid>
     </>
@@ -113,3 +129,4 @@ function App() {
 }
 
 export default App
+
