@@ -3,13 +3,26 @@ import { IUnit } from '../model/armyComposition/Unit';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import { MenuItem, TextField } from '@mui/material';
+import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
 import { CreateEmptyUnit } from "../constants/InitialValues"
 import Button from '@mui/material/Button';
 import { DieType } from '../utils/DieUtilities';
-import DieField from './DieField';
 
 const dieValues = Object.keys(DieType).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieType);
+
+interface defaultProps {
+    size: 'small' | 'medium',
+    type: React.InputHTMLAttributes<unknown>['type'],
+    margin:'dense' | 'normal' | 'none',
+    variant:TextFieldVariants
+}
+
+const defaultNumberFieldProps:defaultProps = {
+    size:"small",
+    type:"number",
+    margin:"dense",
+    variant: "standard"
+}
 
 export interface UnitFormProps {
     unit?: IUnit;
@@ -40,11 +53,8 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Organization"
-                                        variant="standard"
                                         defaultValue={currentUnit.Organisation}
                                         onChange={v => { currentUnit.Organisation = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
@@ -53,11 +63,8 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Morale"
-                                        variant="standard"
                                         defaultValue={currentUnit.Morale}
                                         onChange={v => { currentUnit.Morale = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
@@ -66,25 +73,18 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Maneuver"
-                                        variant="standard"
                                         defaultValue={currentUnit.Maneuver}
                                         onChange={v => { currentUnit.Maneuver = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
-                                    {/*<DieField fieldLabel="Maneuver" dieSet={currentUnit.Maneuver} onChange={(newDie) => {currentUnit.Maneuver = newDie; setCurrentUnit(currentUnit)} }/>*/}
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Health"
-                                        variant="standard"
                                         defaultValue={currentUnit.Health}
                                         onChange={v => { currentUnit.Health = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
@@ -93,11 +93,8 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Offensive fire"
-                                        variant="standard"
                                         defaultValue={currentUnit.FireBonus.Offensive}
                                         onChange={v => { currentUnit.FireBonus.Offensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
@@ -106,11 +103,8 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        type="number"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Defensive fire"
-                                        variant="standard"
                                         defaultValue={currentUnit.FireBonus.Defensive}
                                         onChange={v => { currentUnit.FireBonus.Defensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
@@ -119,10 +113,8 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Offensive shock"
-                                        variant="standard"
                                         defaultValue={currentUnit.ShockBonus.Offensive}
                                         onChange={v => { currentUnit.ShockBonus.Offensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
@@ -131,10 +123,8 @@ function UnitEditForm(props: UnitFormProps) {
                             <tr>
                                 <td>
                                     <TextField
-                                        size="small"
-                                        margin="dense"
+                                        {...defaultNumberFieldProps}
                                         label="Defensive shock"
-                                        variant="standard"
                                         defaultValue={currentUnit.ShockBonus.Defensive}
                                         onChange={v => { currentUnit.ShockBonus.Defensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />

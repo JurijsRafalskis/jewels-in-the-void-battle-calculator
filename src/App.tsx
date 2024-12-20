@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
 import { IUnit } from './model/armyComposition/Unit'
-import ArmyCardList from './components/ArmyCardList';
+import UnitCardList from './components/ArmyCardList';
 import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, CreateEmptyUnit } from "./constants/InitialValues";
 import ConfigurationEditor from './components/ConfigurationEditor';
 import Button from '@mui/material/Button';
@@ -24,13 +24,21 @@ import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 import { MultiSimulationLog } from './buisnessLogic/BattleLogs/LogInstances';
 import { Backdrop, CircularProgress } from '@mui/material';
+import { IArmy } from './model/armyComposition/Army';
+import { FullArmyCard } from './components/FullArmyEditor';
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
-  const [attackerArmy, setAttackerArmy] = useState<IUnit[]>(GetDefaultAttackerComposition());
-  const [defenderArmy, setDefenderArmy] = useState<IUnit[]>(GetDefaultDefenderComposition());
+  const [attackerArmy, setAttackerArmy] = useState<IArmy>(GetDefaultAttackerComposition());
+  const [defenderArmy, setDefenderArmy] = useState<IArmy>(GetDefaultDefenderComposition());
   const [currentLog, setCurrentLog] = useState<ILogInstance[]>([]);
   const [backdropOpened, setBackdropOpened] = useState(false);
+
+  const setArmyUnits = (army:IArmy, units:IUnit[], setter:(army:IArmy) => any) =>{
+    let newArmy = structuredClone(army); 
+    newArmy.units = units;
+    setter(newArmy);
+  };
 
   const runSingleSimulation = async () => {
     setBackdropOpened(true);
@@ -78,49 +86,10 @@ function App() {
       </Box>
       <Grid container spacing={2}>
         <Grid size={{xs: 12, sm: 6, md:4}}>
-          <Typography variant="h5">Attacking forces:</Typography>
-          <ArmyCardList units={attackerArmy} onChange={setAttackerArmy} />
-          <Box sx={{ margin: "25px 0 25px 0" }}>
-            <ButtonGroup variant="contained">
-              <Button variant="contained" onClick={() => {
-                const newAttacker = attackerArmy.map(u => u);
-                newAttacker.push(CreateEmptyUnit());
-                setAttackerArmy(newAttacker);
-              }}>Add Blank</Button>
-              <AddFromTemplateModal onSelect={(newUnit) => {
-                const newAttacker = attackerArmy.map(u => u);
-                newAttacker.push(newUnit);
-                setAttackerArmy(newAttacker);
-              }}/>
-            </ButtonGroup>
-          </Box>
-          {attackerArmy.length > 1 && <>
-            <Typography variant="h5">Total:</Typography>
-            <UnitCard unit={CalculateTotalArmyStats(attackerArmy, calculatorConfiguration)} renderActions={false} />
-          </>}
+          <FullArmyCard armyTitle={"Attacking forces"} army={attackerArmy} config={calculatorConfiguration} onChange={setAttackerArmy}/>
         </Grid>
         <Grid size={{xs: 12, sm: 6, md:4}}>
-          <Typography variant="h5">Defending forces:</Typography>
-          <ArmyCardList units={defenderArmy} onChange={(newUnits) => setDefenderArmy(newUnits)} />
-          <Box sx={{ margin: "25px 0 25px 0" }}>
-            <ButtonGroup variant="contained">
-              <Button variant="contained" onClick={() => {
-                const newDefender = defenderArmy.map(u => u);
-                newDefender.push(CreateEmptyUnit());
-                setDefenderArmy(newDefender);
-              }}>Add Blank</Button>
-              <AddFromTemplateModal onSelect={(newUnit) => {
-                const newDefender = defenderArmy.map(u => u);
-                newDefender.push(newUnit);
-                setDefenderArmy(newDefender);
-              }}/>
-            </ButtonGroup>
-          </Box>
-          {defenderArmy.length > 1 &&
-            <>
-              <Typography variant="h5">Total:</Typography>
-              <UnitCard unit={CalculateTotalArmyStats(defenderArmy, calculatorConfiguration)} renderActions={false} />
-            </>}
+        <FullArmyCard armyTitle={"Defending forces"} army={defenderArmy} config={calculatorConfiguration} onChange={setDefenderArmy}/>
         </Grid>
         <Grid size={{xs: 12, sm: 12, md:4}}>
           <Typography variant="h5">Battle configuration:</Typography>

@@ -1,13 +1,14 @@
 import React from 'react';
 import { IUnit } from '../model/armyComposition/Unit';
 import UnitCard from './UnitCard';
+import { IArmy } from '../model/armyComposition/Army';
 
-export interface ArmyCardListProps {
-  units: IUnit[];
+export interface UnitCardListProps {
+  units:IUnit[]
   onChange(unitProps: IUnit[]): void;
 }
 
-function ArmyCardList(props: ArmyCardListProps) {
+function UnitCardList(props: UnitCardListProps) {
     return (
       <div>
         {props.units.map((unit, index) => (
@@ -30,4 +31,4 @@ function ArmyCardList(props: ArmyCardListProps) {
     );
 }
 
-export default ArmyCardList;
+export default UnitCardList;

@@ -1,3 +1,4 @@
+import { IArmy } from "../model/armyComposition/Army";
 import { IBattleBonusStats, IDamageBonusStats, IUnit } from "../model/armyComposition/Unit";
 import { IBattleConfiguration } from "../model/BattleConfiguration";
 import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultLabel, GetVictoryLabel, BattleContactPhase, BattleRole } from "../model/BattleStructure";
@@ -6,8 +7,8 @@ import { CalculateTotalArmyStats } from "./ArmyTotals";
 import { BattlePhaseLogInstance, EndOfBattleLogInstance, InitiativePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
 export class BattleCalculator {
-    #attackers: IUnit[];
-    #defenders: IUnit[];
+    #attackers: IArmy;
+    #defenders: IArmy;
     #config: IBattleConfiguration;
     #AttackerAggregation: IUnit;
     #DefenderAggregation: IUnit;
@@ -31,7 +32,7 @@ export class BattleCalculator {
         }
     ];
 
-    constructor(attackers: IUnit[], defenders: IUnit[], config: IBattleConfiguration) {
+    constructor(attackers: IArmy, defenders: IArmy, config: IBattleConfiguration) {
         this.#attackers = attackers;
         this.#defenders = defenders;
         this.#config = config;

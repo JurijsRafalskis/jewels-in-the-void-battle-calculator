@@ -2,16 +2,17 @@ import { IUnit } from "../model/armyComposition/Unit";
 import { CreateEmptyUnit } from  "../constants/InitialValues"
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from '../model/BattleConfiguration';
 import { DieSet, DieToInt, DieType, GetMaximumDieSetValue, GetMedianDieSetValue } from "../utils/DieUtilities";
+import { IArmy } from "../model/armyComposition/Army";
 
 //Current logic:
 //An army adds all fire, shock, morale and health values. It takes the highest maneuver value. It Averages Morale and Organization. 
 //Morale mentioned twice, we are using the second intepretation.
-export function CalculateTotalArmyStats(units:IUnit[], configuration:IBattleConfiguration):IUnit{
+export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfiguration):IUnit{
     const armyStats = CreateEmptyUnit();
     //armyStats.Title = "Total";
-    if(units.length == 0) return armyStats;
+    if(army.units.length == 0) return armyStats;
     armyStats.Maneuver = 0;
-    units.forEach(u => {
+    army.units.forEach(u => {
         armyStats.Maneuver = armyStats.Maneuver < u.Maneuver ? u.Maneuver : armyStats.Maneuver;
         armyStats.Morale += u.Morale;
         armyStats.Health += u.Health;
@@ -22,9 +23,9 @@ export function CalculateTotalArmyStats(units:IUnit[], configuration:IBattleConf
         armyStats.ShockBonus.Defensive += u.ShockBonus.Defensive;
     });
     if(configuration.MoraleCalculationMode == MoraleCalculationModeValues.Average){
-        armyStats.Morale = Math.round(armyStats.Morale / units.length);
+        armyStats.Morale = Math.round(armyStats.Morale / army.units.length);
     }
-    armyStats.Organisation = Math.round(armyStats.Organisation / units.length);
+    armyStats.Organisation = Math.round(armyStats.Organisation / army.units.length);
     return armyStats;
 }
 

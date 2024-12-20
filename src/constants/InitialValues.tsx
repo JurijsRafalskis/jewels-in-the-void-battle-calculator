@@ -1,3 +1,4 @@
+import { IArmy } from "../model/armyComposition/Army";
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
@@ -103,12 +104,12 @@ export const InfestedMob: IUnit = {
     }
 };
 
-export function GetDefaultAttackerComposition(): IUnit[] {
-    return [PrepareUnit(SlayersOfFleshUnit)];
+export function GetDefaultAttackerComposition(): IArmy {
+    return { units:[PrepareUnit(SlayersOfFleshUnit)]};
 }
 
-export function GetDefaultDefenderComposition(): IUnit[] {
-    return [PrepareUnit(DiggerSwarm)];
+export function GetDefaultDefenderComposition(): IArmy {
+    return { units:[PrepareUnit(DiggerSwarm)]};
 }
 
 export function GetAllExistingUnits(): IUnit[] {
