@@ -20,7 +20,7 @@ function DieField(props:DieFieldProps){
             label={props.fieldLabel}
             variant="standard"
             defaultValue={die.diceCount}
-            onChange={v => { die.diceCount = parseInt(v.currentTarget.value); setDie(die); props.onChange(die); }}
+            onChange={v => {  die.diceCount = parseInt(v.currentTarget.value); setDie(die); props.onChange(die); }}
         />
         <TextField
             size="small"

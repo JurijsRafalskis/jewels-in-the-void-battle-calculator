@@ -86,7 +86,7 @@ function App() {
       </Box>
       <Grid container spacing={1} columns={26}>
         <Grid size={{ xs: 26, sm: 12, md: 8 }}>
-          <FullArmyCard armyTitle={"Attacking forces"} army={attackerArmy} config={calculatorConfiguration} onChange={setAttackerArmy} />
+          <FullArmyCard armyTitle={"Attacking forces"} army={attackerArmy} config={calculatorConfiguration} onChange={army => setAttackerArmy(army)} />
         </Grid>
         <Grid size={{ xs: 26, sm: 2, md: 1 }} justifyContent="center">
           <Tooltip title="Swap armies">
@@ -102,7 +102,7 @@ function App() {
           </Tooltip>
         </Grid>
         <Grid size={{ xs: 26, sm: 12, md: 8 }}>
-          <FullArmyCard armyTitle={"Defending forces"} army={defenderArmy} config={calculatorConfiguration} onChange={setDefenderArmy} />
+          <FullArmyCard armyTitle={"Defending forces"} army={defenderArmy} config={calculatorConfiguration} onChange={army => setDefenderArmy(army)} />
         </Grid>
         <Grid size={{ xs: 26, sm: 0, md: 1 }}>
 

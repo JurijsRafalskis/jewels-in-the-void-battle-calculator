@@ -17,8 +17,10 @@ export interface IFullArmyCardProps {
 
 export function FullArmyCard(props: IFullArmyCardProps) {
     const propogateUnitChanges = (units:IUnit[]) =>{
-        const newArmy = structuredClone(props.army); //Exclude the units?
-        newArmy.units == units;
+        const newArmy = {
+            ...props.army,
+            units: units
+        };
         props.onChange(newArmy);
     }
 

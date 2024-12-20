@@ -46,7 +46,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         label="Name"
                                         variant="standard"
                                         defaultValue={currentUnit.Title}
-                                        onChange={v => { currentUnit.Title = v.currentTarget.value; setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.Title = v.currentTarget.value; return u;}) }
                                     />
                                 </td>
                             </tr>
@@ -56,7 +56,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Organization"
                                         defaultValue={currentUnit.Organisation}
-                                        onChange={v => { currentUnit.Organisation = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.Organisation = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -66,7 +66,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Morale"
                                         defaultValue={currentUnit.Morale}
-                                        onChange={v => { currentUnit.Morale = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.Morale = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -76,7 +76,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Maneuver"
                                         defaultValue={currentUnit.Maneuver}
-                                        onChange={v => { currentUnit.Maneuver = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.Maneuver = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -86,7 +86,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Health"
                                         defaultValue={currentUnit.Health}
-                                        onChange={v => { currentUnit.Health = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.Health = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -96,7 +96,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Offensive fire"
                                         defaultValue={currentUnit.FireBonus.Offensive}
-                                        onChange={v => { currentUnit.FireBonus.Offensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.FireBonus.Offensive = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -106,7 +106,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Defensive fire"
                                         defaultValue={currentUnit.FireBonus.Defensive}
-                                        onChange={v => { currentUnit.FireBonus.Defensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.FireBonus.Defensive = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -116,7 +116,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Offensive shock"
                                         defaultValue={currentUnit.ShockBonus.Offensive}
-                                        onChange={v => { currentUnit.ShockBonus.Offensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.ShockBonus.Offensive = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
@@ -126,7 +126,7 @@ function UnitEditForm(props: UnitFormProps) {
                                         {...defaultNumberFieldProps}
                                         label="Defensive shock"
                                         defaultValue={currentUnit.ShockBonus.Defensive}
-                                        onChange={v => { currentUnit.ShockBonus.Defensive = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        onChange={v => setCurrentUnit(u => {u.ShockBonus.Defensive = parseInt(v.currentTarget.value); return u;})}
                                     />
                                 </td>
                             </tr>
