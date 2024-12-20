@@ -45,8 +45,8 @@ function UnitEditForm(props: UnitFormProps) {
                                         margin="dense"
                                         label="Organization"
                                         variant="standard"
-                                        defaultValue={currentUnit.Health}
-                                        onChange={v => { currentUnit.Health = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
+                                        defaultValue={currentUnit.Organisation}
+                                        onChange={v => { currentUnit.Organisation = parseInt(v.currentTarget.value); setCurrentUnit(currentUnit); }}
                                     />
                                 </td>
                             </tr>
