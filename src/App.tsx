@@ -91,11 +91,13 @@ function App() {
         <Grid size={{ xs: 26, sm: 2, md: 1 }} justifyContent="center">
           <Tooltip title="Swap armies">
             <IconButton
-              onClick={() => {
+              aria-label="wap armies"
+              onClick={(ev) => {
                 const attackerArmyTemp = attackerArmy;
                 const defenderArmyTemp = defenderArmy
                 setAttackerArmy(defenderArmyTemp);
                 setDefenderArmy(attackerArmyTemp);
+                ev.currentTarget.blur();
               }}>
               {isUnderSmallSized ? <SwapVertIcon fontSize='large'></SwapVertIcon> : <SwapHorizIcon fontSize={isMediumSized ? "small" : "medium"} />}
             </IconButton>
