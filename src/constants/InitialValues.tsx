@@ -122,6 +122,16 @@ export function GetAllExistingUnits(): IUnit[] {
     ];
 }
 
+export function GenerateRandomSetOfUnits(count:number = 4): IUnit[]{
+    const result:IUnit[] = [];
+    const existingUnits = GetAllExistingUnits();
+    for(let i = 0; i < count; i++){
+        let randomIndex = Math.floor(Math.random() * existingUnits.length);
+        result.push(PrepareUnit(existingUnits[randomIndex]));
+    }
+    return result;
+}
+
 
 export function GetDefaultConfig(): IBattleConfiguration {
     return {

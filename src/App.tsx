@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
-import { IUnit } from './model/armyComposition/Unit'
-import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig } from "./constants/InitialValues";
+import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, GenerateRandomSetOfUnits } from "./constants/InitialValues";
 import ConfigurationEditor from './components/ConfigurationEditor';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -19,15 +18,14 @@ import FullBattleLogDisplay from './components/FullBattleLogDisplay';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 import { MultiSimulationLog } from './buisnessLogic/BattleLogs/LogInstances';
-import { Backdrop, CircularProgress, createTheme, IconButton, Tooltip, useMediaQuery } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { IArmy } from './model/armyComposition/Army';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyCard } from './components/FullArmyEditor';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const defaultTheme = createTheme({
-  //here you set palette, typography ect...
-})
+const defaultTheme = createTheme({});
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
@@ -39,6 +37,11 @@ function App() {
   const isOverMediumSized = useMediaQuery(defaultTheme.breakpoints.up("md"));
   const isUnderLargeSized = useMediaQuery(defaultTheme.breakpoints.down("lg"));
   const isMediumSized = isOverMediumSized && isUnderLargeSized;
+  const logRef = useRef<any>();
+
+  const scrollToLog = () =>{
+    setTimeout(() =>{logRef?.current?.scrollIntoView({behavior: "smooth", block: "start"});}, 25);
+  }
 
   const runSingleSimulation = async () => {
     setBackdropOpened(true);
@@ -48,6 +51,7 @@ function App() {
       const result = calculator.execute();
       setCurrentLog(result.log);
       setBackdropOpened(false);
+      scrollToLog();
     }, 100);
   }
 
@@ -64,13 +68,14 @@ function App() {
       const additionalLogs = !calculatorConfiguration.PostSimulatedHistory ? [] : aggregatedLog.GetExtraLogs();
       setCurrentLog([aggregatedLog, ...additionalLogs]);
       setBackdropOpened(false);
+      scrollToLog();
     }, 100);
   }
 
   return (
     <>
       <Backdrop
-        sx={(theme) => ({ color: '#fff', zIndex: () => Math.max.apply(Math, Object.values(theme.zIndex)) + 1 })}
+        sx={(theme) => ({ color: "#fff", zIndex: () => Math.max.apply(Math, Object.values(theme.zIndex)) + 1 })}
         open={backdropOpened}
       >
         <CircularProgress color="inherit" />
@@ -110,9 +115,22 @@ function App() {
 
         </Grid>
         <Grid size={{ xs: 26, sm: 26, md: 8 }}>
-          <Typography variant="h5">Battle configuration:</Typography>
+          <Typography variant="h5">Configuration:</Typography>
           <Box>
             <ConfigurationEditor config={calculatorConfiguration} onChange={setConfiguration} />
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>Additional controls</AccordionSummary>
+              <AccordionDetails>
+              <ButtonGroup variant="contained">
+                <Button variant="contained" onClick={() =>{
+                  setAttackerArmy({...attackerArmy, units: GenerateRandomSetOfUnits()})
+                }}>Generate attacker</Button>
+                <Button variant="contained" onClick={() =>{
+                  setDefenderArmy({...defenderArmy, units: GenerateRandomSetOfUnits()})
+                }}>Generate defender</Button>
+            </ButtonGroup>
+              </AccordionDetails>
+            </Accordion>
           </Box>
           <Box sx={{ margin: "25px 0 25px 0" }}>
             <ButtonGroup variant="contained">
@@ -121,7 +139,7 @@ function App() {
             </ButtonGroup>
           </Box>
         </Grid>
-        <Grid size={26}>
+        <Grid size={26} ref={logRef}>
           <Typography variant="h5">Battle results:</Typography>
           {currentLog.length > 0 && <FullBattleLogDisplay logs={currentLog} />}
         </Grid>
