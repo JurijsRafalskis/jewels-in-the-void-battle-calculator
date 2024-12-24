@@ -10,6 +10,10 @@ export function AppendKeyToUnit(unit:IUnit):IUnit{
     return unit;
 }
 
+export function PrepareUnit(unit: IUnit): IUnit {
+    return AppendKeyToUnit(structuredClone(unit));
+}
+
 export function ParseAndLimitIntegerValues(input:any, min?:number, max?:number):number {
     var value = parseInt(input);
     if(isNaN(value)) return min ?? max ?? 0;

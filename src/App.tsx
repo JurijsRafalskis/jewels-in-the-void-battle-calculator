@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
-import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, GenerateRandomSetOfUnits } from "./constants/InitialValues";
+import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, GenerateRandomSetOfUnits } from "./configuration/InitialValues";
 import ConfigurationEditor from './components/ConfigurationEditor';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';

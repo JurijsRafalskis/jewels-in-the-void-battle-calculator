@@ -2,7 +2,7 @@ import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, B
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { GetDefaultBattleFieldModifier } from "../constants/InitialValues";
+import { GetDefaultBattleFieldModifier } from "../configuration/InitialValues";
 import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
 import "../styles/ComponentStyles/StatsCardTables.css";
 
@@ -50,7 +50,7 @@ export interface IBattleFieldModifierTableRendering {
     shouldRenderWrapperTable?: boolean;
 }
 
-function BattleFieldModifierTableContent({ shouldRenderWrapperTable = true, ...props }: IBattleFieldModifierViewProps & IBattleFieldModifierTableRendering) {
+export function BattleFieldModifierTableContent({ shouldRenderWrapperTable = true, ...props }: IBattleFieldModifierViewProps & IBattleFieldModifierTableRendering) {
     const tableContent = (<>
         <tr>
             <td>Organisation: </td>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { IUnit } from '../model/armyComposition/Unit';
 import Button from '@mui/material/Button';
-import { GetAllExistingUnits, PrepareUnit } from '../constants/InitialValues';
+import { GetAllExistingUnits } from '../configuration/InitialValues';
 import Divider from '@mui/material/Divider';
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { GenerateKey } from '../utils/GenericUtilities';
+import { GenerateKey, PrepareUnit } from '../utils/GenericUtilities';
 
 const existingUnits: IUnit[] = GetAllExistingUnits();
 

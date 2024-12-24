@@ -1,11 +1,11 @@
 import { IUnit } from "../../model/armyComposition/Unit";
 import { IBattleContext } from "../../model/BattleStructure";
+import IKeyable from "../../model/Keyable";
 import { GenerateKey } from "../../utils/GenericUtilities";
 
 
-export interface ILogInstance{
+export interface ILogInstance extends IKeyable{
     GetFormattedLogElement():JSX.Element;
-    GetKey():string;
 }
 
 export abstract class LogInstance implements ILogInstance{
@@ -20,7 +20,7 @@ export abstract class LogInstance implements ILogInstance{
 
     public abstract GetFormattedLogElement():JSX.Element;
 
-    public GetKey():string 
+    public getKey():string 
     { 
         return this.key;
     }

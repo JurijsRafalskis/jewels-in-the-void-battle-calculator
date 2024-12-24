@@ -10,7 +10,7 @@ function FullBattleLogDisplay(props: IFullBattleLogDisplayProps) {
     return (
         <>
             {props.logs.map(l => (
-                <Box key={l.GetKey()}>
+                <Box key={l.getKey()}>
                     {l.GetFormattedLogElement()}
                 </Box>
             ))}

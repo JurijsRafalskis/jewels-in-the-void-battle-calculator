@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
-import { CreateEmptyUnit } from "../constants/InitialValues"
+import { CreateEmptyUnit } from "../configuration/InitialValues"
 import Button from '@mui/material/Button';
 import { UncontrolledLimitedIntegerNumberField } from './ControlledIntegerNumberField';
 
@@ -30,7 +30,11 @@ function UnitEditForm(props: UnitFormProps) {
                                         label="Name"
                                         variant="standard"
                                         defaultValue={currentUnit.Title}
-                                        onChange={v => setCurrentUnit(u => { return { ...u, Title: v.currentTarget.value } })}
+                                        onChange={v => {
+                                            //Fixing an issue with missing currentTarget whan called within the setter...
+                                            const value = v.currentTarget.value;
+                                            setCurrentUnit(u => { return { ...u, Title: value } })
+                                        }}
                                     />
                                 </td>
                             </tr>

@@ -153,7 +153,7 @@ export class MultiSimulationLog implements ILogInstance{
         if(this.config.PostSimulatedHistory) this.extraLogs = this.extraLogs.concat(context.log);
     }
 
-    public GetKey(): string {
+    public getKey(): string {
         return this.key;
     }
 

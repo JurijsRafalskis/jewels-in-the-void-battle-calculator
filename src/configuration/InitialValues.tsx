@@ -1,9 +1,9 @@
 import { IArmy } from "../model/armyComposition/Army";
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
+import { Hero } from "../model/armyComposition/Hero";
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
-import { DieType } from "../utils/DieUtilities";
-import { AppendKeyToUnit } from "../utils/GenericUtilities";
+import { AppendKeyToUnit, PrepareUnit } from "../utils/GenericUtilities";
 
 export const CreateEmptyUnit = function () {
     let EmptyUnit: IUnit = {
@@ -12,6 +12,7 @@ export const CreateEmptyUnit = function () {
         Organization: 0,
         Morale: 0,
         Maneuver: 0,
+        ManeuverStaticBonus: 0,
         FireBonus: {
             Offensive: 0,
             Defensive: 0
@@ -30,6 +31,7 @@ export const SlayersOfFleshUnit: IUnit = {
     Organization: 90,
     Morale: 4,
     Maneuver: 0,
+    ManeuverStaticBonus: 0,
     FireBonus: {
         Offensive: 1,
         Defensive: 0
@@ -46,6 +48,7 @@ export const PinionsOfGodTest: IUnit = {
     Organization: 90,
     Morale: 3,
     Maneuver: 6,
+    ManeuverStaticBonus: 0,
     FireBonus: {
         Offensive: 2,
         Defensive: 2
@@ -62,6 +65,7 @@ export const DiggerSwarm: IUnit = {
     Organization: 80,
     Morale: 2,
     Maneuver: 0,
+    ManeuverStaticBonus: 0,
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -78,6 +82,7 @@ export const MycellumVanguard: IUnit = {
     Organization: 100,
     Morale: 4,
     Maneuver: 0,
+    ManeuverStaticBonus: 0,
     FireBonus: {
         Offensive: 1,
         Defensive: 1
@@ -94,6 +99,7 @@ export const InfestedMob: IUnit = {
     Organization: 70,
     Morale: 8,
     Maneuver: 0,
+    ManeuverStaticBonus: 0,
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -161,6 +167,39 @@ export function GetDefaultBattleFieldModifier():IBattleFieldModifier{
     };
 }
 
-export function PrepareUnit(unit: IUnit): IUnit {
-    return AppendKeyToUnit(structuredClone(unit));
+
+export function BlankHero():Hero{
+    let hero = new Hero();    
+    return hero;
+}
+
+export function GetHeroList():Hero[]{
+    const result:Hero[] = [
+        RadiantLance(),
+        HundredWings()
+    ];
+
+    return result;
+}
+
+export function RadiantLance():Hero{
+    const hero = new Hero();    
+    hero.Title = "Radiant Lance, Cry out at Dusk";
+    hero.ManeuverRollBonus = 2;
+    hero.FireBonus = {
+        Offensive: 6,
+        Defensive: 6
+    }
+    return hero;
+}
+
+export function HundredWings():Hero{
+    const hero = new Hero();    
+    hero.Title = "Hundred Wings, Soar High in Burning Sky";
+    hero.ManeuverRollBonus = 6;
+    hero.FireBonus = {
+        Offensive: 2,
+        Defensive: 2
+    }
+    return hero;
 }
