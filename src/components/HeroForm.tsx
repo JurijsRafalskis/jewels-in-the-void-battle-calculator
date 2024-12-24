@@ -7,6 +7,7 @@ import { GenerateKey } from "../utils/GenericUtilities";
 import { GetHeroList } from "../configuration/InitialValues";
 import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
 import { BlankHero } from "../configuration/InitialHeroValues";
+import { TraitDisplay } from "./TraitPicker";
 
 export interface IHeroEditorProps {
     hero?: Hero,
@@ -58,7 +59,11 @@ export default function HeroEditor(props: IHeroEditorProps) {
                                 <td>Hero name:</td>
                                 <td>{props.hero.Title}</td>
                             </tr>
-                            <BattleFieldModifierTableContent modifier={props.hero} />
+                            <BattleFieldModifierTableContent modifier={props.hero} shouldRenderWrapperTable={false}/>
+                            {props.hero.Traits && props.hero.Traits.length > 0 && <tr>
+                                <td>Traits:</td>
+                                <td><TraitDisplay traits={props.hero.Traits}/></td>
+                            </tr>}
                         </tbody>
                     </table>
                     <Dialog open={editFormOpen}>

@@ -1,4 +1,5 @@
 import { Hero } from "../model/armyComposition/Hero";
+import { BonusDamagePhase } from "../model/armyComposition/Traits/BonusDamagePhase";
 
 export function BlankHero():Hero{
     let hero = new Hero();    
@@ -13,6 +14,7 @@ export function RadiantLance():Hero{
         Offensive: 6,
         Defensive: 6
     }
+    hero.Traits = [new BonusDamagePhase()];
     return hero;
 }
 
