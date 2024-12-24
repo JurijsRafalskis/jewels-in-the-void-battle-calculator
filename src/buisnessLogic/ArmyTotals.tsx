@@ -1,8 +1,8 @@
 import { IUnit } from "../model/armyComposition/Unit";
-import { CreateEmptyUnit } from  "../configuration/InitialValues"
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from '../model/BattleConfiguration';
 import { DieSet, DieToInt, DieType, GetMaximumDieSetValue, GetMedianDieSetValue } from "../utils/DieUtilities";
 import { IArmy } from "../model/armyComposition/Army";
+import { CreateEmptyUnit } from "../configuration/InitialUnitValues";
 
 //Current logic:
 //An army adds all fire, shock, morale and health values. It takes the highest maneuver value. It Averages Morale and Organization. 

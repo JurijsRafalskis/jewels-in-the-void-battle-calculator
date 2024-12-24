@@ -5,4 +5,5 @@ export interface ITrait extends IKeyable {
     Title:string;
     Description:string;
     createEditForm():ReactElement;
+    createTooltip():ReactElement;
 }

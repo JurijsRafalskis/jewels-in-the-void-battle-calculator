@@ -4,9 +4,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
-import { CreateEmptyUnit } from "../configuration/InitialValues"
 import Button from '@mui/material/Button';
 import { UncontrolledLimitedIntegerNumberField } from './ControlledIntegerNumberField';
+import { CreateEmptyUnit } from '../configuration/InitialUnitValues';
 
 export interface UnitFormProps {
     unit?: IUnit;

@@ -1,10 +1,12 @@
 import { GenerateKey } from "../../utils/GenericUtilities";
 import IKeyable from "../Keyable";
 import { IBattleFieldModifier } from "./BattleFieldModifier";
+import { ITrait } from "./Traits/Trait";
 import { IBattleBonusStats } from "./Unit";
 
 export interface IHeroProperties extends IBattleFieldModifier {
     Title:string;
+    Traits?:ITrait[];
 }
 
 
@@ -22,6 +24,7 @@ export class Hero implements IHeroProperties, IKeyable {
         Offensive : 0
     };
     #key: string = GenerateKey();
+    Traits: ITrait[] = [];
     constructor(props?:IHeroProperties){
         if(!props){
             return;

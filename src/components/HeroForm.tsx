@@ -4,8 +4,9 @@ import { BattleFieldModifierTableContent } from "./BattleFieldModiffierEditor";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import React, { useState } from "react";
 import { GenerateKey } from "../utils/GenericUtilities";
-import { BlankHero, GetHeroList } from "../configuration/InitialValues";
+import { GetHeroList } from "../configuration/InitialValues";
 import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
+import { BlankHero } from "../configuration/InitialHeroValues";
 
 export interface IHeroEditorProps {
     hero?: Hero,
