@@ -1,4 +1,5 @@
 import { DieSet as DiceSet } from "../../utils/DieUtilities";
+import { ITrait } from "./Traits/Trait";
 
 export interface IUnit extends IDamageBonusStats {
     Title: string;
@@ -7,6 +8,7 @@ export interface IUnit extends IDamageBonusStats {
     Organization: number;
     Maneuver: number;
     ManeuverStaticBonus : number;
+    Traits:ITrait[];
     Metadata?: IAdditionalUnitMetadata;
 };
 

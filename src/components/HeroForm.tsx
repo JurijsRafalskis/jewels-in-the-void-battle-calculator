@@ -174,6 +174,10 @@ export function HeroEditForm(props: IHeroFormProps) {
                                 />
                             </td>
                         </tr>
+                        <tr>
+
+                                    
+                        </tr>
                     </tbody>
                 </table>
             </CardContent>

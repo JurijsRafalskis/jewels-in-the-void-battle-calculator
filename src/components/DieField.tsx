@@ -1,6 +1,9 @@
-import { MenuItem, TextField } from "@mui/material";
-import { DieSet, DieType } from "../utils/DieUtilities";
+import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
+import { AttemptToProcureDieType, DieSet, DieType } from "../utils/DieUtilities";
 import { useState } from "react";
+import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const dieValues = Object.keys(DieType).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieType);
 
@@ -10,17 +13,15 @@ export interface DieFieldProps{
     onChange(unitProps: DieSet): void;
 }
 
-function DieField(props:DieFieldProps){
+export function DieField(props:DieFieldProps){
     const [die, setDie] = useState(props.dieSet)
+
     return <>
-        <TextField
-            size="small"
-            type="number"
-            margin="dense"
+        <UncontrolledLimitedIntegerNumberField
             label={props.fieldLabel}
-            variant="standard"
             defaultValue={die.diceCount}
-            onChange={v => {  die.diceCount = parseInt(v.currentTarget.value); setDie(die); props.onChange(die); }}
+            min={0}
+            onChange={v => { let currentDie:DieSet = {...die, diceCount: v}; setDie(currentDie); props.onChange(currentDie); }}
         />
         <TextField
             size="small"
@@ -30,7 +31,7 @@ function DieField(props:DieFieldProps){
             variant="standard"
             defaultValue={die.dieType}
             style={{ width: "100px" }}
-            onChange={(e) => { props.dieSet.dieType = e.target.value as unknown as DieType; setDie(die); props.onChange(die); }}
+            onChange={(e) => { let currentDie:DieSet = {...die, dieType : e.target.value as unknown as DieType }; setDie(currentDie); props.onChange(currentDie); }}
         >
             {dieValues.map((v) => (
                 <MenuItem key={v} value={v}>
@@ -38,7 +39,58 @@ function DieField(props:DieFieldProps){
                 </MenuItem>
             ))}
         </TextField>
+        <UncontrolledLimitedIntegerNumberField
+            label="value"
+            min={0}
+            defaultValue={die.dieCustomValue ?? 0}
+            onChange={v => {  let currentDie:DieSet = {...die, dieCustomValue: v, dieType: AttemptToProcureDieType(v)}; setDie(currentDie); props.onChange(currentDie); }}
+        />
     </>
 }
 
-export default DieField;
+export interface MultiDieFieldProps{
+    fieldLabel:string;
+    dieSets:DieSet[];
+    onChange(unitProps: DieSet[]): void;
+}
+
+export function MultiDieField(props:MultiDieFieldProps){
+    return <>
+        <Box>
+            {props.dieSets.map((item, index) =>{
+                return <Box key={`${item.diceCount}_${item.dieType}_${item.dieCustomValue ?? 0}_${index}`}>
+                    <DieField 
+                    fieldLabel={props.fieldLabel}
+                    dieSet={item}
+                    onChange={die => {
+                        let values = [...props.dieSets];
+                        values[index] = die;
+                        props.onChange(values);
+                    }}
+                    />
+                    <IconButton 
+                        aria-label="Remove"
+                        onClick={() =>{
+                            let values = [...props.dieSets];
+                            values.splice(index, 1);
+                            props.onChange(values);
+                        }}>
+                        <ClearIcon/>
+                    </IconButton>
+                </Box>
+            })}
+        </Box>
+        <Box>
+        <IconButton aria-label="Add a new die" onClick={() => {
+            let values = [...props.dieSets];
+            values.push({
+                diceCount: 0,
+                dieType: DieType.None,
+            });
+            props.onChange(values);
+        }}>
+                <AddCircleOutlineIcon />
+        </IconButton>
+        </Box>
+    </>
+}

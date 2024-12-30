@@ -1,6 +1,8 @@
 import { IArmy } from "../model/armyComposition/Army";
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { Hero } from "../model/armyComposition/Hero";
+import { BonusDamagePhase } from "../model/armyComposition/Traits/BonusDamagePhase";
+import { ITrait } from "../model/armyComposition/Traits/Trait";
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
 import { PrepareUnit } from "../utils/GenericUtilities";
@@ -64,7 +66,6 @@ export function GetDefaultBattleFieldModifier():IBattleFieldModifier{
     };
 }
 
-
 export function GetHeroList():Hero[]{
     const result:Hero[] = [
         RadiantLance(),
@@ -74,3 +75,10 @@ export function GetHeroList():Hero[]{
     return result;
 }
 
+export function GetTraitList():ITrait[]{
+    const result:ITrait[] = [
+        new BonusDamagePhase()
+    ];
+
+    return result;
+}

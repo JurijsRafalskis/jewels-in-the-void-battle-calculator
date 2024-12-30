@@ -43,6 +43,7 @@ export enum BattleRole {
 }
 
 export interface IBattleContext {
+    turn:number;
     log:ILogInstance[]
     attackerCurrentState:IUnit;
     defenderCurrentState:IUnit;

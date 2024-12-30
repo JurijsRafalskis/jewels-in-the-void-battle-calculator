@@ -23,13 +23,21 @@ export interface DieSet {
 
 export interface RollResult {
     total:number,
-    rolls:number[],
+    rolls:SingularRollResult[],
+}
+
+export interface SingularRollResult{
+    roll:number;
     dieType:DieType,
     dieCustomValue?:number;
 }
 
+export function FormatDiesForReading(sets:DieSet[]){
+    return sets.map(FormatDieForReading).join(" + ");
+}
+
 export function FormatDieForReading(set:DieSet):string{
-    return set.diceCount.toString() + (set.dieType == DieType.None ? "" : "d" + DieToInt(set.dieType).toString());
+    return set.diceCount.toString() + (set.dieType == DieType.None ? "" : "d" + (set.dieType == DieType.Custom ? set.dieCustomValue?.toString() : DieToInt(set.dieType).toString()));
 }
 
 export function GetMedianDieSetValue(set:DieSet){
@@ -44,20 +52,37 @@ export function GetMaximumDieSetValue(set:DieSet){
     return set.diceCount * maxValue;
 }
 
+export function Roll(die:DieSet[]):RollResult;
 export function Roll(die:DieSet):RollResult;
 export function Roll(dieCount:number, dieType:DieType):RollResult;
 export function Roll(dieCount:number, dieCustomValue:number):RollResult;
 export function Roll(dieCustomValue:number):RollResult;
-export function Roll(a:number | DieSet, b?:DieType | number ):RollResult {
+export function Roll(a:number | DieSet | DieSet[], b?:DieType | number ):RollResult {
     if(typeof (a) === "number" && b){
         return RollInternal({diceCount:a as number, dieType:typeof(b) == "number" ? AttemptToProcureDieType(b) : b, dieCustomValue : typeof(b) == "number" ? b : undefined });
     }
     if(typeof (a) === "number" && !b){
         return RollInternal({diceCount:1, dieType:AttemptToProcureDieType(a as number), dieCustomValue : a });
     }
-    const checkedA = a && a as DieSet;
+    const checkedA = a;
     if(checkedA && !b){
-        return RollInternal(checkedA);
+        if(checkedA.constructor === Array)
+        {
+            let result:RollResult = {
+                total:0,
+                rolls: []
+            }
+            //Right now, treating the contents as valid from the get go. Maybe add a try catch, and rethrow with better explanation?
+            checkedA.forEach(element => {
+                let currentRoll = RollInternal(element);
+                result.total += currentRoll.total;
+                result.rolls = [...result.rolls, ...currentRoll.rolls]
+            });
+            return result;
+        }
+        else{
+            return RollInternal(checkedA as DieSet);
+        }
     }
     throw new Error("Invalid argument for function Roll.");
 }
@@ -65,15 +90,17 @@ export function Roll(a:number | DieSet, b?:DieType | number ):RollResult {
 function RollInternal(die:DieSet):RollResult{
     const result:RollResult = {
         total : 0,
-        dieType : die.dieType,
-        dieCustomValue: die.dieCustomValue,
         rolls : []
     }
     for(let i = 0; i < die.diceCount; i++){
         let dieMax = die.dieType == DieType.Custom && die.dieCustomValue ? die.dieCustomValue : DieToInt(die.dieType);
         let rollResult = RollExactDice(dieMax);
         result.total += rollResult;
-        result.rolls.push(rollResult);
+        result.rolls.push({
+            roll: rollResult,
+            dieType : die.dieType,
+            dieCustomValue: die.dieCustomValue,
+        });
     }
     return result;
 }
@@ -99,7 +126,7 @@ export function DieToInt(dieType:DieType):number{
     return int;
 }
 
-function AttemptToProcureDieType(dieCustomValue:number):DieType{
+export function AttemptToProcureDieType(dieCustomValue:number):DieType{
     const existingValue = DieType[dieCustomValue];
     return  !!existingValue ? (existingValue.toString() as unknown as DieType) : DieType.Custom;
 }

@@ -8,8 +8,8 @@ export interface ITraitProps {
 
 export function TraitDisplay(props:ITraitProps){
     return <>
-        {props.traits.map((trait, index) =>{
-            return <SingularTraitDisplay trait={trait}/>
+        {props.traits.filter(trait => trait.getKey).map((trait, index) =>{
+            return <SingularTraitDisplay key={trait.getKey()} trait={trait}/>
         })}
     </>
 }
@@ -53,8 +53,16 @@ function SingularTraitDisplay(props:ISIngularTraitDisplayProps){
 
 export interface ITraitEditorProps {
     traits:ITrait[]
+    onChange(traits:ITrait[]):void;
 }
 
 export function TraitEditor(props:ITraitEditorProps){
-    return <></>
+    return <Box>
+        <Box>
+
+        </Box>
+        <Box>
+            
+        </Box>
+    </Box>
 }

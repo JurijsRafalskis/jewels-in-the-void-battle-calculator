@@ -48,6 +48,7 @@ export class BattleCalculator {
 
     public execute(): IBattleContext {
         let context: IBattleContext = {
+            turn:1,
             log: [],
             attackerCurrentState: structuredClone(this.#AttackerAggregation),
             defenderCurrentState: structuredClone(this.#DefenderAggregation),
@@ -57,6 +58,14 @@ export class BattleCalculator {
             victoryType: VictoryType.Undecided
         }
 
+        this.#AttackerAggregation.Traits.forEach(t =>{
+            t.registerBattleModifications(this, context, BattleRole.Attacker);
+        });
+
+        this.#DefenderAggregation.Traits.forEach(t =>{
+            t.registerBattleModifications(this, context, BattleRole.Defender);
+        });
+
         context.log.push(new StartOfBattleLogInstance(context));
 
         while (context.battleResult == BattleResult.InProgress) {
@@ -64,6 +73,7 @@ export class BattleCalculator {
                 context = this.#battleSteps[index].stepFunction(context, this.#config);
                 if (context.battleResult != BattleResult.InProgress) break;
             }
+            context.turn++;
         }
 
         context.log.push(new EndOfBattleLogInstance(context));
@@ -155,6 +165,12 @@ function damagePhase(context: IBattleContext, config: IBattleConfiguration, cont
         lostMoraleFlag ? BattleRole.Defender : BattleRole.Attacker
     ));
 
+    DamagePhaseResolution(context);
+
+    return context;
+}
+
+export function DamagePhaseResolution(context:IBattleContext){
     if (context.defenderCurrentState.Health == 0) {
         if (context.attackerCurrentState.Health == 0) {
             context.battleResult = BattleResult.MutualDestruction;
@@ -169,9 +185,4 @@ function damagePhase(context: IBattleContext, config: IBattleConfiguration, cont
         context.battleResult = BattleResult.DefendersVictory;
         context.victoryType = VictoryType.Destruction;
     }
-
-    function FormatDamageLog(roll: RollResult, totalAttack: number, totalDamageDealt: number, currentUnit: IUnit) {
-        return `roll ${roll.total}, total attack ${totalAttack}, total damage ${totalDamageDealt}, remaining HP ${currentUnit.Health}, remaining morale: ${currentUnit.Morale}.`;
-    }
-    return context;
 }

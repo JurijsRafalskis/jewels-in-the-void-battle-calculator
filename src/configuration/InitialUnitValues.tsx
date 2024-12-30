@@ -9,6 +9,7 @@ export const CreateEmptyUnit = function () {
         Morale: 0,
         Maneuver: 0,
         ManeuverStaticBonus: 0,
+        Traits:[],
         FireBonus: {
             Offensive: 0,
             Defensive: 0
@@ -28,6 +29,7 @@ export const SlayersOfFleshUnit: IUnit = {
     Morale: 4,
     Maneuver: 0,
     ManeuverStaticBonus: 0,
+    Traits:[],
     FireBonus: {
         Offensive: 1,
         Defensive: 0
@@ -45,6 +47,7 @@ export const PinionsOfGodTest: IUnit = {
     Morale: 3,
     Maneuver: 6,
     ManeuverStaticBonus: 0,
+    Traits:[],
     FireBonus: {
         Offensive: 2,
         Defensive: 2
@@ -62,6 +65,7 @@ export const DiggerSwarm: IUnit = {
     Morale: 2,
     Maneuver: 0,
     ManeuverStaticBonus: 0,
+    Traits:[],
     FireBonus: {
         Offensive: 0,
         Defensive: 0
@@ -79,6 +83,7 @@ export const MycellumVanguard: IUnit = {
     Morale: 4,
     Maneuver: 0,
     ManeuverStaticBonus: 0,
+    Traits:[],
     FireBonus: {
         Offensive: 1,
         Defensive: 1
@@ -96,6 +101,7 @@ export const InfestedMob: IUnit = {
     Morale: 8,
     Maneuver: 0,
     ManeuverStaticBonus: 0,
+    Traits:[],
     FireBonus: {
         Offensive: 0,
         Defensive: 0

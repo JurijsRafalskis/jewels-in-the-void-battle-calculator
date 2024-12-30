@@ -8,6 +8,7 @@ import UnitEditForm from "./UnitEditForm";
 import Dialog from '@mui/material/Dialog';
 import "../styles/ComponentStyles/StatsCardTables.css";
 import { Tooltip } from '@mui/material';
+import { TraitDisplay } from './TraitPicker';
 
 export interface UnitCardProps {
     unit: IUnit;
@@ -54,6 +55,10 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
                                 <td>Shock: </td>
                                 <td>{props.unit.ShockBonus.Offensive}/{props.unit.ShockBonus.Defensive}</td>
                             </tr>
+                            {props.unit.Traits && props.unit.Traits.length > 0 && <tr>
+                                <td>Traits:</td>
+                                <td><TraitDisplay traits={props.unit.Traits}/></td>
+                            </tr>}
                         </tbody>
                     </table>
             </CardContent>
