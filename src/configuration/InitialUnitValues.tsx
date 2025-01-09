@@ -41,8 +41,8 @@ export const SlayersOfFleshUnit: IUnit = {
 };
 
 export const PinionsOfGodTest: IUnit = {
-    Title: "Pinion of God (speculative)",
-    Health: 20,
+    Title: "Pinions of God",
+    Health: 10,
     Organization: 90,
     Morale: 3,
     Maneuver: 6,
@@ -50,10 +50,10 @@ export const PinionsOfGodTest: IUnit = {
     Traits:[],
     FireBonus: {
         Offensive: 2,
-        Defensive: 2
+        Defensive: 1
     },
     ShockBonus: {
-        Offensive: 0,
+        Offensive: 1,
         Defensive: 0
     }
 };
