@@ -14,17 +14,17 @@ import { MultiDieField } from "../../../components/DieField";
 const traitTitle = "Bonus damage phase";
 
 interface BonusDamagePhaseRelevantValues {
-    Repeatable:boolean;
-    Priority:number;
-    Damage:DieSet[];
+    Repeatable: boolean;
+    Priority: number;
+    Damage: DieSet[];
 }
 
 export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues {
     Title: string = traitTitle;
-    #key:string = GenerateKey();
-    Repeatable:boolean = false;
-    Priority:number = 150;
-    Damage:DieSet[] = [
+    #key: string = GenerateKey();
+    Repeatable: boolean = false;
+    Priority: number = 150;
+    Damage: DieSet[] = [
         {
             diceCount: 4,
             dieType: DieType.None
@@ -36,13 +36,13 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
         }
     ];
 
-    constructor(){}
+    constructor() { }
 
     registerBattleModifications(calculator: BattleCalculator, context: IBattleContext, role: BattleRole): void {
         calculator.registerExtraStep({
             priority: this.Priority,
             stepFunction: (context, config) => {
-                if(!this.Repeatable && context.turn > 1) return context;
+                if (!this.Repeatable && context.turn > 1) return context;
                 const damageReceiver = role == BattleRole.Attacker ? context.defenderCurrentState : context.attackerCurrentState;
                 let damageRoll = Roll(this.Damage);
                 damageReceiver.Health = Math.max(damageReceiver.Health - damageRoll.total, 0);
@@ -52,7 +52,7 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
         })
     }
 
-    createEditForm(onChange:(v:ITrait)=>void, onClose:()=>void): ReactElement {
+    createEditForm(onChange: (v: ITrait) => void, onClose: () => void): ReactElement {
         return <BonusDamagePhaseEditor
             damage={this.Damage}
             priority={this.Priority}
@@ -63,7 +63,7 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
                 var result = new BonusDamagePhase();
                 result.Damage = traitValues.Damage;
                 result.Priority = traitValues.Priority,
-                result.Repeatable = traitValues.Repeatable;
+                    result.Repeatable = traitValues.Repeatable;
                 onChange(result);
             }}
         />
@@ -77,15 +77,15 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
     }
 }
 
-interface BonusDamagePhaseEditorProps{
-    repeatable:boolean;
-    priority:number;
-    damage:DieSet[];
-    onSave:(v:BonusDamagePhaseRelevantValues)=>void;
-    onClose:()=>void
+interface BonusDamagePhaseEditorProps {
+    repeatable: boolean;
+    priority: number;
+    damage: DieSet[];
+    onSave: (v: BonusDamagePhaseRelevantValues) => void;
+    onClose: () => void
 }
 
-function BonusDamagePhaseEditor({repeatable = false, priority = 150, damage = [], ...props}:BonusDamagePhaseEditorProps){
+function BonusDamagePhaseEditor({ repeatable = false, priority = 150, damage = [], ...props }: BonusDamagePhaseEditorProps) {
     const [currentPriority, setCurrentPriority] = useState(priority);
     const [currentRepeatability, setCurrentRepeatability] = useState(repeatable);
     const [currentDamage, setCurrentDamage] = useState(damage);
@@ -103,39 +103,48 @@ function BonusDamagePhaseEditor({repeatable = false, priority = 150, damage = []
                                 defaultValue={currentPriority}
                                 onChange={newPriority => setCurrentPriority(newPriority)}
                             /></td>
+                            <td>
+                                <FormControlLabel control={<Checkbox
+                                    defaultChecked={currentRepeatability}
+                                    onChange={(ev) => setCurrentRepeatability(ev.target.checked)}
+                                />} label="Repeatable" />
+                            </td>
                         </tr>
                         <tr>
-                            <FormControlLabel control={<Checkbox 
-                                defaultChecked={currentRepeatability} 
-                                onChange={(ev) => setCurrentRepeatability(ev.target.checked)}
-                            />} label="Repeatable" />
+                            <td>
+                                Damage:
+                            </td>
                         </tr>
                         <tr>
-                            <MultiDieField
-                                fieldLabel="Damage"
-                                dieSets={currentDamage}
-                                onChange={dieSets => setCurrentDamage(dieSets)}
-                            />
+                            <td colSpan={2}>
+                                <MultiDieField
+                                    fieldLabel="Damage"
+                                    dieSets={currentDamage}
+                                    onChange={dieSets => setCurrentDamage(dieSets)}
+                                />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={() => { props.onSave({
-                    Damage: [],
-                    Priority : 0,
-                    Repeatable : false
-                }) }}>Save</Button>
+                <Button size="small" onClick={() => {
+                    const newTrait = new BonusDamagePhase();
+                    newTrait.Damage = currentDamage;
+                    newTrait.Priority = currentPriority;
+                    newTrait.Repeatable = currentRepeatability;
+                    props.onSave(newTrait);
+                }}>Save</Button>
                 <Button size="small" onClick={() => { props.onClose() }}>Close</Button>
             </CardActions>
         </Card>
     </>
 }
 
-export class ExtraDamageTurnLogs extends LogInstance{
+export class ExtraDamageTurnLogs extends LogInstance {
     #role: BattleRole
     #result: RollResult;
-    constructor(context: IBattleContext, role: BattleRole, result:RollResult) {
+    constructor(context: IBattleContext, role: BattleRole, result: RollResult) {
         super(context);
         this.#role = role;
         this.#result = result;
@@ -143,10 +152,10 @@ export class ExtraDamageTurnLogs extends LogInstance{
 
     public GetFormattedLogElement(): JSX.Element {
         return <Box>
-                <Box><Box component="span" sx={{ fontWeight: 'bold' }}>{`Executing bonus damage phase:`}</Box></Box>
+            <Box><Box component="span" sx={{ fontWeight: 'bold' }}>{`Executing bonus damage phase:`}</Box></Box>
             <Box>
                 <Box component="span">{`${BattleRole[this.#role]} rolled ${this.#result.total} bonus damage. ${BattleRole[this.#role == BattleRole.Attacker ? BattleRole.Defender : BattleRole.Attacker]} stats: `}</Box>
-                <UnitHover unit={this.#role == BattleRole.Attacker ? this.defender : this.attacker}><FlashOnIcon fontSize={"inherit"}/></UnitHover>
+                <UnitHover unit={this.#role == BattleRole.Attacker ? this.defender : this.attacker}><FlashOnIcon fontSize={"inherit"} /></UnitHover>
             </Box>
         </Box>
     }

@@ -96,7 +96,7 @@ function App() {
         <Grid size={{ xs: 26, sm: 2, md: 1 }} justifyContent="center">
           <Tooltip title="Swap armies">
             <IconButton
-              aria-label="wap armies"
+              aria-label="Swap armies"
               onClick={(ev) => {
                 const attackerArmyTemp = attackerArmy;
                 const defenderArmyTemp = defenderArmy

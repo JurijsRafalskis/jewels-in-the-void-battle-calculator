@@ -15,10 +15,10 @@ export interface DieFieldProps{
 
 export function DieField(props:DieFieldProps){
     const [die, setDie] = useState(props.dieSet)
-
+    const [isCustom, setIsCustom] = useState(props.dieSet.dieType != DieType.Custom);
     return <>
         <UncontrolledLimitedIntegerNumberField
-            label={props.fieldLabel}
+            label="Die count"
             defaultValue={die.diceCount}
             min={0}
             onChange={v => { let currentDie:DieSet = {...die, diceCount: v}; setDie(currentDie); props.onChange(currentDie); }}
@@ -31,7 +31,14 @@ export function DieField(props:DieFieldProps){
             variant="standard"
             defaultValue={die.dieType}
             style={{ width: "100px" }}
-            onChange={(e) => { let currentDie:DieSet = {...die, dieType : e.target.value as unknown as DieType }; setDie(currentDie); props.onChange(currentDie); }}
+            onChange={(e) => { 
+                let currentDie:DieSet = {...die, dieType : e.target.value as unknown as DieType }; 
+                setDie(currentDie);
+                if(!isCustom && currentDie.dieType == DieType.Custom){
+                    setIsCustom(true);
+                } 
+                props.onChange(currentDie); 
+            }}
         >
             {dieValues.map((v) => (
                 <MenuItem key={v} value={v}>
@@ -40,7 +47,8 @@ export function DieField(props:DieFieldProps){
             ))}
         </TextField>
         <UncontrolledLimitedIntegerNumberField
-            label="value"
+            disabled={die.dieType != DieType.Custom && !isCustom}
+            label="Custom die value"
             min={0}
             defaultValue={die.dieCustomValue ?? 0}
             onChange={v => {  let currentDie:DieSet = {...die, dieCustomValue: v, dieType: AttemptToProcureDieType(v)}; setDie(currentDie); props.onChange(currentDie); }}
@@ -60,7 +68,7 @@ export function MultiDieField(props:MultiDieFieldProps){
             {props.dieSets.map((item, index) =>{
                 return <Box key={`${item.diceCount}_${item.dieType}_${item.dieCustomValue ?? 0}_${index}`}>
                     <DieField 
-                    fieldLabel={props.fieldLabel}
+                    fieldLabel="Die count"
                     dieSet={item}
                     onChange={die => {
                         let values = [...props.dieSets];

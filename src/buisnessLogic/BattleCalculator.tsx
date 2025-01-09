@@ -4,7 +4,12 @@ import { IBattleConfiguration } from "../model/BattleConfiguration";
 import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultLabel, GetVictoryLabel, BattleContactPhase, BattleRole } from "../model/BattleStructure";
 import { DieType, Roll, RollResult } from "../utils/DieUtilities";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
-import { BattlePhaseLogInstance, EndOfBattleLogInstance, InitiativePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
+import { BattlePhaseLogInstance, EndOfBattleLogInstance, ManeuvrePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
+
+export const ManeuvrePhasePriority = 100;
+export const FirePhasePriority = 200;
+export const ShockPhasePriority = 300;
+export const MoralPhasePriority = 400;
 
 export class BattleCalculator {
     #attackers: IArmy;
@@ -14,20 +19,20 @@ export class BattleCalculator {
     #DefenderAggregation: IUnit;
     #battleSteps: BattleStep[] = [
         {
-            priority: 100,
-            stepFunction: initiative
+            priority: ManeuvrePhasePriority,
+            stepFunction: maneuvre
         },
         {
-            priority: 200,
+            priority: FirePhasePriority,
             stepFunction: firePhase
         },
         {
-            priority: 300,
+            priority: ShockPhasePriority,
             stepFunction: shockPhase
         }
         ,
         {
-            priority: 400,
+            priority: MoralPhasePriority,
             stepFunction: moralePhase
         }
     ];
@@ -81,7 +86,7 @@ export class BattleCalculator {
     }
 }
 
-function initiative(context: IBattleContext, config: IBattleConfiguration): IBattleContext {
+function maneuvre(context: IBattleContext, config: IBattleConfiguration): IBattleContext {
     let attackerRoll = Roll(context.attackerCurrentState.Maneuver + config.AttackersBattleFieldModifiers.ManeuverRollBonus + config.GlobalBattlefieldModifiers.ManeuverRollBonus);
     let defenderRoll = Roll(context.defenderCurrentState.Maneuver + config.DefenderBattleFieldModifiers.ManeuverRollBonus + config.GlobalBattlefieldModifiers.ManeuverRollBonus);
     context.currentAttackersManeuverRollBonus = Math.round(
@@ -95,7 +100,7 @@ function initiative(context: IBattleContext, config: IBattleConfiguration): IBat
             0)
     );
     context.log.push(
-        new InitiativePhaseLogInstance(
+        new ManeuvrePhaseLogInstance(
             context,
             attackerRoll,
             defenderRoll)

@@ -8,7 +8,7 @@ import { GenerateKey } from "../../utils/GenericUtilities";
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { IBattleConfiguration } from "../../model/BattleConfiguration";
 
-export class InitiativePhaseLogInstance extends LogInstance {
+export class ManeuvrePhaseLogInstance extends LogInstance {
     protected attackersRoll: RollResult;
     protected defendersRoll: RollResult;
     protected attackersTotalBonus:number;

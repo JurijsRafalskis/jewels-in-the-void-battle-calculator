@@ -128,5 +128,9 @@ export function DieToInt(dieType:DieType):number{
 
 export function AttemptToProcureDieType(dieCustomValue:number):DieType{
     const existingValue = DieType[dieCustomValue];
-    return  !!existingValue ? (existingValue.toString() as unknown as DieType) : DieType.Custom;
+    //Ternary operator doesen't work here for unclear reason.
+    if(!!existingValue){
+        return existingValue.toString() as unknown as DieType;
+    }
+    return DieType.Custom
 }

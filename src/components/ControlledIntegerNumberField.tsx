@@ -8,9 +8,10 @@ export interface IUncontrolledLimitedIntegerNumberFieldProps {
     onChange(value: number): void;
     min?: number;
     max?: number;
+    disabled?:boolean;
 }
 
-export function UncontrolledLimitedIntegerNumberField({ defaultValue = 0, ...props }: IUncontrolledLimitedIntegerNumberFieldProps) {
+export function UncontrolledLimitedIntegerNumberField({ defaultValue = 0, disabled = false, ...props }: IUncontrolledLimitedIntegerNumberFieldProps) {
     const [errorExists, setErrorExists] = useState(false);
     return (
         <TextField
@@ -18,6 +19,7 @@ export function UncontrolledLimitedIntegerNumberField({ defaultValue = 0, ...pro
             type="number"
             margin="dense"
             variant="standard"
+            disabled={disabled}
             error={errorExists}
             helperText={errorExists ? "Invalid value, will be ignored" : ""}
             label={props.label}

@@ -7,7 +7,8 @@ import { GenerateKey } from "../utils/GenericUtilities";
 import { GetHeroList } from "../configuration/InitialValues";
 import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
 import { BlankHero } from "../configuration/InitialHeroValues";
-import { TraitDisplay } from "./TraitPicker";
+import { TraitDisplay, TraitEditor } from "./TraitPicker";
+import { ITrait } from "../model/armyComposition/Traits/Trait";
 
 export interface IHeroEditorProps {
     hero?: Hero,
@@ -59,10 +60,10 @@ export default function HeroEditor(props: IHeroEditorProps) {
                                 <td>Hero name:</td>
                                 <td>{props.hero.Title}</td>
                             </tr>
-                            <BattleFieldModifierTableContent modifier={props.hero} shouldRenderWrapperTable={false}/>
+                            <BattleFieldModifierTableContent modifier={props.hero} shouldRenderWrapperTable={false} />
                             {props.hero.Traits && props.hero.Traits.length > 0 && <tr>
                                 <td>Traits:</td>
-                                <td><TraitDisplay traits={props.hero.Traits}/></td>
+                                <td><TraitDisplay traits={props.hero.Traits} /></td>
                             </tr>}
                         </tbody>
                     </table>
@@ -105,7 +106,7 @@ export function HeroEditForm(props: IHeroFormProps) {
                                     onChange={v => {
                                         //Fixing an issue with missing currentTarget whan called within the setter...
                                         const value = v.currentTarget.value;
-                                        setHeroValues(u => { return new Hero({ ...u, Title: value } );})
+                                        setHeroValues(u => { return new Hero({ ...u, Title: value }); })
                                     }}
                                 />
                             </td>
@@ -175,8 +176,19 @@ export function HeroEditForm(props: IHeroFormProps) {
                             </td>
                         </tr>
                         <tr>
-
-                                    
+                            <td>Traits:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <TraitEditor
+                                    traits={hero.Traits}
+                                    onChange={function (traits: ITrait[]): void {
+                                        setHeroValues(h => {
+                                            return new Hero({ ...h, Traits: traits });
+                                        })
+                                    }}
+                                />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
