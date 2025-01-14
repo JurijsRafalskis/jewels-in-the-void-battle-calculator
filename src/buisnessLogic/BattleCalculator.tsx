@@ -71,6 +71,9 @@ export class BattleCalculator {
             t.registerBattleModifications(this, context, BattleRole.Defender);
         });
 
+        context.attackerCurrentState.Health += this.#config.AttackersBattleFieldModifiers.HealthBonus + this.#config.GlobalBattlefieldModifiers.HealthBonus;
+        context.defenderCurrentState.Health += this.#config.DefenderBattleFieldModifiers.HealthBonus + this.#config.GlobalBattlefieldModifiers.HealthBonus;
+
         context.log.push(new StartOfBattleLogInstance(context));
 
         while (context.battleResult == BattleResult.InProgress) {

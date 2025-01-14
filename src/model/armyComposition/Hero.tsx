@@ -12,6 +12,7 @@ export interface IHeroProperties extends IBattleFieldModifier {
 
 export class Hero implements IHeroProperties, IKeyable {
     Title:string = "";
+    HealthBonus: number = 0;
     OrganisationBonus: number = 0;
     ManeuverRollBonus: number = 0;
     ManeuverStaticBonus: number = 0;

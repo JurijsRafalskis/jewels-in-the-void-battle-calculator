@@ -52,6 +52,7 @@ export function GetDefaultConfig(): IBattleConfiguration {
 
 export function GetDefaultBattleFieldModifier():IBattleFieldModifier{
     return {
+        HealthBonus: 0,
         ManeuverRollBonus: 0,
         ManeuverStaticBonus: 0,
         OrganisationBonus: 0,

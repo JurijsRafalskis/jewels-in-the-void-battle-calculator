@@ -4,4 +4,5 @@ export interface IBattleFieldModifier extends IDamageBonusStats {
     OrganisationBonus: number;
     ManeuverRollBonus: number;
     ManeuverStaticBonus: number;
+    HealthBonus:number;
 }

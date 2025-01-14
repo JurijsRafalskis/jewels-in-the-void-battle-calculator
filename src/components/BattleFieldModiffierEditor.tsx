@@ -52,6 +52,7 @@ export interface IBattleFieldModifierTableRendering {
 
 export function BattleFieldModifierTableContent({ shouldRenderWrapperTable = true, ...props }: IBattleFieldModifierViewProps & IBattleFieldModifierTableRendering) {
     const tableContent = (<>
+        
         <tr>
             <td>Organisation: </td>
             <td>{props.modifier.OrganisationBonus}</td>
@@ -65,6 +66,10 @@ export function BattleFieldModifierTableContent({ shouldRenderWrapperTable = tru
                     </Box>
                 </Tooltip>
             </td>
+        </tr>
+        <tr>
+            <td>Health: </td>
+            <td>{props.modifier.HealthBonus}</td>
         </tr>
         <tr>
             <td>Damage:</td>
@@ -126,6 +131,15 @@ export function BattleFieldModifierEditor(props: IBattleFieldModifierEditorProps
                                 label="Maneuver static"
                                 defaultValue={curentModifier.ManeuverStaticBonus}
                                 onChange={v => setCurrentModifier(u => { return { ...u, ManeuverStaticBonus: v }; })}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UncontrolledLimitedIntegerNumberField
+                                label="Health"
+                                defaultValue={curentModifier.HealthBonus}
+                                onChange={v => setCurrentModifier(u => { return { ...u, HealthBonus: v }; })}
                             />
                         </td>
                     </tr>

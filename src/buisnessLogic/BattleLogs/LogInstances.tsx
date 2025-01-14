@@ -132,6 +132,10 @@ export class MultiSimulationLog implements ILogInstance{
     protected attackersVictoryThroughMoraleCount:number = 0;
     protected defendersVictoryThroughDamageCount:number = 0;
     protected defendersVictoryThroughMoraleCount:number = 0;
+    protected attackersTotalHealth:number = 0;
+    protected attackersTotalMorale:number = 0;
+    protected defendersTotalHealth:number = 0;
+    protected defendersTotalMorale:number = 0;
     protected stalemateCount:number = 0;
     protected mutualDestructionCount:number = 0;
     protected totalCount:number = 0;
@@ -150,6 +154,10 @@ export class MultiSimulationLog implements ILogInstance{
         if(context.battleResult == BattleResult.DefendersVictory && context.victoryType == VictoryType.Morale) this.defendersVictoryThroughMoraleCount++;
         if(context.battleResult == BattleResult.MutualDestruction) this.mutualDestructionCount++;
         if(context.battleResult == BattleResult.Stalemate) this.stalemateCount++;
+        this.attackersTotalHealth += context.attackerCurrentState.Health;
+        this.attackersTotalMorale += context.attackerCurrentState.Morale;
+        this.defendersTotalHealth += context.defenderCurrentState.Health;
+        this.defendersTotalMorale += context.defenderCurrentState.Morale;
         if(this.config.PostSimulatedHistory) this.extraLogs = this.extraLogs.concat(context.log);
     }
 
@@ -166,6 +174,10 @@ export class MultiSimulationLog implements ILogInstance{
             <Box>Defender's victories through morale: {this.defendersVictoryThroughMoraleCount}/{Math.round(this.defendersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
             <Box>Stalemates: {this.stalemateCount}/{Math.round(this.stalemateCount * 100 / this.totalCount)}%.</Box>
             <Box>Mutual destruction: {this.mutualDestructionCount}/{Math.round(this.mutualDestructionCount * 100 / this.totalCount)}%.</Box>
+            <Box>Attacker's average remaining health: {Math.round(this.attackersTotalHealth * 100 / this.totalCount) / 100}</Box>
+            <Box>Attacker's average remaining morale: {Math.round(this.attackersTotalMorale * 100 / this.totalCount) / 100}</Box>
+            <Box>Defender's average remaining health: {Math.round(this.defendersTotalHealth * 100 / this.totalCount) / 100}</Box>
+            <Box>Defender's average remaining morale: {Math.round(this.defendersTotalMorale * 100 / this.totalCount) / 100}</Box>
         </Box>
     }
 
