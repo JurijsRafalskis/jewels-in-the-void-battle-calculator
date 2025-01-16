@@ -78,6 +78,15 @@ test("Should be able to roll normal custom sets", () =>{
             max: 7
         },
         {
+            set: [{
+                diceCount: 1,
+                dieType: DieType.Custom,
+                dieCustomValue: 6
+            }],
+            min: 1,
+            max: 6
+        },
+        {
             set: [
                 {
                     diceCount: 1,
@@ -85,7 +94,7 @@ test("Should be able to roll normal custom sets", () =>{
                     dieCustomValue: 7
                 },
                 {
-                    diceCount: 2,
+                    diceCount: 3,
                     dieType: DieType.Custom,
                     dieCustomValue: 11
                 },
@@ -95,7 +104,7 @@ test("Should be able to roll normal custom sets", () =>{
                     dieCustomValue: 22
                 }
             ],
-            min: 6,
+            min: 7,
             max: 106
         }
     ];
