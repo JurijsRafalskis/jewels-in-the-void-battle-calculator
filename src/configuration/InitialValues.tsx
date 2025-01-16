@@ -4,10 +4,10 @@ import { Hero } from "../model/armyComposition/Hero";
 import { BonusDamagePhase } from "../model/armyComposition/Traits/BonusDamagePhase";
 import { ITrait } from "../model/armyComposition/Traits/Trait";
 import { IUnit } from "../model/armyComposition/Unit";
-import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues } from "../model/BattleConfiguration";
+import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues, RollMode } from "../model/BattleConfiguration";
 import { PrepareUnit } from "../utils/GenericUtilities";
 import { RadiantLance, HundredWings } from "./InitialHeroValues";
-import { SlayersOfFleshUnit, DiggerSwarm, PinionsOfGodTest, MycellumVanguard, InfestedMob } from "./InitialUnitValues";
+import { SlayersOfFleshUnit, DiggerSwarm, PinionsOfGod, MycellumVanguard, InfestedMob } from "./InitialUnitValues";
 
 export function GetDefaultAttackerComposition(): IArmy {
     return { units:[PrepareUnit(SlayersOfFleshUnit)]};
@@ -20,7 +20,22 @@ export function GetDefaultDefenderComposition(): IArmy {
 export function GetAllExistingUnits(): IUnit[] {
     return [
         PrepareUnit(SlayersOfFleshUnit),
-        PrepareUnit(PinionsOfGodTest),
+        PrepareUnit(PinionsOfGod),
+        PrepareUnit(DiggerSwarm),
+        PrepareUnit(MycellumVanguard),
+        PrepareUnit(InfestedMob)
+    ];
+}
+
+export function GetAllParadaisoUnits(): IUnit[]{
+    return [
+        PrepareUnit(SlayersOfFleshUnit),
+        PrepareUnit(PinionsOfGod)
+    ];
+}
+
+export function GetAllFungalUnits(): IUnit[]{
+    return [
         PrepareUnit(DiggerSwarm),
         PrepareUnit(MycellumVanguard),
         PrepareUnit(InfestedMob)
@@ -46,7 +61,15 @@ export function GetDefaultConfig(): IBattleConfiguration {
         DieSelectionMode: DieSelectionModeValues.Median,
         AttackersBattleFieldModifiers:GetDefaultBattleFieldModifier(),
         DefenderBattleFieldModifiers: GetDefaultBattleFieldModifier(),
-        GlobalBattlefieldModifiers: GetDefaultBattleFieldModifier()
+        GlobalBattlefieldModifiers: GetDefaultBattleFieldModifier(),
+        AttackerRollMode: {
+            DamageRollMode: RollMode.Normal,
+            ManeuverRollMode: RollMode.Normal
+        },
+        DefenderRollMode: {
+            DamageRollMode: RollMode.Normal,
+            ManeuverRollMode: RollMode.Normal
+        }
     };
 }
 

@@ -1,4 +1,5 @@
 import { ILogInstance, LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
+import { DieSet, RollResult } from "../utils/DieUtilities";
 import { IUnit } from "./armyComposition/Unit";
 import { IBattleConfiguration } from "./BattleConfiguration";
 
@@ -51,6 +52,12 @@ export interface IBattleContext {
     currentDefendersManeuverRollBonus:number;
     battleResult:BattleResult;
     victoryType:VictoryType;
+    attackersDamageDie:DieSet[];
+    defendersDamageDie:DieSet[];
+    attackerDamageDieFunction:(set:DieSet[])=>RollResult;
+    defenderDamageDieFunction:(set:DieSet[])=>RollResult;
+    attackerManeuvreDieFunction:(set:DieSet[])=>RollResult;
+    defenderManeuvreDieFunction:(set:DieSet[])=>RollResult;
 }
 
 export interface BattleStep {

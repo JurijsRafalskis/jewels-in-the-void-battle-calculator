@@ -17,7 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import FullBattleLogDisplay from './components/FullBattleLogDisplay';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
-import { MultiSimulationLog } from './buisnessLogic/BattleLogs/LogInstances';
+import { MultiSimulationLog } from './buisnessLogic/BattleLogs/MultiSimulationLogInstance';
 import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { IArmy } from './model/armyComposition/Army';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';

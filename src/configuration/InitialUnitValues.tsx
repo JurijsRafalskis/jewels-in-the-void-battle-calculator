@@ -40,7 +40,7 @@ export const SlayersOfFleshUnit: IUnit = {
     }
 };
 
-export const PinionsOfGodTest: IUnit = {
+export const PinionsOfGod: IUnit = {
     Title: "Pinions of God",
     Health: 10,
     Organization: 90,

@@ -1,12 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { BattleContactPhase, BattleResult, BattleRole, GetBattleResultLabel, GetVictoryLabel, IBattleContext, VictoryType } from "../../model/BattleStructure";
-import { ILogInstance, LogInstance } from "./GenericLogInstance";
+import { LogInstance } from "./GenericLogInstance";
 import { RollResult } from "../../utils/DieUtilities";
 import { IUnit } from "../../model/armyComposition/Unit";
 import UnitHover from "../../components/UnitHover";
-import { GenerateKey } from "../../utils/GenericUtilities";
 import FlashOnIcon from '@mui/icons-material/FlashOn';
-import { IBattleConfiguration } from "../../model/BattleConfiguration";
 
 export class ManeuvrePhaseLogInstance extends LogInstance {
     protected attackersRoll: RollResult;
@@ -122,66 +120,5 @@ export class StartOfBattleLogInstance extends LogInstance{
                     <UnitHover unit={this.defender}>Defender's initial stats <FlashOnIcon fontSize={"inherit"}/></UnitHover>
                 </Box>
         </Box>
-    }
-}
-
-export class MultiSimulationLog implements ILogInstance{
-    protected key:string;
-    protected config:IBattleConfiguration;
-    protected attackersVictoryThroughDamageCount:number = 0;
-    protected attackersVictoryThroughMoraleCount:number = 0;
-    protected defendersVictoryThroughDamageCount:number = 0;
-    protected defendersVictoryThroughMoraleCount:number = 0;
-    protected attackersTotalHealth:number = 0;
-    protected attackersTotalMorale:number = 0;
-    protected defendersTotalHealth:number = 0;
-    protected defendersTotalMorale:number = 0;
-    protected stalemateCount:number = 0;
-    protected mutualDestructionCount:number = 0;
-    protected totalCount:number = 0;
-    protected extraLogs:ILogInstance[] = [];
-
-    constructor(config:IBattleConfiguration){
-        this.key = GenerateKey();
-        this.config = config;
-    }
-
-    public RegisterResult(context:IBattleContext){
-        this.totalCount++;
-        if(context.battleResult == BattleResult.AttackersVictory && context.victoryType == VictoryType.Destruction) this.attackersVictoryThroughDamageCount++;
-        if(context.battleResult == BattleResult.AttackersVictory && context.victoryType == VictoryType.Morale) this.attackersVictoryThroughMoraleCount++;
-        if(context.battleResult == BattleResult.DefendersVictory && context.victoryType == VictoryType.Destruction) this.defendersVictoryThroughDamageCount++;
-        if(context.battleResult == BattleResult.DefendersVictory && context.victoryType == VictoryType.Morale) this.defendersVictoryThroughMoraleCount++;
-        if(context.battleResult == BattleResult.MutualDestruction) this.mutualDestructionCount++;
-        if(context.battleResult == BattleResult.Stalemate) this.stalemateCount++;
-        this.attackersTotalHealth += context.attackerCurrentState.Health;
-        this.attackersTotalMorale += context.attackerCurrentState.Morale;
-        this.defendersTotalHealth += context.defenderCurrentState.Health;
-        this.defendersTotalMorale += context.defenderCurrentState.Morale;
-        if(this.config.PostSimulatedHistory) this.extraLogs = this.extraLogs.concat(context.log);
-    }
-
-    public getKey(): string {
-        return this.key;
-    }
-
-    public GetFormattedLogElement(): JSX.Element {
-        return <Box>
-            <Box>Total battles: {this.totalCount}.</Box>
-            <Box>Attacker's victories through damage: {this.attackersVictoryThroughDamageCount}/{Math.round(this.attackersVictoryThroughDamageCount * 100 / this.totalCount)}%.</Box>
-            <Box>Attacker's victories through morale: {this.attackersVictoryThroughMoraleCount}/{Math.round(this.attackersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
-            <Box>Defender's victories through damage: {this.defendersVictoryThroughDamageCount}/{Math.round(this.defendersVictoryThroughDamageCount * 100 / this.totalCount)}%.</Box>
-            <Box>Defender's victories through morale: {this.defendersVictoryThroughMoraleCount}/{Math.round(this.defendersVictoryThroughMoraleCount * 100 / this.totalCount)}%.</Box>
-            <Box>Stalemates: {this.stalemateCount}/{Math.round(this.stalemateCount * 100 / this.totalCount)}%.</Box>
-            <Box>Mutual destruction: {this.mutualDestructionCount}/{Math.round(this.mutualDestructionCount * 100 / this.totalCount)}%.</Box>
-            <Box>Attacker's average remaining health: {Math.round(this.attackersTotalHealth * 100 / this.totalCount) / 100}</Box>
-            <Box>Attacker's average remaining morale: {Math.round(this.attackersTotalMorale * 100 / this.totalCount) / 100}</Box>
-            <Box>Defender's average remaining health: {Math.round(this.defendersTotalHealth * 100 / this.totalCount) / 100}</Box>
-            <Box>Defender's average remaining morale: {Math.round(this.defendersTotalMorale * 100 / this.totalCount) / 100}</Box>
-        </Box>
-    }
-
-    public GetExtraLogs(){
-        return this.extraLogs;
     }
 }

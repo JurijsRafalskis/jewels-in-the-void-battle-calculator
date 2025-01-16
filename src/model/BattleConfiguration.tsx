@@ -10,6 +10,17 @@ export enum DieSelectionModeValues{
     Median
 }
 
+export enum RollMode {
+    Normal,
+    Min,
+    Max
+}
+
+export interface IRollingModesConfig {
+    DamageRollMode: RollMode;
+    ManeuverRollMode: RollMode;
+}
+
 export interface IBattleConfiguration {
     SimulatedIterationsCount:number;
     PostSimulatedHistory:boolean;
@@ -18,4 +29,6 @@ export interface IBattleConfiguration {
     GlobalBattlefieldModifiers:IBattleFieldModifier;
     AttackersBattleFieldModifiers:IBattleFieldModifier;
     DefenderBattleFieldModifiers:IBattleFieldModifier;
+    AttackerRollMode:IRollingModesConfig;
+    DefenderRollMode:IRollingModesConfig;
 }

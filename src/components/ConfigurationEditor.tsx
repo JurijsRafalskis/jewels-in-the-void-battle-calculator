@@ -1,4 +1,4 @@
-import { DieSelectionModeValues, IBattleConfiguration } from '../model/BattleConfiguration';
+import { DieSelectionModeValues, IBattleConfiguration, RollMode } from '../model/BattleConfiguration';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,6 +16,7 @@ export interface ConfigurationEditorProps {
 
 const moraleCalculationModeEnumValues = Object.keys(MoraleCalculationModeValues).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as MoraleCalculationModeValues);
 const dieSelectionModeEnumValues = Object.keys(DieSelectionModeValues).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as DieSelectionModeValues);
+const dieRollModeValues = Object.keys(RollMode).filter(f => !Number.isNaN(parseInt(f))).map(v => v as unknown as RollMode);
 
 function ConfigurationEditor(props: ConfigurationEditorProps) {
     const currentConfig = structuredClone(props.config);
@@ -44,32 +45,31 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                             label="Simulation iterations"
                             variant="standard"
                             defaultValue={currentConfig.SimulatedIterationsCount}
-                            onChange={(e) => { 
-                                currentConfig.SimulatedIterationsCount = parseInt(e.target.value); 
-                                if(currentConfig.SimulatedIterationsCount > historyPostingLimit){
+                            onChange={(e) => {
+                                currentConfig.SimulatedIterationsCount = parseInt(e.target.value);
+                                if (currentConfig.SimulatedIterationsCount > historyPostingLimit) {
                                     currentConfig.PostSimulatedHistory = false;
                                 }
-                                props.onChange(currentConfig); 
+                                props.onChange(currentConfig);
                             }}
                         />
                     </Box>
                     <Box sx={{ margin: "20px 0 0 0" }}>
-                        <Tooltip  
+                        <Tooltip
                             title={"Disabled due to 'Simulation itterations' having value over " + historyPostingLimit}
                             disableFocusListener={currentConfig.SimulatedIterationsCount <= historyPostingLimit}
                             disableHoverListener={currentConfig.SimulatedIterationsCount <= historyPostingLimit}
                             disableTouchListener={currentConfig.SimulatedIterationsCount <= historyPostingLimit}
                         >
                             <FormControlLabel
-                            label={"Post full simulation history"}
-                            control={
-                                <Checkbox
-                                    disabled={currentConfig.SimulatedIterationsCount > historyPostingLimit}
-                                    checked={currentConfig.PostSimulatedHistory}
-                                    onChange={(e) => { currentConfig.PostSimulatedHistory = e.target.checked; props.onChange(currentConfig) }}
-                                />} />
+                                label={"Post full simulation history"}
+                                control={
+                                    <Checkbox
+                                        disabled={currentConfig.SimulatedIterationsCount > historyPostingLimit}
+                                        checked={currentConfig.PostSimulatedHistory}
+                                        onChange={(e) => { currentConfig.PostSimulatedHistory = e.target.checked; props.onChange(currentConfig) }}
+                                    />} />
                         </Tooltip>
-                        
                     </Box>
                     <Box sx={{ margin: "20px 0 0 0" }}>
                         <TextField
@@ -87,6 +87,46 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                             ))}
                         </TextField>
                     </Box>
+                    <RollModeSelectionField
+                        defaultValue={currentConfig.AttackerRollMode.DamageRollMode}
+                        label="Attacker damage dice mode"
+                        onChange={(v) => props.onChange({
+                            ...currentConfig,
+                            AttackerRollMode: {
+                                ...currentConfig.AttackerRollMode,
+                                DamageRollMode: v
+                            }
+                        })} />
+                    <RollModeSelectionField
+                        defaultValue={currentConfig.AttackerRollMode.ManeuverRollMode}
+                        label="Attacker maneuver dice mode"
+                        onChange={(v) => props.onChange({
+                            ...currentConfig,
+                            AttackerRollMode: {
+                                ...currentConfig.AttackerRollMode,
+                                ManeuverRollMode: v
+                            }
+                        })} />
+                    <RollModeSelectionField
+                        defaultValue={currentConfig.DefenderRollMode.DamageRollMode}
+                        label="Defender damage dice mode"
+                        onChange={(v) => props.onChange({
+                            ...currentConfig,
+                            DefenderRollMode: {
+                                ...currentConfig.DefenderRollMode,
+                                DamageRollMode: v
+                            }
+                        })} />
+                    <RollModeSelectionField
+                        defaultValue={currentConfig.DefenderRollMode.ManeuverRollMode}
+                        label="Defender maneuver dice mode"
+                        onChange={(v) => props.onChange({
+                            ...currentConfig,
+                            AttackerRollMode: {
+                                ...currentConfig.AttackerRollMode,
+                                ManeuverRollMode: v
+                            }
+                        })} />
                     {/* 
                     <Box sx={{ margin: "20px 0 0 0" }}>
                         <TextField
@@ -108,6 +148,31 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
             </Accordion>
         </>
     );
+}
+
+interface IRollModeSelectionFieldProps {
+    onChange: (value: RollMode) => void;
+    label: string;
+    defaultValue: RollMode
+}
+
+function RollModeSelectionField(props: IRollModeSelectionFieldProps) {
+    return <Box sx={{ margin: "20px 0 0 0" }}>
+        <TextField
+            size="small"
+            select
+            label={props.label}
+            defaultValue={props.defaultValue}
+            style={{ width: "200px" }}
+            onChange={(e) => props.onChange(e.target.value as unknown as RollMode)}
+        >
+            {dieRollModeValues.map((v) => (
+                <MenuItem key={v} value={v}>
+                    {RollMode[v]}
+                </MenuItem>
+            ))}
+        </TextField>
+    </Box>
 }
 
 export default ConfigurationEditor;

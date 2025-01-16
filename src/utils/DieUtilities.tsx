@@ -40,17 +40,105 @@ export function FormatDieForReading(set:DieSet):string{
     return set.diceCount.toString() + (set.dieType == DieType.None ? "" : "d" + (set.dieType == DieType.Custom ? set.dieCustomValue?.toString() : DieToInt(set.dieType).toString()));
 }
 
-export function GetMedianDieSetValue(set:DieSet){
-    if(set.dieType == DieType.None) return set.diceCount; //Exception for calculating straight values.
-    let maxValue = DieToInt(set.dieType);
-    return set.diceCount * ((1 + maxValue) / 2);
+export function GetMedianDieSetValue(set:DieSet | DieSet[]):number{
+    if(set.constructor === Array){
+        let total = 0;
+        set.forEach(setItem => {
+            total += GetMedianDieSetValue(setItem as DieSet);
+        });
+        return total;
+    }
+
+    let currentSet = set as DieSet;
+    if(currentSet.dieType == DieType.None) return currentSet.diceCount; //Exception for calculating straight values.
+    let maxValue = DieToInt(currentSet.dieType);
+    return currentSet.diceCount * ((1 + maxValue) / 2);
 }
 
-export function GetMaximumDieSetValue(set:DieSet){
-    if(set.dieType == DieType.None) return set.diceCount; //Exception for calculating straight values.
-    let maxValue = DieToInt(set.dieType);
-    return set.diceCount * maxValue;
+export function GetMaximumDieSetValue(set:DieSet | DieSet[]):number{
+    if(set.constructor === Array){
+        let total = 0;
+        set.forEach(setItem => {
+            total += GetMaximumDieSetValue(setItem as DieSet);
+        });
+        return total;
+    }
+
+    let currentSet = set as DieSet;
+    if(currentSet.dieType == DieType.None) return currentSet.diceCount; //Exception for calculating straight values.
+    let maxValue = DieToInt(currentSet.dieType);
+    return currentSet.diceCount * maxValue;
 }
+
+export function GetMinimumDieSetValue(set:DieSet | DieSet[]):number{
+    if(set.constructor === Array){
+        let total = 0;
+        set.forEach(setItem => {
+            total += GetMinimumDieSetValue(setItem as DieSet);
+        });
+        return total;
+    }
+
+    let currentSet = set as DieSet;
+    return currentSet.diceCount;
+}
+
+export function RollMaximumDieSetValue(set:DieSet | DieSet[]):RollResult{
+    let currentSet:DieSet[] = [];
+    if(set.constructor === Array){
+        currentSet = set as DieSet[];
+    }
+    else{
+        currentSet = [set as DieSet];
+    }
+    let result:RollResult = {
+        total: 0,
+        rolls: []
+    }
+
+    for(let index in currentSet){
+        var dieValue = currentSet[index].dieCustomValue && !isNaN(currentSet[index].dieCustomValue) ? currentSet[index].dieCustomValue : DieToInt(currentSet[index].dieType);
+        for(let i = 0; i < currentSet[index].diceCount; i++) {
+            result.total += dieValue;
+            result.rolls.push({
+                roll:dieValue,
+                dieType: currentSet[index].dieType,
+                dieCustomValue: currentSet[index].dieCustomValue,
+            });
+        }
+    }
+    
+    return result;
+}
+
+export function RollMinimumDieSetValue(set:DieSet | DieSet[]):RollResult{
+    let currentSet:DieSet[] = [];
+    if(set.constructor === Array){
+        currentSet = set as DieSet[];
+    }
+    else{
+        currentSet = [set as DieSet];
+    }
+
+    let result:RollResult = {
+        total: 0,
+        rolls: []
+    }
+
+    for(let index in currentSet){
+        for(let i = 0; i < currentSet[index].diceCount; i++) {
+            result.total++;
+            result.rolls.push({
+                roll:1,
+                dieType: currentSet[index].dieType,
+                dieCustomValue: currentSet[index].dieCustomValue,
+            });
+        }
+    }
+    
+    return result;
+}
+
 
 export function Roll(die:DieSet[]):RollResult;
 export function Roll(die:DieSet):RollResult;
