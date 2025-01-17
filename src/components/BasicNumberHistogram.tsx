@@ -83,7 +83,7 @@ export function BasicNumberHistogram(props:IBasicNumberHistogramProps) {
     const data = useMemo(() => transformData(), [props.data]);
 
     const options = {
-        curveType: "function",
+        curveType: "none",
         title: props.title,
         legend: { position: "bottom" },
     };
