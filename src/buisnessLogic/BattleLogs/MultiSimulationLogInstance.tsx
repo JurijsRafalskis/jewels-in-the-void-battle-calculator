@@ -111,7 +111,7 @@ class ConditionAccumulator extends AccumulatorBase{
                     title="Health"
                     data={this.#healthDictionary}
                     xLabel="Health"
-                    yLabel="Probability"
+                    yLabel="Probability density"
                     normalize={true}
                 >
                     <FavoriteIcon fontSize="small"/>
@@ -123,9 +123,9 @@ class ConditionAccumulator extends AccumulatorBase{
                 {BattleRole[this.#role]}'s average remaining morale: {Math.round(this.#totalMorale * 100 / this.#totalCount) / 100}
                 <BasicNumberHistogramHover
                     title="Morale"
-                    data={this.#healthDictionary}
+                    data={this.#moraleDictionary}
                     xLabel="Morale"
-                    yLabel="Probability"
+                    yLabel="Probability density"
                     normalize={true}
                 >
                     <FavoriteBorderIcon fontSize="small"/>
