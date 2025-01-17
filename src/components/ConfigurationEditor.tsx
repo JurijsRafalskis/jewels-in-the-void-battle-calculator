@@ -122,8 +122,8 @@ function ConfigurationEditor(props: ConfigurationEditorProps) {
                         label="Defender maneuver dice mode"
                         onChange={(v) => props.onChange({
                             ...currentConfig,
-                            AttackerRollMode: {
-                                ...currentConfig.AttackerRollMode,
+                            DefenderRollMode: {
+                                ...currentConfig.DefenderRollMode,
                                 ManeuverRollMode: v
                             }
                         })} />
