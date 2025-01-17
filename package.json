@@ -21,7 +21,8 @@
     "@mui/material": "^6.2.0",
     "mui-nested-menu": "^4.0.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-google-charts": "^5.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

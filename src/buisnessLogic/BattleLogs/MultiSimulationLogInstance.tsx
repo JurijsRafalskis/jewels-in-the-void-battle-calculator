@@ -3,6 +3,11 @@ import { IBattleConfiguration } from "../../model/BattleConfiguration";
 import { IBattleContext, BattleResult, VictoryType, BattleRole } from "../../model/BattleStructure";
 import { GenerateKey } from "../../utils/GenericUtilities";
 import { ILogInstance } from "./GenericLogInstance";
+import { NumberKeyedDictionary } from "../../structures/Dictionaries";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { BasicNumberHistogramHover } from "../../components/BasicNumberHistogram";
+import React from "react";
 
 export class MultiSimulationLog implements ILogInstance{
     #key:string;
@@ -33,7 +38,7 @@ export class MultiSimulationLog implements ILogInstance{
 
     public GetFormattedLogElement(): JSX.Element {
         return <Box>
-           {this.#accumulators.map(a => a.GetFormattedResults())}
+           {this.#accumulators.map((a, index) => <React.Fragment key={index}>{a.GetFormattedResults()}</React.Fragment>)}
         </Box>
     }
 
@@ -53,17 +58,20 @@ class TotalBattlesAccumulator extends AccumulatorBase {
         this.#totalCount++;
     }
     GetFormattedResults(): JSX.Element {
-        return  <Box>Total simulated battles: {this.#totalCount}.</Box>;
+        return  <Box sx={{marginBottom:"15px"}}>Total simulated battles: {this.#totalCount}.</Box>;
     }
 }
+
 
 class ConditionAccumulator extends AccumulatorBase{
     #minimumHealth:number = Number.MAX_SAFE_INTEGER;
     #maximumHealth:number = 0;
     #totalHealthSum:number = 0;
+    #healthDictionary:NumberKeyedDictionary<number> = {};
     #maxMorale:number = 0;
     #minMorale:number = Number.MAX_SAFE_INTEGER;
     #totalMorale:number = 0;
+    #moraleDictionary:NumberKeyedDictionary<number> = {};
     #totalCount:number = 0;
     #role:BattleRole;
 
@@ -76,19 +84,53 @@ class ConditionAccumulator extends AccumulatorBase{
         this.#totalCount++;
         let currentState = this.#role == BattleRole.Attacker ? context.attackerCurrentState : context.defenderCurrentState;
         this.#totalHealthSum += currentState.Health;
+        if(!this.#healthDictionary[currentState.Health]) {
+            this.#healthDictionary[currentState.Health] = 1;
+        } 
+        else {
+            this.#healthDictionary[currentState.Health]++;
+        }
         this.#minimumHealth = this.#minimumHealth > currentState.Health ? currentState.Health : this.#minimumHealth;
         this.#maximumHealth = this.#maximumHealth < currentState.Health ? currentState.Health : this.#maximumHealth;
         this.#totalMorale += currentState.Morale;
+        if(!this.#moraleDictionary[currentState.Morale]) {
+            this.#moraleDictionary[currentState.Morale] = 1;
+        } 
+        else {
+            this.#moraleDictionary[currentState.Morale]++;
+        }
         this.#minMorale = this.#minMorale > currentState.Morale ? currentState.Morale : this.#minMorale;
         this.#maxMorale = this.#maxMorale < currentState.Morale ? currentState.Morale : this.#maxMorale;
     }
 
     GetFormattedResults(): JSX.Element {
         return  <>
-            <Box>{BattleRole[this.#role]}'s average remaining health: {Math.round(this.#totalHealthSum * 100 / this.#totalCount) / 100}</Box>
+            <Box>
+                {BattleRole[this.#role]}'s average remaining health: {Math.round(this.#totalHealthSum * 100 / this.#totalCount) / 100}
+                <BasicNumberHistogramHover
+                    title="Health"
+                    data={this.#healthDictionary}
+                    xLabel="Health"
+                    yLabel="Probability"
+                    normalize={true}
+                >
+                    <FavoriteIcon fontSize="small"/>
+                </BasicNumberHistogramHover>
+            </Box>
             <Box>{BattleRole[this.#role]}'s minimum remaining health: {this.#minimumHealth}</Box>
             <Box>{BattleRole[this.#role]}'s maximum remaining health: {this.#maximumHealth}</Box>
-            <Box>{BattleRole[this.#role]}'s average remaining morale: {Math.round(this.#totalMorale * 100 / this.#totalCount) / 100}</Box>
+            <Box sx={{marginTop:"10px"}}>
+                {BattleRole[this.#role]}'s average remaining morale: {Math.round(this.#totalMorale * 100 / this.#totalCount) / 100}
+                <BasicNumberHistogramHover
+                    title="Morale"
+                    data={this.#healthDictionary}
+                    xLabel="Morale"
+                    yLabel="Probability"
+                    normalize={true}
+                >
+                    <FavoriteBorderIcon fontSize="small"/>
+                </BasicNumberHistogramHover>
+            </Box>
             <Box>{BattleRole[this.#role]}'s minimum remaining morale: {this.#minMorale}</Box>
             <Box>{BattleRole[this.#role]}'s maximum remaining morale: {this.#maxMorale}</Box>
         </>;
