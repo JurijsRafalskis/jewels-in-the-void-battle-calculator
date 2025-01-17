@@ -1,10 +1,10 @@
 import { Box, Button, Chip, Dialog, IconButton, Menu, MenuItem, Popover, Tooltip, Typography } from "@mui/material";
-import { ITrait } from "../model/armyComposition/Traits/Trait";
+import { ITrait } from "../../model/armyComposition/Traits/Trait";
 import { useState } from "react";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { GenerateKey } from "../utils/GenericUtilities";
+import { GenerateKey } from "../../utils/GenericUtilities";
 import React from "react";
-import { GetTraitList } from "../configuration/InitialValues";
+import { GetTraitList } from "../../configuration/InitialValues";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 

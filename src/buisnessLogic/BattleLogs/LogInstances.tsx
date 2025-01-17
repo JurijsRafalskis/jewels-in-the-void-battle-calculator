@@ -3,7 +3,7 @@ import { BattleContactPhase, BattleResult, BattleRole, GetBattleResultLabel, Get
 import { LogInstance } from "./GenericLogInstance";
 import { RollResult } from "../../utils/DieUtilities";
 import { IUnit } from "../../model/armyComposition/Unit";
-import UnitHover from "../../components/UnitHover";
+import UnitHover from "../../components/display/UnitHover";
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 
 export class ManeuvrePhaseLogInstance extends LogInstance {

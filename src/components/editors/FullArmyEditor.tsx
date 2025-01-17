@@ -1,13 +1,13 @@
 import { Typography, Box, ButtonGroup, Button } from "@mui/material";
-import { CalculateTotalArmyStats } from "../buisnessLogic/ArmyTotals";
-import { IArmy } from "../model/armyComposition/Army";
-import AddFromTemplateModal from "./AddFromTemplateModal";
-import UnitCardList from "./ArmyCardList";
-import UnitCard from "./UnitCard";
-import { IBattleConfiguration } from "../model/BattleConfiguration";
-import { IUnit } from "../model/armyComposition/Unit";
+import { CalculateTotalArmyStats } from "../../buisnessLogic/ArmyTotals";
+import { IArmy } from "../../model/armyComposition/Army";
+import AddFromTemplateModal from "../controls/AddFromTemplateModal";
+import UnitCardList from "../display/ArmyCardList";
+import UnitCard from "../display/UnitCard";
+import { IBattleConfiguration } from "../../model/BattleConfiguration";
+import { IUnit } from "../../model/armyComposition/Unit";
+import { CreateEmptyUnit } from "../../configuration/InitialUnitValues";
 import HeroEditor from "./HeroForm";
-import { CreateEmptyUnit } from "../configuration/InitialUnitValues";
 
 export interface IFullArmyCardProps {
     armyTitle: string;

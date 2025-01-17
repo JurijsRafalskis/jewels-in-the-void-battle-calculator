@@ -6,10 +6,10 @@ import { BattleCalculator } from "../../../buisnessLogic/BattleCalculator";
 import { IBattleContext, BattleRole } from "../../BattleStructure";
 import { LogInstance } from "../../../buisnessLogic/BattleLogs/GenericLogInstance";
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import UnitHover from "../../../components/UnitHover";
+import UnitHover from "../../../components/display/UnitHover";
 import FlashOnIcon from '@mui/icons-material/FlashOn';
-import { UncontrolledLimitedIntegerNumberField } from "../../../components/ControlledIntegerNumberField";
-import { MultiDieField } from "../../../components/DieField";
+import { UncontrolledLimitedIntegerNumberField } from "../../../components/fields/ControlledIntegerNumberField";
+import { MultiDieField } from "../../../components/fields/DieField";
 
 const traitTitle = "Bonus damage phase";
 

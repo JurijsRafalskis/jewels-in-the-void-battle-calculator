@@ -1,7 +1,7 @@
 import { ReactNode, useMemo, useRef, useState } from "react";
-import { NumberKeyedDictionary } from "../structures/Dictionaries";
+import { NumberKeyedDictionary } from "../../structures/Dictionaries";
 import Chart from "react-google-charts";
-import { GenerateKey } from "../utils/GenericUtilities";
+import { GenerateKey } from "../../utils/GenericUtilities";
 import { Box, Popover, PopoverOrigin } from "@mui/material";
 
 const referenceSize = 230;

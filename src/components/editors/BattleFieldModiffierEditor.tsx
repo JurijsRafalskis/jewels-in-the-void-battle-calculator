@@ -1,12 +1,10 @@
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, Card, CardActions, CardContent, Dialog, TextField, Tooltip } from "@mui/material"
-import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { GetDefaultBattleFieldModifier } from "../configuration/InitialValues";
-import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
-import "../styles/ComponentStyles/StatsCardTables.css";
-
-
+import { IBattleFieldModifier } from "../../model/armyComposition/BattleFieldModifier";
+import { GetDefaultBattleFieldModifier } from "../../configuration/InitialValues";
+import { UncontrolledLimitedIntegerNumberField } from "../fields/ControlledIntegerNumberField";
+import "../../styles/ComponentStyles/StatsCardTables.css";
 
 export interface IBattleFieldModifierViewProps {
     modifier: IBattleFieldModifier;

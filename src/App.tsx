@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import './App.css'
 import { IBattleConfiguration } from './model/BattleConfiguration'
 import { GetDefaultAttackerComposition, GetDefaultDefenderComposition, GetDefaultConfig, GenerateRandomSetOfUnits } from "./configuration/InitialValues";
-import ConfigurationEditor from './components/ConfigurationEditor';
+import ConfigurationEditor from './components/editors/ConfigurationEditor';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
@@ -14,7 +14,7 @@ import '@fontsource/roboto/700.css';
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import FullBattleLogDisplay from './components/FullBattleLogDisplay';
+import FullBattleLogDisplay from './components/display/FullBattleLogDisplay';
 import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
 import { MultiSimulationLog } from './buisnessLogic/BattleLogs/MultiSimulationLogInstance';
@@ -22,7 +22,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgre
 import { IArmy } from './model/armyComposition/Army';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-import { FullArmyCard } from './components/FullArmyEditor';
+import { FullArmyCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const defaultTheme = createTheme({});

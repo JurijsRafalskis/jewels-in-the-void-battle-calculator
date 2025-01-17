@@ -1,8 +1,8 @@
-import { DieSelectionModeValues, IBattleConfiguration, RollMode } from '../model/BattleConfiguration';
+import { DieSelectionModeValues, IBattleConfiguration, RollMode } from '../../model/BattleConfiguration';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
-import { MoraleCalculationModeValues } from "../model/BattleConfiguration"
+import { MoraleCalculationModeValues } from "../../model/BattleConfiguration"
 import { Accordion, AccordionDetails, AccordionSummary, Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { BattleFieldModifierAccordionView } from './BattleFieldModiffierEditor';

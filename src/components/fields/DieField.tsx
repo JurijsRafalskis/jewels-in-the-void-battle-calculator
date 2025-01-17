@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, MenuItem, TextField } from "@mui/material";
-import { AttemptToProcureDieType, DieSet, DieType } from "../utils/DieUtilities";
+import { AttemptToProcureDieType, DieSet, DieType } from "../../utils/DieUtilities";
 import { useState } from "react";
 import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';

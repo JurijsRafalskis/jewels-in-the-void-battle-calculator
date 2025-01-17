@@ -1,5 +1,5 @@
 import Popover from '@mui/material/Popover';
-import { IUnit } from '../model/armyComposition/Unit';
+import { IUnit } from '../../model/armyComposition/Unit';
 import { Box } from '@mui/material';
 import React, { ReactNode, useState } from 'react';
 import UnitCard from './UnitCard';

@@ -6,7 +6,7 @@ import { ILogInstance } from "./GenericLogInstance";
 import { NumberKeyedDictionary } from "../../structures/Dictionaries";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { BasicNumberHistogramHover } from "../../components/BasicNumberHistogram";
+import { BasicNumberHistogramHover } from "../../components/display/BasicNumberHistogram";
 import React from "react";
 
 export class MultiSimulationLog implements ILogInstance{

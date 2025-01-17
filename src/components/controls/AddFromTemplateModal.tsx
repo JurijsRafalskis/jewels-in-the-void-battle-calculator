@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { IUnit } from '../model/armyComposition/Unit';
+import { IUnit } from '../../model/armyComposition/Unit';
 import Button from '@mui/material/Button';
-import { GetAllExistingUnits, GetAllFungalUnits, GetAllParadaisoUnits } from '../configuration/InitialValues';
+import { GetAllExistingUnits, GetAllFungalUnits, GetAllParadaisoUnits } from '../../configuration/InitialValues';
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { GenerateKey, PrepareUnit } from '../utils/GenericUtilities';
+import { GenerateKey, PrepareUnit } from '../../utils/GenericUtilities';
 import { NestedMenuItem } from 'mui-nested-menu';
 
 interface IUnitSubMenu{

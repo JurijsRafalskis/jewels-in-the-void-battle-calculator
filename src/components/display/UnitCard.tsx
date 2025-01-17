@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { IUnit } from '../model/armyComposition/Unit';
+import { IUnit } from '../../model/armyComposition/Unit';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-import UnitEditForm from "./UnitEditForm";
+import UnitEditForm from "../editors/UnitEditForm";
 import Dialog from '@mui/material/Dialog';
-import "../styles/ComponentStyles/StatsCardTables.css";
+import "../../styles/ComponentStyles/StatsCardTables.css";
 import { Tooltip } from '@mui/material';
-import { TraitDisplay } from './TraitPicker';
+import { TraitDisplay } from '../fields/TraitPicker';
 
 export interface UnitCardProps {
     unit: IUnit;

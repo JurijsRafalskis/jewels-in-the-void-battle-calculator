@@ -1,6 +1,6 @@
 import { TextField, TextFieldVariants } from "@mui/material";
 import { useState } from "react";
-import { ParseAndLimitIntegerValues } from "../utils/GenericUtilities";
+import { ParseAndLimitIntegerValues } from "../../utils/GenericUtilities";
 
 export interface IUncontrolledLimitedIntegerNumberFieldProps {
     label: string;

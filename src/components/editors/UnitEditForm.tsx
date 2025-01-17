@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { IUnit } from '../model/armyComposition/Unit';
+import { IUnit } from '../../model/armyComposition/Unit';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
 import Button from '@mui/material/Button';
-import { UncontrolledLimitedIntegerNumberField } from './ControlledIntegerNumberField';
-import { CreateEmptyUnit } from '../configuration/InitialUnitValues';
+import { UncontrolledLimitedIntegerNumberField } from '../fields/ControlledIntegerNumberField';
+import { CreateEmptyUnit } from '../../configuration/InitialUnitValues';
 
 export interface UnitFormProps {
     unit?: IUnit;

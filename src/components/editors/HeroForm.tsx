@@ -1,14 +1,14 @@
 import { Button, Card, CardActions, CardContent, Dialog, Divider, Menu, MenuItem, TextField, Typography } from "@mui/material";
-import { Hero } from "../model/armyComposition/Hero";
-import { BattleFieldModifierTableContent } from "./BattleFieldModiffierEditor";
+import { Hero } from "../../model/armyComposition/Hero";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import React, { useState } from "react";
-import { GenerateKey } from "../utils/GenericUtilities";
-import { GetHeroList } from "../configuration/InitialValues";
-import { UncontrolledLimitedIntegerNumberField } from "./ControlledIntegerNumberField";
-import { BlankHero } from "../configuration/InitialHeroValues";
-import { TraitDisplay, TraitEditor } from "./TraitPicker";
-import { ITrait } from "../model/armyComposition/Traits/Trait";
+import { GenerateKey } from "../../utils/GenericUtilities";
+import { GetHeroList } from "../../configuration/InitialValues";
+import { UncontrolledLimitedIntegerNumberField } from "../fields/ControlledIntegerNumberField";
+import { BlankHero } from "../../configuration/InitialHeroValues";
+import { TraitDisplay, TraitEditor } from "../fields/TraitPicker";
+import { ITrait } from "../../model/armyComposition/Traits/Trait";
+import { BattleFieldModifierTableContent } from "./BattleFieldModiffierEditor";
 
 export interface IHeroEditorProps {
     hero?: Hero,
