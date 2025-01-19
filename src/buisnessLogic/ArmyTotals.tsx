@@ -80,6 +80,7 @@ export function GenerateDescriptiveArmyName(army:IArmy):string{
 export function PostBattleRevitalizationOfUnit(initialValues:IUnit, currentValues:IUnit):IUnit{
     let result = structuredClone(initialValues);
     result.Health = currentValues.Health;
+    result.Organization = currentValues.Organization;
     if(result.Organization < 100 && result.Health / initialValues.Health > 0.25){
         result.Organization += 5;
     }
