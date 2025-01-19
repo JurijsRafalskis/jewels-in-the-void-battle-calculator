@@ -22,7 +22,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { IArmyStack } from './model/armyComposition/ArmyStack';
-import { SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
+import { SimulateGauntletOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
 import { BattleRole } from './model/BattleStructure';
 import React from 'react';
 
@@ -87,6 +87,26 @@ function App() {
 
   const runSingleAttackersGauntlet = createSingleGauntletStart(BattleRole.Attacker);
   const runSingleDefendersGauntlet = createSingleGauntletStart(BattleRole.Defender);
+
+  const createMultiGauntletStart = (role: BattleRole) => {
+    return async () =>{
+      setBackdropOpened(true);
+      setTimeout( () =>{
+        setCurrentLog([]);
+        let result = SimulateGauntletOfBattles(
+          role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy, 
+          role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack, 
+          calculatorConfiguration, 
+          role);
+        setCurrentLog(result);
+        setBackdropOpened(false);
+        scrollToLog();
+      }, 0);
+    }
+  }
+
+  const runMultiAttackersGauntlet = createMultiGauntletStart(BattleRole.Attacker);
+  const runMultiDefendersGauntlet = createMultiGauntletStart(BattleRole.Defender);
 
   return (
     <>
@@ -204,18 +224,20 @@ function App() {
                       <Typography>Battle analisys</Typography>
                   </MenuItem>
                   <MenuItem 
+                    disabled={true}
                     key={"Attacker's gauntlet analisys"} 
                     onClick={() => {
                       setMultiSimulationAnchor(null)
-                      //
+                      runMultiAttackersGauntlet();
                     }}>
                       <Typography>Attacker's gauntlet analisys</Typography>
                   </MenuItem>
                   <MenuItem 
+                    disabled={true}
                     key={"Defender's gauntlet analisys"} 
                     onClick={() => {
                       setMultiSimulationAnchor(null)
-                      //
+                      runMultiDefendersGauntlet();
                     }}>
                       <Typography>Defender's gauntlet analisys</Typography>
                   </MenuItem>
