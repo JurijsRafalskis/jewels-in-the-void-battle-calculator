@@ -4,6 +4,7 @@ import { DieSet, DieToInt, DieType, GetMaximumDieSetValue, GetMedianDieSetValue 
 import { IArmy } from "../model/armyComposition/Army";
 import { CreateEmptyUnit } from "../configuration/InitialUnitValues";
 import { Hero } from "../model/armyComposition/Hero";
+import { StringKeyedDictionary } from "../structures/Dictionaries";
 
 //Current logic:
 //An army adds all fire, shock, morale and health values. It takes the highest maneuver value. It Averages Morale and Organization. 
@@ -42,6 +43,36 @@ export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfigu
     }
 
     return armyStats;
+}
+
+export function GenerateDescriptiveArmyName(army:IArmy):string{
+    if(army.hero) return "Lead by " + army.hero.Title;
+    if(army.units.length == 0) return "";
+    if(army.units.length == 1) return army.units[0].Title;
+
+    let dictionary:StringKeyedDictionary<number> = {}; 
+    army.units.forEach(unit => {
+        if(!dictionary[unit.Title]){
+            dictionary[unit.Title] = 1;
+        }
+        else{
+            dictionary[unit.Title]++;
+        }
+    });
+
+    let length = Object.keys(dictionary).length;
+    if(length == 1) return `${army.units[0].Title} ${length}x`;
+    let greatestNumber = 0;
+    let greatestTitle = "";
+
+    for(let index in dictionary){
+        if(dictionary[index] > greatestNumber){
+            greatestNumber = dictionary[index];
+            greatestTitle = index;
+        }
+    }
+
+    return `${greatestTitle} ${greatestNumber}x and auxilaries.`;
 }
 
 

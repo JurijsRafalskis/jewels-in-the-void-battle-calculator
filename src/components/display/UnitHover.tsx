@@ -2,7 +2,7 @@ import Popover from '@mui/material/Popover';
 import { IUnit } from '../../model/armyComposition/Unit';
 import { Box } from '@mui/material';
 import React, { ReactNode, useState } from 'react';
-import UnitCard from './UnitCard';
+import { UnitCard } from './UnitCard';
 
 export interface UnitHoverProps {
     unit: IUnit;
@@ -38,7 +38,7 @@ function UnitHover(props: UnitHoverProps) {
             }}
             disableAutoFocus={true}
         >
-            <UnitCard unit={props.unit} renderActions={false}></UnitCard>
+            <UnitCard unit={props.unit} renderActions={{ edit: false, remove: false }}></UnitCard>
         </Popover>
     </>
 }

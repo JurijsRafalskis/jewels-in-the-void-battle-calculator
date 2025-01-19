@@ -17,7 +17,7 @@ export class MultiSimulationLog implements ILogInstance{
         new VictoryTypeAccumulator(),
         new ConditionAccumulator(BattleRole.Attacker),
         new ConditionAccumulator(BattleRole.Defender)
-    ]
+    ];
     #extraLogs:ILogInstance[] = [];
 
     constructor(config:IBattleConfiguration){

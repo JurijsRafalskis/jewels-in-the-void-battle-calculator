@@ -10,16 +10,30 @@ import "../../styles/ComponentStyles/StatsCardTables.css";
 import { Tooltip } from '@mui/material';
 import { TraitDisplay } from '../fields/TraitPicker';
 
-export interface UnitCardProps {
-    unit: IUnit;
-    renderActions?:boolean;
-    onChange?(unitProps: IUnit | null): void;
+import { useSortable } from '@dnd-kit/sortable';
+
+export interface IUnidCardActionsRender {
+    edit?:boolean;
+    remove?:boolean;
 }
 
-function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCardProps) {
+export interface UnitCardProps {
+    unit: IUnit;
+    renderActions?:IUnidCardActionsRender;
+    onChange?(unitProps: IUnit | null): void;
+    backgroundColorOverride?:string;
+}
+
+export function UnitCard( {renderActions = {edit:true, remove:true}, onChange = (u) => {}, ...props}:UnitCardProps) {
     const [editModalOpen, setEditModalOpen] = useState(false);
+    let primaryStyleOverride = {};
+    if(props.backgroundColorOverride)
+    {
+        primaryStyleOverride = {backgroundColor: props.backgroundColorOverride};
+    }
+
     return (
-        <Card variant="outlined">
+        <Card variant="outlined" style={primaryStyleOverride}>
             <CardContent>
                     <table className={"statsCardTable"}>
                         <tbody>
@@ -63,19 +77,17 @@ function UnitCard( {renderActions = true, onChange = (u) => {}, ...props}:UnitCa
                     </table>
             </CardContent>
             {renderActions && <CardActions>
-                <Button size="small" onClick={() => setEditModalOpen(true)}>Edit</Button>
+                {renderActions.edit && <><Button size="small" onClick={() => setEditModalOpen(true)}>Edit</Button>
                 <Dialog open={editModalOpen}>
                     <UnitEditForm
                         unit={props.unit}
                         onCancel={() => setEditModalOpen(false)}
                         onSave={(newUnit: IUnit) => { setEditModalOpen(false); onChange(newUnit); }}
                     />
-                </Dialog>
+                </Dialog></>}
                 {/*This feels like very dirty hack - to reuse same function for removal and changed values. Probably should rewrite. */}
-                <Button size="small" onClick={() => onChange(null)}>Remove</Button>
+                {renderActions.remove && <Button size="small" onClick={() => onChange(null)}>Remove</Button>}
             </CardActions>}
         </Card>
     );
 }
-
-export default UnitCard;

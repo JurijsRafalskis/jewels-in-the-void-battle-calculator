@@ -22,15 +22,17 @@ import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgre
 import { IArmy } from './model/armyComposition/Army';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-import { FullArmyCard } from './components/editors/FullArmyEditor';
+import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { IArmyStack } from './model/armyComposition/ArmyStack';
+import { SimulateSetOfBattles, SimulateSingleBattle } from './buisnessLogic/CalculatorService';
 
 const defaultTheme = createTheme({});
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
-  const [attackerArmy, setAttackerArmy] = useState<IArmy>(GetDefaultAttackerComposition());
-  const [defenderArmy, setDefenderArmy] = useState<IArmy>(GetDefaultDefenderComposition());
+  const [attackerArmyStack, setAttackerArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultAttackerComposition(), stack:[]});
+  const [defenderArmyStack, setDefenderArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultDefenderComposition(), stack:[]});
   const [currentLog, setCurrentLog] = useState<ILogInstance[]>([]);
   const [backdropOpened, setBackdropOpened] = useState(false);
   const isUnderSmallSized = useMediaQuery(defaultTheme.breakpoints.down("sm"));
@@ -47,29 +49,22 @@ function App() {
     setBackdropOpened(true);
     setTimeout(() => {
       setCurrentLog([]);
-      const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
-      const result = calculator.execute();
-      setCurrentLog(result.log);
+      let result = SimulateSingleBattle(attackerArmyStack.activeArmy, defenderArmyStack.activeArmy, calculatorConfiguration);
+      setCurrentLog(result);
       setBackdropOpened(false);
       scrollToLog();
-    }, 100);
+    }, 0);
   }
 
   const runMultiSimulation = async () => {
     setBackdropOpened(true);
     setTimeout(() => {
       setCurrentLog([]);
-      const aggregatedLog = new MultiSimulationLog(calculatorConfiguration);
-      for (var i = 0; i < calculatorConfiguration.SimulatedIterationsCount; i++) {
-        const calculator = new BattleCalculator(attackerArmy, defenderArmy, calculatorConfiguration);
-        const result = calculator.execute();
-        aggregatedLog.RegisterResult(result);
-      }
-      const additionalLogs = !calculatorConfiguration.PostSimulatedHistory ? [] : aggregatedLog.GetExtraLogs();
-      setCurrentLog([aggregatedLog, ...additionalLogs]);
+      let result = SimulateSetOfBattles(attackerArmyStack.activeArmy, defenderArmyStack.activeArmy, calculatorConfiguration);
+      setCurrentLog(result);
       setBackdropOpened(false);
       scrollToLog();
-    }, 100);
+    }, 0);
   }
 
   return (
@@ -91,17 +86,17 @@ function App() {
       </Box>
       <Grid container spacing={1} columns={26}>
         <Grid size={{ xs: 26, sm: 12, md: 8 }}>
-          <FullArmyCard armyTitle={"Attacking forces"} army={attackerArmy} config={calculatorConfiguration} onChange={army => setAttackerArmy(army)} />
+          <FullArmyStackCard cardTitle={"Attacking forces"} armyStack={attackerArmyStack} config={calculatorConfiguration} onChange={armyStack => setAttackerArmyStack(armyStack)} />
         </Grid>
         <Grid size={{ xs: 26, sm: 2, md: 1 }} justifyContent="center">
           <Tooltip title="Swap armies">
             <IconButton
               aria-label="Swap armies"
               onClick={(ev) => {
-                const attackerArmyTemp = attackerArmy;
-                const defenderArmyTemp = defenderArmy
-                setAttackerArmy(defenderArmyTemp);
-                setDefenderArmy(attackerArmyTemp);
+                const attackerArmyTemp = attackerArmyStack;
+                const defenderArmyTemp = defenderArmyStack
+                setAttackerArmyStack(defenderArmyTemp);
+                setDefenderArmyStack(attackerArmyTemp);
                 ev.currentTarget.blur();
               }}>
               {isUnderSmallSized ? <SwapVertIcon fontSize='large'></SwapVertIcon> : <SwapHorizIcon fontSize={isMediumSized ? "small" : "medium"} />}
@@ -109,7 +104,7 @@ function App() {
           </Tooltip>
         </Grid>
         <Grid size={{ xs: 26, sm: 12, md: 8 }}>
-          <FullArmyCard armyTitle={"Defending forces"} army={defenderArmy} config={calculatorConfiguration} onChange={army => setDefenderArmy(army)} />
+          <FullArmyStackCard cardTitle={"Defending forces"} armyStack={defenderArmyStack} config={calculatorConfiguration} onChange={armyStack => setDefenderArmyStack(armyStack)} />
         </Grid>
         <Grid size={{ xs: 26, sm: 0, md: 1 }}>
 
@@ -123,10 +118,10 @@ function App() {
               <AccordionDetails>
               <ButtonGroup variant="contained">
                 <Button variant="contained" onClick={() =>{
-                  setAttackerArmy({...attackerArmy, units: GenerateRandomSetOfUnits()})
+                  setAttackerArmyStack({...attackerArmyStack, activeArmy:{...attackerArmyStack.activeArmy, units: GenerateRandomSetOfUnits()}})
                 }}>Generate attacker</Button>
                 <Button variant="contained" onClick={() =>{
-                  setDefenderArmy({...defenderArmy, units: GenerateRandomSetOfUnits()})
+                  setDefenderArmyStack({...defenderArmyStack, activeArmy:{...defenderArmyStack.activeArmy, units: GenerateRandomSetOfUnits()}})
                 }}>Generate defender</Button>
             </ButtonGroup>
               </AccordionDetails>

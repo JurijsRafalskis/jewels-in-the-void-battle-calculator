@@ -1,6 +1,6 @@
 import React from 'react';
 import { IUnit } from '../../model/armyComposition/Unit';
-import UnitCard from './UnitCard';
+import { UnitCard } from './UnitCard';
 import { IArmy } from '../../model/armyComposition/Army';
 
 export interface UnitCardListProps {
