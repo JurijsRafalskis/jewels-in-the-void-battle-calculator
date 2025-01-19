@@ -205,7 +205,7 @@ function App() {
                       <Typography>Single defender's gauntlet</Typography>
                   </MenuItem>
               </Menu>
-              <Button variant="contained" onClick={(e) => setMultiSimulationAnchor(e.currentTarget)}>Simulate results</Button>
+              <Button variant="contained" onClick={(e) => setMultiSimulationAnchor(e.currentTarget)}>Analysis</Button>
               <Menu
                   anchorEl={multiSimulationAnchor}
                   open={Boolean(multiSimulationAnchor)}
