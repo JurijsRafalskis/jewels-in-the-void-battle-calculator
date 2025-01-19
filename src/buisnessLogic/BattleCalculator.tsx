@@ -12,8 +12,8 @@ export const ShockPhasePriority = 300;
 export const MoralPhasePriority = 400;
 
 export class BattleCalculator {
-    #attackers: IArmy;
-    #defenders: IArmy;
+    #attackersInitialState: IArmy | IUnit;
+    #defendersInitialState: IArmy | IUnit;
     #config: IBattleConfiguration;
     #AttackerAggregation: IUnit;
     #DefenderAggregation: IUnit;
@@ -37,12 +37,12 @@ export class BattleCalculator {
         }
     ];
 
-    constructor(attackers: IArmy, defenders: IArmy, config: IBattleConfiguration) {
-        this.#attackers = attackers;
-        this.#defenders = defenders;
+    constructor(attackers: IArmy | IUnit, defenders: IArmy | IUnit, config: IBattleConfiguration) {
+        this.#attackersInitialState = attackers;
+        this.#defendersInitialState = defenders;
         this.#config = config;
-        this.#AttackerAggregation = CalculateTotalArmyStats(this.#attackers, this.#config);
-        this.#DefenderAggregation = CalculateTotalArmyStats(this.#defenders, this.#config);
+        this.#AttackerAggregation = "units" in this.#attackersInitialState ? CalculateTotalArmyStats(this.#attackersInitialState as IArmy, this.#config) : structuredClone(this.#attackersInitialState as IUnit);
+        this.#DefenderAggregation = "units" in this.#defendersInitialState ? CalculateTotalArmyStats(this.#defendersInitialState as IArmy, this.#config): structuredClone(this.#defendersInitialState as IUnit);;
     }
 
 

@@ -15,34 +15,35 @@ import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import FullBattleLogDisplay from './components/display/FullBattleLogDisplay';
-import { BattleCalculator } from './buisnessLogic/BattleCalculator';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
-import { MultiSimulationLog } from './buisnessLogic/BattleLogs/MultiSimulationLogInstance';
-import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Tooltip, useMediaQuery } from '@mui/material';
-import { IArmy } from './model/armyComposition/Army';
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { IArmyStack } from './model/armyComposition/ArmyStack';
-import { SimulateSetOfBattles, SimulateSingleBattle } from './buisnessLogic/CalculatorService';
+import { SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
+import { BattleRole } from './model/BattleStructure';
+import React from 'react';
 
 const defaultTheme = createTheme({});
 
 function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
-  const [attackerArmyStack, setAttackerArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultAttackerComposition(), stack:[]});
-  const [defenderArmyStack, setDefenderArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultDefenderComposition(), stack:[]});
+  const [attackerArmyStack, setAttackerArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultAttackerComposition(), stack: [] });
+  const [defenderArmyStack, setDefenderArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultDefenderComposition(), stack: [] });
   const [currentLog, setCurrentLog] = useState<ILogInstance[]>([]);
   const [backdropOpened, setBackdropOpened] = useState(false);
+  const [singleSimulationAnchor, setSingleSimulationAnchor] = React.useState<null | HTMLElement>(null);
+  const [multiSimulationAnchor, setMultiSimulationAnchor] = React.useState<null | HTMLElement>(null);
   const isUnderSmallSized = useMediaQuery(defaultTheme.breakpoints.down("sm"));
   const isOverMediumSized = useMediaQuery(defaultTheme.breakpoints.up("md"));
   const isUnderLargeSized = useMediaQuery(defaultTheme.breakpoints.down("lg"));
   const isMediumSized = isOverMediumSized && isUnderLargeSized;
   const logRef = useRef<any>();
 
-  const scrollToLog = () =>{
-    setTimeout(() =>{logRef?.current?.scrollIntoView({behavior: "smooth", block: "start"});}, 25);
+  const scrollToLog = () => {
+    setTimeout(() => { logRef?.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }, 25);
   }
 
   const runSingleSimulation = async () => {
@@ -66,6 +67,26 @@ function App() {
       scrollToLog();
     }, 0);
   }
+
+  const createSingleGauntletStart = (role: BattleRole) => {
+    return async () =>{
+      setBackdropOpened(true);
+      setTimeout( () =>{
+        setCurrentLog([]);
+        let result = SimulateSingleGauntlet(
+          role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy, 
+          role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack, 
+          calculatorConfiguration, 
+          role);
+        setCurrentLog(result);
+        setBackdropOpened(false);
+        scrollToLog();
+      }, 0);
+    }
+  }
+
+  const runSingleAttackersGauntlet = createSingleGauntletStart(BattleRole.Attacker);
+  const runSingleDefendersGauntlet = createSingleGauntletStart(BattleRole.Defender);
 
   return (
     <>
@@ -116,21 +137,89 @@ function App() {
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>Additional controls</AccordionSummary>
               <AccordionDetails>
-              <ButtonGroup variant="contained">
-                <Button variant="contained" onClick={() =>{
-                  setAttackerArmyStack({...attackerArmyStack, activeArmy:{...attackerArmyStack.activeArmy, units: GenerateRandomSetOfUnits()}})
-                }}>Generate attacker</Button>
-                <Button variant="contained" onClick={() =>{
-                  setDefenderArmyStack({...defenderArmyStack, activeArmy:{...defenderArmyStack.activeArmy, units: GenerateRandomSetOfUnits()}})
-                }}>Generate defender</Button>
-            </ButtonGroup>
+                <ButtonGroup variant="contained">
+                  <Button variant="contained" onClick={() => {
+                    setAttackerArmyStack({ ...attackerArmyStack, activeArmy: { ...attackerArmyStack.activeArmy, units: GenerateRandomSetOfUnits() } })
+                  }}>Generate attacker</Button>
+                  <Button variant="contained" onClick={() => {
+                    setDefenderArmyStack({ ...defenderArmyStack, activeArmy: { ...defenderArmyStack.activeArmy, units: GenerateRandomSetOfUnits() } })
+                  }}>Generate defender</Button>
+                </ButtonGroup>
               </AccordionDetails>
             </Accordion>
           </Box>
           <Box sx={{ margin: "25px 0 25px 0" }}>
             <ButtonGroup variant="contained">
-              <Button variant="contained" onClick={runSingleSimulation}>Run battle</Button>
-              <Button variant="contained" onClick={runMultiSimulation}>Simulate results</Button>
+              <Button variant="contained" onClick={(e) => setSingleSimulationAnchor(e.currentTarget)}>Run</Button>
+              <Menu
+                anchorEl={singleSimulationAnchor}
+                open={Boolean(singleSimulationAnchor)}
+                onClose={() => setSingleSimulationAnchor(null)}
+                MenuListProps={{
+                  'aria-labelledby': singleSimulationAnchor?.id,
+                }
+              }
+              >
+                 <MenuItem 
+                    key={"Single battle"} 
+                    onClick={() => {
+                      setSingleSimulationAnchor(null)
+                      runSingleSimulation();
+                    }}>
+                      <Typography>Single battle</Typography>
+                  </MenuItem>
+                  <MenuItem 
+                    key={"Attacker's single gauntlet"} 
+                    onClick={() => {
+                      setSingleSimulationAnchor(null)
+                      runSingleAttackersGauntlet();
+                    }}>
+                      <Typography>Single attacker's gauntlet</Typography>
+                  </MenuItem>
+                  <MenuItem 
+                    key={"Defender's single gauntlet"} 
+                    onClick={() => {
+                      setSingleSimulationAnchor(null)
+                      runSingleDefendersGauntlet();
+                    }}>
+                      <Typography>Single defender's gauntlet</Typography>
+                  </MenuItem>
+              </Menu>
+              <Button variant="contained" onClick={(e) => setMultiSimulationAnchor(e.currentTarget)}>Simulate results</Button>
+              <Menu
+                  anchorEl={multiSimulationAnchor}
+                  open={Boolean(multiSimulationAnchor)}
+                  onClose={() => setMultiSimulationAnchor(null)}
+                  MenuListProps={{
+                      'aria-labelledby': multiSimulationAnchor?.id
+                    }
+                  }
+              >
+              <MenuItem 
+                    key={"Battle analisys"} 
+                    onClick={() => {
+                      setMultiSimulationAnchor(null)
+                      runMultiSimulation();
+                    }}>
+                      <Typography>Battle analisys</Typography>
+                  </MenuItem>
+                  <MenuItem 
+                    key={"Attacker's gauntlet analisys"} 
+                    onClick={() => {
+                      setMultiSimulationAnchor(null)
+                      //
+                    }}>
+                      <Typography>Attacker's gauntlet analisys</Typography>
+                  </MenuItem>
+                  <MenuItem 
+                    key={"Defender's gauntlet analisys"} 
+                    onClick={() => {
+                      setMultiSimulationAnchor(null)
+                      //
+                    }}>
+                      <Typography>Defender's gauntlet analisys</Typography>
+                  </MenuItem>
+              </Menu>
             </ButtonGroup>
           </Box>
         </Grid>

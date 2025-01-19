@@ -12,17 +12,25 @@ import React from "react";
 export class MultiSimulationLog implements ILogInstance{
     #key:string;
     #config:IBattleConfiguration;
+    #attackerConditionAccumulator = new ConditionAccumulator(BattleRole.Attacker);
+    #defenderConditionAccumulator = new ConditionAccumulator(BattleRole.Defender);
+    #totalBattlesAccumulator =  new TotalBattlesAccumulator();
+    #totalVictoryAccumulator = new VictoryTypeAccumulator();
     #accumulators:AccumulatorBase[] = [
-        new TotalBattlesAccumulator(),
-        new VictoryTypeAccumulator(),
-        new ConditionAccumulator(BattleRole.Attacker),
-        new ConditionAccumulator(BattleRole.Defender)
+        this.#totalBattlesAccumulator,
+        this.#totalVictoryAccumulator,
+        this.#attackerConditionAccumulator,
+        this.#defenderConditionAccumulator
     ];
     #extraLogs:ILogInstance[] = [];
 
-    constructor(config:IBattleConfiguration){
+    constructor(config:IBattleConfiguration) {
         this.#key = GenerateKey();
         this.#config = config;
+    }
+
+    public GetHealthData():ConditionAccumulator[]{
+        return [this.#attackerConditionAccumulator, this.#defenderConditionAccumulator];
     }
 
     public RegisterResult(context:IBattleContext){
@@ -62,7 +70,6 @@ class TotalBattlesAccumulator extends AccumulatorBase {
     }
 }
 
-
 class ConditionAccumulator extends AccumulatorBase{
     #minimumHealth:number = Number.MAX_SAFE_INTEGER;
     #maximumHealth:number = 0;
@@ -75,9 +82,13 @@ class ConditionAccumulator extends AccumulatorBase{
     #totalCount:number = 0;
     #role:BattleRole;
 
-    constructor(role:BattleRole){
+    constructor(role:BattleRole) {
         super();
         this.#role = role;
+    }
+
+    GetHealthData():NumberKeyedDictionary<number>{
+        return this.#healthDictionary;
     }
 
     Accumulate(context: IBattleContext): void {

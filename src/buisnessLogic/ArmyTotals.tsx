@@ -76,6 +76,22 @@ export function GenerateDescriptiveArmyName(army:IArmy):string{
 }
 
 
+//Health is retained, morale is restored, organisation climbs up.
+export function PostBattleRevitalizationOfUnit(initialValues:IUnit, currentValues:IUnit):IUnit{
+    let result = structuredClone(initialValues);
+    result.Health = currentValues.Health;
+    if(result.Organization < 100 && result.Health / initialValues.Health > 0.25){
+        result.Organization += 5;
+    }
+    else if(result.Organization < 125 && result.Health / initialValues.Health > 0.5){
+        result.Organization += 5
+    }
+    //Add war turn additions here.
+
+    return result;
+}
+
+
 function DieSelector(configuration:IBattleConfiguration, a:DieSet, b:DieSet):DieSet{
     if(configuration.DieSelectionMode == DieSelectionModeValues.Median){
         return GetMedianDieSetValue(a) < GetMedianDieSetValue(b) ? b : a;
