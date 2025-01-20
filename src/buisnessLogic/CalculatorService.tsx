@@ -60,6 +60,8 @@ export function SimulateExtremeCasesOfBattles(attacker:IArmy, defender:IArmy, co
 
 export function SimulateGauntletOfBattles(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):ILogInstance[]{
     throw new Error("SimulateGauntletOfBattles is not yet implemented.");
+
+
     let result:ILogInstance[] = [];
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
     let currentMainCombatant = structuredClone(initialCombatant);
@@ -75,6 +77,13 @@ export function SimulateGauntletOfBattles(mainCombatant:IArmy, opposition:IArmyS
         const combatHealthStatistics = aggregatedLog.GetHealthData();
         const mainCombatantHealthStatistics = SelectPositionsByRole(combatHealthStatistics[0], combatHealthStatistics[1], mainCombatantRole);
     }
+
+    return result;
+}
+
+export function SimulateDubleStackBattles(attacker:IArmyStack, defender:IArmyStack, configuration:IBattleConfiguration):ILogInstance[]{
+    let result:ILogInstance[] = [];
+
 
     return result;
 }

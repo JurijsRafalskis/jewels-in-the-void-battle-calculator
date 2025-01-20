@@ -22,7 +22,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { IArmyStack } from './model/armyComposition/ArmyStack';
-import { SimulateGauntletOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
+import { SimulateDubleStackBattles, SimulateGauntletOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
 import { BattleRole } from './model/BattleStructure';
 import React from 'react';
 
@@ -51,6 +51,17 @@ function App() {
     setTimeout(() => {
       setCurrentLog([]);
       let result = SimulateSingleBattle(attackerArmyStack.activeArmy, defenderArmyStack.activeArmy, calculatorConfiguration);
+      setCurrentLog(result);
+      setBackdropOpened(false);
+      scrollToLog();
+    }, 0);
+  }
+
+  const runSingleStackVsStackSimulation = async () => {
+    setBackdropOpened(true);
+    setTimeout(() => {
+      setCurrentLog([]);
+      let result = SimulateDubleStackBattles(attackerArmyStack, defenderArmyStack, calculatorConfiguration);
       setCurrentLog(result);
       setBackdropOpened(false);
       scrollToLog();
@@ -170,7 +181,7 @@ function App() {
           </Box>
           <Box sx={{ margin: "25px 0 25px 0" }}>
             <ButtonGroup variant="contained">
-              <Button variant="contained" onClick={(e) => setSingleSimulationAnchor(e.currentTarget)}>Run</Button>
+              <Button variant="contained" onClick={(e) => setSingleSimulationAnchor(e.currentTarget)}>Single battle</Button>
               <Menu
                 anchorEl={singleSimulationAnchor}
                 open={Boolean(singleSimulationAnchor)}
@@ -189,20 +200,29 @@ function App() {
                       <Typography>Single battle</Typography>
                   </MenuItem>
                   <MenuItem 
-                    key={"Attacker's single gauntlet"} 
+                    key={"Attacker vs stack"} 
                     onClick={() => {
                       setSingleSimulationAnchor(null)
                       runSingleAttackersGauntlet();
                     }}>
-                      <Typography>Single attacker's gauntlet</Typography>
+                      <Typography>Attacker vs stack</Typography>
                   </MenuItem>
                   <MenuItem 
-                    key={"Defender's single gauntlet"} 
+                    key={"Defender vs stack"} 
                     onClick={() => {
                       setSingleSimulationAnchor(null)
                       runSingleDefendersGauntlet();
                     }}>
-                      <Typography>Single defender's gauntlet</Typography>
+                      <Typography>Defender vs stack</Typography>
+                  </MenuItem>
+                  <MenuItem 
+                    key={"Stack vs stack"}
+                    disabled={true} 
+                    onClick={() => {
+                      setSingleSimulationAnchor(null)
+                      runSingleStackVsStackSimulation();
+                    }}>
+                      <Typography>Defender's vs stack</Typography>
                   </MenuItem>
               </Menu>
               <Button variant="contained" onClick={(e) => setMultiSimulationAnchor(e.currentTarget)}>Analysis</Button>
@@ -225,21 +245,21 @@ function App() {
                   </MenuItem>
                   <MenuItem 
                     disabled={true}
-                    key={"Attacker's gauntlet analisys"} 
+                    key={"Attacker's vs stack analisys"} 
                     onClick={() => {
                       setMultiSimulationAnchor(null)
                       runMultiAttackersGauntlet();
                     }}>
-                      <Typography>Attacker's gauntlet analisys</Typography>
+                      <Typography>Attacker's vs stack analisys</Typography>
                   </MenuItem>
                   <MenuItem 
                     disabled={true}
-                    key={"Defender's gauntlet analisys"} 
+                    key={"Defender's vs stack analisys"} 
                     onClick={() => {
                       setMultiSimulationAnchor(null)
                       runMultiDefendersGauntlet();
                     }}>
-                      <Typography>Defender's gauntlet analisys</Typography>
+                      <Typography>Defender's vs stack analisys</Typography>
                   </MenuItem>
               </Menu>
             </ButtonGroup>
