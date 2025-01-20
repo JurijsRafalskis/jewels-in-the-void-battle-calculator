@@ -9,9 +9,11 @@ import { StringKeyedDictionary } from "../structures/Dictionaries";
 //Current logic:
 //An army adds all fire, shock, morale and health values. It takes the highest maneuver value. It Averages Morale and Organization. 
 //Morale mentioned twice, we are using the second intepretation.
-export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfiguration):IUnit{
+export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfiguration, setTemporaryArmyName:boolean = false):IUnit{
     const armyStats = CreateEmptyUnit();
-    //armyStats.Title = "Total";
+    if(setTemporaryArmyName) {
+        armyStats.Title = GenerateDescriptiveArmyName(army);
+    }
     if(army.units.length == 0) return armyStats;
     armyStats.Maneuver = 0;
     army.units.forEach(u => {
@@ -45,13 +47,14 @@ export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfigu
     return armyStats;
 }
 
-export function GenerateDescriptiveArmyName(army:IArmy):string{
+export function GenerateDescriptiveArmyName(army:IArmy):string {
     if(army.hero) return "Lead by " + army.hero.Title;
     if(army.units.length == 0) return "";
     if(army.units.length == 1) return army.units[0].Title;
 
     let dictionary:StringKeyedDictionary<number> = {}; 
-    army.units.forEach(unit => {
+    let sortedUnits = [...army.units].sort((a,b) =>  b.Health - a.Health);
+    sortedUnits.forEach(unit => {
         if(!dictionary[unit.Title]){
             dictionary[unit.Title] = 1;
         }
@@ -61,7 +64,7 @@ export function GenerateDescriptiveArmyName(army:IArmy):string{
     });
 
     let length = Object.keys(dictionary).length;
-    if(length == 1) return `${army.units[0].Title} ${length}x`;
+    if(length == 1) return `${sortedUnits[0].Title} ${sortedUnits.length}x`;
     let greatestNumber = 0;
     let greatestTitle = "";
 
@@ -77,17 +80,19 @@ export function GenerateDescriptiveArmyName(army:IArmy):string{
 
 
 //Health is retained, morale is restored, organisation climbs up.
-export function PostBattleRevitalizationOfUnit(initialValues:IUnit, currentValues:IUnit):IUnit{
+export function PostBattleRevitalizationOfUnit(initialValues:IUnit, currentValues:IUnit, increaseOrganization:boolean = true):IUnit{
     let result = structuredClone(initialValues);
     result.Health = currentValues.Health;
     result.Organization = currentValues.Organization;
-    if(result.Organization < 100 && result.Health / initialValues.Health > 0.25){
-        result.Organization += 5;
+    if(increaseOrganization){
+        if(result.Organization < 100 && result.Health / initialValues.Health > 0.25){
+            result.Organization += 5;
+        }
+        else if(result.Organization < 125 && result.Health / initialValues.Health > 0.5){
+            result.Organization += 5
+        }
+        //Add war turn additions here.
     }
-    else if(result.Organization < 125 && result.Health / initialValues.Health > 0.5){
-        result.Organization += 5
-    }
-    //Add war turn additions here.
 
     return result;
 }
