@@ -62,9 +62,9 @@ export class MultiStackSimulationLog implements ILogInstance {
             </Box>
             {Object.keys(this.#victoryDictionary).reverse().map(key => {
                 let parsedKey = Number(key)
-                return <Box key={key}>Ammount of {key}x victories: {this.#victoryDictionary[parsedKey]}/{Math.round(this.#victoryDictionary[parsedKey] * 100 / this.#totalCount)}%</Box>
+                return <Box key={key}>Number of {key}x victories: {this.#victoryDictionary[parsedKey]}/{Math.round(this.#victoryDictionary[parsedKey] * 100 / this.#totalCount)}%</Box>
             })}
-            <Box>Ammount of fights ending in {BattleRole[this.#mainCombatantRole]}'s' army destruction: {this.#personalDestructionsCount}/{Math.round(this.#personalDestructionsCount * 100 / this.#totalCount)}%</Box>
+            <Box>Number of fights ending in {BattleRole[this.#mainCombatantRole]}'s' army destruction: {this.#personalDestructionsCount}/{Math.round(this.#personalDestructionsCount * 100 / this.#totalCount)}%</Box>
             {this.#mainCombatantHealth.GetFormattedResults()}
             <Box sx={{marginBottom:"10px"}}>
                 Average change in organisation: {Math.round(this.#organisationGainTotal * 100 / this.#totalCount) / 100}
