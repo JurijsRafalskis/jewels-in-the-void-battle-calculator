@@ -22,7 +22,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { IArmyStack } from './model/armyComposition/ArmyStack';
-import { SimulateDubleStackBattles, SimulateSimpleGauntletOfBattles, SimulateComplexGauntletOfBattles, SimulateExtremeCasesOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
+import { SimulateDoubleStackBattles, SimulateSimpleGauntletOfBattles, SimulateComplexGauntletOfBattles, SimulateExtremeCasesOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
 import { BattleRole } from './model/BattleStructure';
 import React from 'react';
 import { IArmy } from './model/armyComposition/Army';
@@ -62,7 +62,7 @@ function App() {
     setBackdropOpened(true);
     setTimeout(() => {
       setCurrentLog([]);
-      let result = SimulateDubleStackBattles(attackerArmyStack, defenderArmyStack, calculatorConfiguration);
+      let result = SimulateDoubleStackBattles(attackerArmyStack, defenderArmyStack, calculatorConfiguration);
       setCurrentLog(result);
       setBackdropOpened(false);
       scrollToLog();

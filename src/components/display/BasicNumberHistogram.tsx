@@ -89,7 +89,7 @@ export function BasicNumberHistogram(props:IBasicNumberHistogramProps) {
     };
 
     return <Chart
-        chartType="LineChart"
+        chartType={data.length > 5 ? "LineChart" : "ScatterChart"} 
         width="200px"
         height="200px"
         data={data}
