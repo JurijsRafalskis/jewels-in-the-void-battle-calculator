@@ -63,7 +63,7 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
                 var result = new BonusDamagePhase();
                 result.Damage = traitValues.Damage;
                 result.Priority = traitValues.Priority,
-                    result.Repeatable = traitValues.Repeatable;
+                result.Repeatable = traitValues.Repeatable;
                 onChange(result);
             }}
         />
