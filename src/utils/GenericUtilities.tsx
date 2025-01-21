@@ -1,4 +1,5 @@
 import { IUnit } from "../model/armyComposition/Unit";
+import { CloneUnit } from "./UnitUtils";
 
 export function GenerateKey(){
     return crypto.randomUUID(); //Todo: add polyfill?
@@ -11,7 +12,7 @@ export function AppendKeyToUnit(unit:IUnit):IUnit{
 }
 
 export function PrepareUnit(unit: IUnit): IUnit {
-    return AppendKeyToUnit(structuredClone(unit));
+    return AppendKeyToUnit(CloneUnit(unit));
 }
 
 export function ParseAndLimitIntegerValues(input:any, min?:number, max?:number):number {

@@ -61,12 +61,14 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
             onSave={(traitValues) => {
                 //recreating the object to ensure that react rerenders everything correctly... Might be unneccessary, and is definetely unwieldy for bigger traits.
                 var result = new BonusDamagePhase();
-                result.Damage = traitValues.Damage;
-                result.Priority = traitValues.Priority,
-                result.Repeatable = traitValues.Repeatable;
-                onChange(result);
+                onChange(Object.assign(result, traitValues));
             }}
         />
+    }
+
+    clone():BonusDamagePhase {
+        var result = new BonusDamagePhase();
+        return Object.assign(result, this);
     }
 
     createTooltip(): ReactElement {

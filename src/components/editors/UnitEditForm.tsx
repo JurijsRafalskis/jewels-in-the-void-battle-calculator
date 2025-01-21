@@ -7,6 +7,7 @@ import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
 import Button from '@mui/material/Button';
 import { UncontrolledLimitedIntegerNumberField } from '../fields/ControlledIntegerNumberField';
 import { CreateEmptyUnit } from '../../configuration/InitialUnitValues';
+import { CloneUnit } from '../../utils/UnitUtils';
 
 export interface UnitFormProps {
     unit?: IUnit;
@@ -15,7 +16,7 @@ export interface UnitFormProps {
 }
 
 function UnitEditForm(props: UnitFormProps) {
-    const [currentUnit, setCurrentUnit] = useState(props.unit ? structuredClone(props.unit) : CreateEmptyUnit()); //TODO - Deep copy?
+    const [currentUnit, setCurrentUnit] = useState(props.unit ? CloneUnit(props.unit) : CreateEmptyUnit()); //TODO - Deep copy?
     return (
         <Card variant="outlined">
             <CardContent>

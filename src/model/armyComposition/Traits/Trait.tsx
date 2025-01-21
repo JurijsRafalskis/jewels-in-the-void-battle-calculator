@@ -8,4 +8,5 @@ export interface ITrait extends IKeyable {
     createEditForm(onChange:(v:ITrait)=>void, onClose:()=>void):ReactElement;
     createTooltip():ReactElement;
     registerBattleModifications(calculator:BattleCalculator, context: IBattleContext, role:BattleRole):void;
+    clone():ITrait;
 }

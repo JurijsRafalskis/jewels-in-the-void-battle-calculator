@@ -2,6 +2,7 @@ import { IArmy } from "../model/armyComposition/Army";
 import { IArmyStack } from "../model/armyComposition/ArmyStack";
 import { IBattleConfiguration, IRollingModesConfig, RollMode } from "../model/BattleConfiguration";
 import { BattleResult, BattleRole, IBattleContext } from "../model/BattleStructure";
+import { CloneUnit } from "../utils/UnitUtils";
 import { CalculateTotalArmyStats, PostBattleRevitalizationOfUnit } from "./ArmyTotals";
 import { BattleCalculator } from "./BattleCalculator";
 import { ExtremeCaseLogInstance } from "./BattleLogs/ExtremeCaseLogInstance";
@@ -66,7 +67,7 @@ export function SimulateSimpleGauntletOfBattles(mainCombatant:IArmy, opposition:
     let fullOpposition = [opposition.activeArmy, ...opposition.stack].map(o => CalculateTotalArmyStats(o, configuration, true));
     const aggregatedLog = new MultiStackSimulationLog(configuration, fullOpposition, mainCombatantRole, initialCombatant);
     for (let simulationItteration = 0; simulationItteration < configuration.SimulatedIterationsCount; simulationItteration++) {
-        let currentMainCombatant = structuredClone(initialCombatant);
+        let currentMainCombatant = CloneUnit(initialCombatant);
         const contexts:IBattleContext[] = [];
         for(let oppositionIndex = 0; oppositionIndex < fullOpposition.length; oppositionIndex++){
             const [attacker, defender] =  SelectPositionsByRole(currentMainCombatant, fullOpposition[oppositionIndex], mainCombatantRole);
@@ -108,7 +109,7 @@ export function SimulateExtremeCasesForGauntlet(mainCombatant:IArmy, opposition:
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
 
     copyConfigs.forEach((copiedConfig, configIndex) => {
-        let currentMainCombatant = structuredClone(initialCombatant);
+        let currentMainCombatant = CloneUnit(initialCombatant);
         let latestContext;
         for(let oppositionIndex = 0; oppositionIndex < fullOpposition.length; oppositionIndex++){
             const [attacker, defender] =  SelectPositionsByRole(currentMainCombatant, fullOpposition[oppositionIndex], mainCombatantRole);
@@ -150,7 +151,7 @@ export function SimulateComplexGauntletOfBattles(mainCombatant:IArmy, opposition
     throw new Error("SimulateGauntletOfBattles is not yet implemented.");
     let result:ILogInstance[] = [];
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
-    let currentMainCombatant = structuredClone(initialCombatant);
+    let currentMainCombatant = CloneUnit(initialCombatant);
     let fullOpposition = [opposition.activeArmy, ...opposition.stack];
     for(let index in fullOpposition){
         const [attacker, defender] =  SelectPositionsByRole(currentMainCombatant, CalculateTotalArmyStats(fullOpposition[index], configuration), mainCombatantRole);
@@ -178,7 +179,7 @@ export function SimulateDoubleStackBattles(attacker:IArmyStack, defender:IArmySt
 export function SimulateSingleGauntlet(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):ILogInstance[]{
     let result:ILogInstance[] = [];
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
-    let currentMainCombatant = structuredClone(initialCombatant);
+    let currentMainCombatant = CloneUnit(initialCombatant);
     let fullOpposition = [opposition.activeArmy, ...opposition.stack];
     for(let index in fullOpposition){
         const [attacker, defender] =  SelectPositionsByRole(currentMainCombatant, CalculateTotalArmyStats(fullOpposition[index], configuration), mainCombatantRole);

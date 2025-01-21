@@ -5,6 +5,7 @@ import { IArmy } from "../model/armyComposition/Army";
 import { CreateEmptyUnit } from "../configuration/InitialUnitValues";
 import { Hero } from "../model/armyComposition/Hero";
 import { StringKeyedDictionary } from "../structures/Dictionaries";
+import { CloneUnit } from "../utils/UnitUtils";
 
 //Current logic:
 //An army adds all fire, shock, morale and health values. It takes the highest maneuver value. It Averages Morale and Organization. 
@@ -81,7 +82,7 @@ export function GenerateDescriptiveArmyName(army:IArmy):string {
 
 //Health is retained, morale is restored, organisation climbs up.
 export function PostBattleRevitalizationOfUnit(initialValues:IUnit, currentValues:IUnit, increaseOrganization:boolean = true):IUnit{
-    let result = structuredClone(initialValues);
+    let result = CloneUnit(initialValues);
     result.Health = currentValues.Health;
     result.Organization = currentValues.Organization;
     if(increaseOrganization){
