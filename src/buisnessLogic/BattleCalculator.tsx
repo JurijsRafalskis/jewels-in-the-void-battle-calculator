@@ -3,6 +3,7 @@ import { IBattleBonusStats, IDamageBonusStats, IUnit } from "../model/armyCompos
 import { IBattleConfiguration, RollMode } from "../model/BattleConfiguration";
 import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultLabel, GetVictoryLabel, BattleContactPhase, BattleRole } from "../model/BattleStructure";
 import { DieSet, DieType, GetMaximumDieSetValue, GetMinimumDieSetValue, Roll, RollMaximumDieSetValue, RollMinimumDieSetValue, RollResult } from "../utils/DieUtilities";
+import { CloneUnit } from "../utils/UnitUtils";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
 import { BattlePhaseLogInstance, EndOfBattleLogInstance, ManeuvrePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
@@ -41,8 +42,8 @@ export class BattleCalculator {
         this.#attackersInitialState = attackers;
         this.#defendersInitialState = defenders;
         this.#config = config;
-        this.#AttackerAggregation = "units" in this.#attackersInitialState ? CalculateTotalArmyStats(this.#attackersInitialState as IArmy, this.#config) : structuredClone(this.#attackersInitialState as IUnit);
-        this.#DefenderAggregation = "units" in this.#defendersInitialState ? CalculateTotalArmyStats(this.#defendersInitialState as IArmy, this.#config): structuredClone(this.#defendersInitialState as IUnit);;
+        this.#AttackerAggregation = "units" in this.#attackersInitialState ? CalculateTotalArmyStats(this.#attackersInitialState as IArmy, this.#config) : CloneUnit(this.#attackersInitialState as IUnit);
+        this.#DefenderAggregation = "units" in this.#defendersInitialState ? CalculateTotalArmyStats(this.#defendersInitialState as IArmy, this.#config): CloneUnit(this.#defendersInitialState as IUnit);;
     }
 
 
@@ -83,8 +84,8 @@ export class BattleCalculator {
 function GenerateDefaultBattleContext(config:IBattleConfiguration, attacker:IUnit, defender:IUnit):IBattleContext{
     return {
         turn:1,
-        attackerCurrentState: structuredClone(attacker),
-        defenderCurrentState: structuredClone(defender),
+        attackerCurrentState: CloneUnit(attacker),
+        defenderCurrentState: CloneUnit(defender),
         log: [],
         currentAttackersManeuverRollBonus: 0,
         currentDefendersManeuverRollBonus: 0,

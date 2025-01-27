@@ -55,7 +55,7 @@ export function GenerateRandomSetOfUnits(count:number = 4): IUnit[]{
 
 export function GetDefaultConfig(): IBattleConfiguration {
     return {
-        SimulatedIterationsCount: 100,
+        SimulatedIterationsCount: 1000,
         MoraleCalculationMode: MoraleCalculationModeValues.Sum,
         PostSimulatedHistory: false,
         DieSelectionMode: DieSelectionModeValues.Median,

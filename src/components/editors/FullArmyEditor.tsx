@@ -12,7 +12,7 @@ import { IArmyStack } from "../../model/armyComposition/ArmyStack";
 import InputIcon from '@mui/icons-material/Input';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, KeyboardSensor, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable';
 import { useRef, useState } from "react";
 import { IArmy } from "../../model/armyComposition/Army";
@@ -166,6 +166,17 @@ export function ArmyStackDragNDropControl(props: IArmyStackDragNDropControlProps
         }
     }
 
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+          activationConstraint: {
+            distance: 10,
+          },
+        }),
+        useSensor(MouseSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor)
+      )
+
     const actionSet = <>
         <Button size="small" onClick={() => {
             let existingUnits = [props.armyStack.activeArmy, ...props.armyStack.stack];
@@ -191,6 +202,7 @@ export function ArmyStackDragNDropControl(props: IArmyStackDragNDropControlProps
         <CardContent>
             <DndContext
                 onDragEnd={handleDragEnd}
+                sensors={sensors}
             >
                 <SortableContext
                     items={keys}
@@ -203,6 +215,7 @@ export function ArmyStackDragNDropControl(props: IArmyStackDragNDropControlProps
                                 unit={unit}
                                 firstItem={index == 0}
                                 onChange={() => {
+                                    //For some reason, one must spam this button for it to go through.
                                     let newArmyState = [...armyState];
                                     newArmyState.splice(newArmyState.findIndex(army => army.Metadata?.Key == key), 1);
                                     setArmyState(newArmyState);

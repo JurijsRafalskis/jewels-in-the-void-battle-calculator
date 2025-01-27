@@ -9,7 +9,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { BasicNumberHistogramHover } from "../../components/display/BasicNumberHistogram";
 import React from "react";
 
-export class MultiSimulationLog implements ILogInstance{
+export class MultiSimulationLog implements ILogInstance {
     #key:string;
     #config:IBattleConfiguration;
     #attackerConditionAccumulator = new ConditionAccumulator(BattleRole.Attacker);
@@ -55,12 +55,12 @@ export class MultiSimulationLog implements ILogInstance{
     }
 }
 
-abstract class AccumulatorBase {
+export abstract class AccumulatorBase {
     abstract Accumulate(context:IBattleContext):void;
     abstract GetFormattedResults() : JSX.Element;
 }
 
-class TotalBattlesAccumulator extends AccumulatorBase {
+export class TotalBattlesAccumulator extends AccumulatorBase {
     #totalCount:number = 0;
     Accumulate(context: IBattleContext): void {
         this.#totalCount++;
@@ -70,7 +70,7 @@ class TotalBattlesAccumulator extends AccumulatorBase {
     }
 }
 
-class ConditionAccumulator extends AccumulatorBase{
+export class ConditionAccumulator extends AccumulatorBase{
     #minimumHealth:number = Number.MAX_SAFE_INTEGER;
     #maximumHealth:number = 0;
     #totalHealthSum:number = 0;
@@ -81,10 +81,12 @@ class ConditionAccumulator extends AccumulatorBase{
     #moraleDictionary:NumberKeyedDictionary<number> = {};
     #totalCount:number = 0;
     #role:BattleRole;
+    #drawMorale:boolean;
 
-    constructor(role:BattleRole) {
+    constructor(role:BattleRole, drawMorale:boolean = true) {
         super();
         this.#role = role;
+        this.#drawMorale = drawMorale;
     }
 
     GetHealthData():NumberKeyedDictionary<number>{
@@ -130,7 +132,7 @@ class ConditionAccumulator extends AccumulatorBase{
             </Box>
             <Box>{BattleRole[this.#role]}'s minimum remaining health: {this.#minimumHealth}</Box>
             <Box>{BattleRole[this.#role]}'s maximum remaining health: {this.#maximumHealth}</Box>
-            <Box sx={{marginTop:"10px"}}>
+            {this.#drawMorale && <><Box sx={{marginTop:"10px"}}>
                 {BattleRole[this.#role]}'s average remaining morale: {Math.round(this.#totalMorale * 100 / this.#totalCount) / 100}
                 <BasicNumberHistogramHover
                     title="Morale"
@@ -143,12 +145,12 @@ class ConditionAccumulator extends AccumulatorBase{
                 </BasicNumberHistogramHover>
             </Box>
             <Box>{BattleRole[this.#role]}'s minimum remaining morale: {this.#minMorale}</Box>
-            <Box>{BattleRole[this.#role]}'s maximum remaining morale: {this.#maxMorale}</Box>
+            <Box>{BattleRole[this.#role]}'s maximum remaining morale: {this.#maxMorale}</Box></>}
         </>;
     }
 }
 
-class VictoryTypeAccumulator extends AccumulatorBase{
+export class VictoryTypeAccumulator extends AccumulatorBase{
     #attackersVictoryThroughDamageCount:number = 0;
     #attackersVictoryThroughMoraleCount:number = 0;
     #defendersVictoryThroughDamageCount:number = 0;

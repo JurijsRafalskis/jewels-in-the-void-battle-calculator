@@ -2,6 +2,7 @@ import { IUnit } from "../../model/armyComposition/Unit";
 import { IBattleContext } from "../../model/BattleStructure";
 import IKeyable from "../../model/Keyable";
 import { GenerateKey } from "../../utils/GenericUtilities";
+import { CloneUnit } from "../../utils/UnitUtils";
 
 
 export interface ILogInstance extends IKeyable{
@@ -13,8 +14,8 @@ export abstract class LogInstance implements ILogInstance{
     protected defender:IUnit;
     protected key:string;
     constructor(context:IBattleContext){
-        this.attacker = structuredClone(context.attackerCurrentState);
-        this.defender = structuredClone(context.defenderCurrentState);
+        this.attacker = CloneUnit(context.attackerCurrentState);
+        this.defender = CloneUnit(context.defenderCurrentState);
         this.key = GenerateKey();
     }
 

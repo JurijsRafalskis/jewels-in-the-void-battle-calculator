@@ -16,19 +16,21 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import FullBattleLogDisplay from './components/display/FullBattleLogDisplay';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
-import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Link, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { IArmyStack } from './model/armyComposition/ArmyStack';
-import { SimulateGauntletOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
+import { SimulateDoubleStackBattles, SimulateSimpleGauntletOfBattles, SimulateComplexGauntletOfBattles, SimulateExtremeCasesOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
 import { BattleRole } from './model/BattleStructure';
 import React from 'react';
+import { IArmy } from './model/armyComposition/Army';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const defaultTheme = createTheme({});
 
-function App() {
+export default function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
   const [attackerArmyStack, setAttackerArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultAttackerComposition(), stack: [] });
   const [defenderArmyStack, setDefenderArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultDefenderComposition(), stack: [] });
@@ -57,6 +59,17 @@ function App() {
     }, 0);
   }
 
+  const runSingleStackVsStackSimulation = async () => {
+    setBackdropOpened(true);
+    setTimeout(() => {
+      setCurrentLog([]);
+      let result = SimulateDoubleStackBattles(attackerArmyStack, defenderArmyStack, calculatorConfiguration);
+      setCurrentLog(result);
+      setBackdropOpened(false);
+      scrollToLog();
+    }, 0);
+  }
+
   const runMultiSimulation = async () => {
     setBackdropOpened(true);
     setTimeout(() => {
@@ -69,14 +82,14 @@ function App() {
   }
 
   const createSingleGauntletStart = (role: BattleRole) => {
-    return async () =>{
+    return async () => {
       setBackdropOpened(true);
-      setTimeout( () =>{
+      setTimeout(() => {
         setCurrentLog([]);
         let result = SimulateSingleGauntlet(
-          role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy, 
-          role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack, 
-          calculatorConfiguration, 
+          role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy,
+          role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack,
+          calculatorConfiguration,
           role);
         setCurrentLog(result);
         setBackdropOpened(false);
@@ -88,25 +101,31 @@ function App() {
   const runSingleAttackersGauntlet = createSingleGauntletStart(BattleRole.Attacker);
   const runSingleDefendersGauntlet = createSingleGauntletStart(BattleRole.Defender);
 
-  const createMultiGauntletStart = (role: BattleRole) => {
-    return async () =>{
-      setBackdropOpened(true);
-      setTimeout( () =>{
-        setCurrentLog([]);
-        let result = SimulateGauntletOfBattles(
-          role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy, 
-          role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack, 
-          calculatorConfiguration, 
-          role);
-        setCurrentLog(result);
-        setBackdropOpened(false);
-        scrollToLog();
-      }, 0);
+  const createMultiGauntletStart =
+    (
+      role: BattleRole,
+      calculation: (mainCombatant: IArmy, opposition: IArmyStack, configuration: IBattleConfiguration, mainCombatantRole: BattleRole) => ILogInstance[]
+    ) => {
+      return async () => {
+        setBackdropOpened(true);
+        setTimeout(() => {
+          setCurrentLog([]);
+          let result = calculation(
+            role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy,
+            role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack,
+            calculatorConfiguration,
+            role);
+          setCurrentLog(result);
+          setBackdropOpened(false);
+          scrollToLog();
+        }, 0);
+      }
     }
-  }
 
-  const runMultiAttackersGauntlet = createMultiGauntletStart(BattleRole.Attacker);
-  const runMultiDefendersGauntlet = createMultiGauntletStart(BattleRole.Defender);
+  const runSimpleMultiAttackersGauntlet = createMultiGauntletStart(BattleRole.Attacker, SimulateSimpleGauntletOfBattles);
+  const runSimpleMultiDefendersGauntlet = createMultiGauntletStart(BattleRole.Defender, SimulateSimpleGauntletOfBattles);
+  const runComplexMultiAttackersGauntlet = createMultiGauntletStart(BattleRole.Attacker, SimulateComplexGauntletOfBattles);
+  const runComplexMultiDefendersGauntlet = createMultiGauntletStart(BattleRole.Defender, SimulateComplexGauntletOfBattles);
 
   return (
     <>
@@ -122,6 +141,16 @@ function App() {
             <Typography variant="h5">
               Jewels in the Void battle simulator.
             </Typography>
+            <Tooltip title="Visit source code">
+              <IconButton
+                aria-label="Visit source code"
+                sx={{ "margin-left": "auto" }}
+                href="https://github.com/JurijsRafalskis/jewels-in-the-void-battle-calculator"
+                target='_blank'
+              >
+                <GitHubIcon fontSize='large'></GitHubIcon>
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
       </Box>
@@ -148,7 +177,6 @@ function App() {
           <FullArmyStackCard cardTitle={"Defending forces"} armyStack={defenderArmyStack} config={calculatorConfiguration} onChange={armyStack => setDefenderArmyStack(armyStack)} />
         </Grid>
         <Grid size={{ xs: 26, sm: 0, md: 1 }}>
-
         </Grid>
         <Grid size={{ xs: 26, sm: 26, md: 8 }}>
           <Typography variant="h5">Configuration:</Typography>
@@ -170,7 +198,7 @@ function App() {
           </Box>
           <Box sx={{ margin: "25px 0 25px 0" }}>
             <ButtonGroup variant="contained">
-              <Button variant="contained" onClick={(e) => setSingleSimulationAnchor(e.currentTarget)}>Run</Button>
+              <Button variant="contained" onClick={(e) => setSingleSimulationAnchor(e.currentTarget)}>Single battle</Button>
               <Menu
                 anchorEl={singleSimulationAnchor}
                 open={Boolean(singleSimulationAnchor)}
@@ -178,69 +206,94 @@ function App() {
                 MenuListProps={{
                   'aria-labelledby': singleSimulationAnchor?.id,
                 }
-              }
+                }
               >
-                 <MenuItem 
-                    key={"Single battle"} 
-                    onClick={() => {
-                      setSingleSimulationAnchor(null)
-                      runSingleSimulation();
-                    }}>
-                      <Typography>Single battle</Typography>
-                  </MenuItem>
-                  <MenuItem 
-                    key={"Attacker's single gauntlet"} 
-                    onClick={() => {
-                      setSingleSimulationAnchor(null)
-                      runSingleAttackersGauntlet();
-                    }}>
-                      <Typography>Single attacker's gauntlet</Typography>
-                  </MenuItem>
-                  <MenuItem 
-                    key={"Defender's single gauntlet"} 
-                    onClick={() => {
-                      setSingleSimulationAnchor(null)
-                      runSingleDefendersGauntlet();
-                    }}>
-                      <Typography>Single defender's gauntlet</Typography>
-                  </MenuItem>
+                <MenuItem
+                  key={"Single battle"}
+                  onClick={() => {
+                    setSingleSimulationAnchor(null)
+                    runSingleSimulation();
+                  }}>
+                  <Typography>Single battle</Typography>
+                </MenuItem>
+                <MenuItem
+                  key={"Attacker vs stack"}
+                  onClick={() => {
+                    setSingleSimulationAnchor(null)
+                    runSingleAttackersGauntlet();
+                  }}>
+                  <Typography>Attacker vs stack</Typography>
+                </MenuItem>
+                <MenuItem
+                  key={"Defender vs stack"}
+                  onClick={() => {
+                    setSingleSimulationAnchor(null)
+                    runSingleDefendersGauntlet();
+                  }}>
+                  <Typography>Defender vs stack</Typography>
+                </MenuItem>
+                <MenuItem
+                  key={"Stack vs stack"}
+                  disabled={true}
+                  onClick={() => {
+                    setSingleSimulationAnchor(null)
+                    runSingleStackVsStackSimulation();
+                  }}>
+                  <Typography>Defender's vs stack</Typography>
+                </MenuItem>
               </Menu>
               <Button variant="contained" onClick={(e) => setMultiSimulationAnchor(e.currentTarget)}>Analysis</Button>
               <Menu
-                  anchorEl={multiSimulationAnchor}
-                  open={Boolean(multiSimulationAnchor)}
-                  onClose={() => setMultiSimulationAnchor(null)}
-                  MenuListProps={{
-                      'aria-labelledby': multiSimulationAnchor?.id
-                    }
-                  }
+                anchorEl={multiSimulationAnchor}
+                open={Boolean(multiSimulationAnchor)}
+                onClose={() => setMultiSimulationAnchor(null)}
+                MenuListProps={{
+                  'aria-labelledby': multiSimulationAnchor?.id
+                }
+                }
               >
-              <MenuItem 
-                    key={"Battle analisys"} 
-                    onClick={() => {
-                      setMultiSimulationAnchor(null)
-                      runMultiSimulation();
-                    }}>
-                      <Typography>Battle analisys</Typography>
-                  </MenuItem>
-                  <MenuItem 
-                    disabled={true}
-                    key={"Attacker's gauntlet analisys"} 
-                    onClick={() => {
-                      setMultiSimulationAnchor(null)
-                      runMultiAttackersGauntlet();
-                    }}>
-                      <Typography>Attacker's gauntlet analisys</Typography>
-                  </MenuItem>
-                  <MenuItem 
-                    disabled={true}
-                    key={"Defender's gauntlet analisys"} 
-                    onClick={() => {
-                      setMultiSimulationAnchor(null)
-                      runMultiDefendersGauntlet();
-                    }}>
-                      <Typography>Defender's gauntlet analisys</Typography>
-                  </MenuItem>
+                <MenuItem
+                  key={"Battle analisys"}
+                  onClick={() => {
+                    setMultiSimulationAnchor(null)
+                    runMultiSimulation();
+                  }}>
+                  <Typography>Battle analisys</Typography>
+                </MenuItem>
+                <MenuItem
+                  key={"Attacker's vs stack simple analisys"}
+                  onClick={() => {
+                    setMultiSimulationAnchor(null)
+                    runSimpleMultiAttackersGauntlet();
+                  }}>
+                  <Typography>Attacker's vs stack simple analisys</Typography>
+                </MenuItem>
+                <MenuItem
+                  key={"Defender's vs stack simple analisys"}
+                  onClick={() => {
+                    setMultiSimulationAnchor(null)
+                    runSimpleMultiDefendersGauntlet();
+                  }}>
+                  <Typography>Defender's vs stack simple analisys</Typography>
+                </MenuItem>
+                <MenuItem
+                  disabled={true}
+                  key={"Attacker's vs stack complex analisys"}
+                  onClick={() => {
+                    setMultiSimulationAnchor(null)
+                    runComplexMultiAttackersGauntlet();
+                  }}>
+                  <Typography>Attacker's vs stack complex analisys</Typography>
+                </MenuItem>
+                <MenuItem
+                  disabled={true}
+                  key={"Defender's vs stack complex analisys"}
+                  onClick={() => {
+                    setMultiSimulationAnchor(null)
+                    runComplexMultiDefendersGauntlet();
+                  }}>
+                  <Typography>Defender's vs stack complex analisys</Typography>
+                </MenuItem>
               </Menu>
             </ButtonGroup>
           </Box>
@@ -253,6 +306,3 @@ function App() {
     </>
   )
 }
-
-export default App
-
