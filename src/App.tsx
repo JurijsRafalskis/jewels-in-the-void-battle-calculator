@@ -16,7 +16,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import FullBattleLogDisplay from './components/display/FullBattleLogDisplay';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
-import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Link, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
@@ -26,6 +26,7 @@ import { SimulateDoubleStackBattles, SimulateSimpleGauntletOfBattles, SimulateCo
 import { BattleRole } from './model/BattleStructure';
 import React from 'react';
 import { IArmy } from './model/armyComposition/Army';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const defaultTheme = createTheme({});
 
@@ -140,6 +141,13 @@ function App() {
             <Typography variant="h5">
               Jewels in the Void battle simulator.
             </Typography>
+            <IconButton 
+              sx={{"margin-left":"auto"}}
+              href="https://github.com/JurijsRafalskis/jewels-in-the-void-battle-calculator"
+              target='_blank'
+            >
+              <GitHubIcon></GitHubIcon>
+            </IconButton>
           </Toolbar>
         </AppBar>
       </Box>
