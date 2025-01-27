@@ -30,7 +30,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 const defaultTheme = createTheme({});
 
-function App() {
+export default function App() {
   const [calculatorConfiguration, setConfiguration] = useState<IBattleConfiguration>(GetDefaultConfig());
   const [attackerArmyStack, setAttackerArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultAttackerComposition(), stack: [] });
   const [defenderArmyStack, setDefenderArmyStack] = useState<IArmyStack>({ activeArmy: GetDefaultDefenderComposition(), stack: [] });
@@ -304,6 +304,3 @@ function App() {
     </>
   )
 }
-
-export default App
-
