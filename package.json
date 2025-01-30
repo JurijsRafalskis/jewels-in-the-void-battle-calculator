@@ -11,9 +11,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "predeploy-local": "npm run build && npm run test",
-    "deploy-local": "gh-pages -d dist",
-    "predeploy-action" : "npm run build",
-    "deploy-action" : "gh-pages -d dist"
+    "deploy-local": "gh-pages -d dist"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
