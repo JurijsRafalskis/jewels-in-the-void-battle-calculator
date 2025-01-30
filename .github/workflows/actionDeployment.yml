@@ -1,11 +1,10 @@
 # This workflow builds and publishes the pages after push in main.
 
-name: Github Pages CD
+name: CD to Github Pages
 
 on:
     push:
       branches: [ "main" ]
-  
     workflow_dispatch:
     
 permissions:

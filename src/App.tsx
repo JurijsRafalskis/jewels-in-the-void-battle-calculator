@@ -141,9 +141,9 @@ export default function App() {
             <Typography variant="h5">
               Jewels in the Void battle simulator.
             </Typography>
-            <Tooltip title="Visit source code">
+            <Tooltip title="Source code">
               <IconButton
-                aria-label="Visit source code"
+                aria-label="Source code"
                 sx={{ "margin-left": "auto" }}
                 href="https://github.com/JurijsRafalskis/jewels-in-the-void-battle-calculator"
                 target='_blank'
