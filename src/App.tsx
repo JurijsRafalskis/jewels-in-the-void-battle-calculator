@@ -139,7 +139,7 @@ export default function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h5">
-              Jewels in the Void battle simulator.
+              Jewels in the Void battle simulator
             </Typography>
             <Tooltip title="Source code">
               <IconButton
