@@ -7,14 +7,21 @@ import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues, RollMode } from "../model/BattleConfiguration";
 import { PrepareUnit } from "../utils/GenericUtilities";
 import { RadiantLance, HundredWings } from "./InitialHeroValues";
-import { SlayersOfFleshUnit, DiggerSwarm, PinionsOfGod, MycellumVanguard, InfestedMob } from "./InitialUnitValues";
+import { SlayersOfFleshUnit, DiggerSwarm, PinionsOfGod, MycellumVanguard, InfestedMob, GaswaspFlight, CantusGuardians } from "./InitialUnitValues";
 
 export function GetDefaultAttackerComposition(): IArmy {
-    return { units:[PrepareUnit(SlayersOfFleshUnit)]};
+    return { units:[
+        PrepareUnit(SlayersOfFleshUnit),
+        PrepareUnit(PinionsOfGod),
+        PrepareUnit(CantusGuardians)
+    ]};
 }
 
 export function GetDefaultDefenderComposition(): IArmy {
-    return { units:[PrepareUnit(DiggerSwarm)]};
+    return { units:[
+        PrepareUnit(DiggerSwarm),
+        PrepareUnit(DiggerSwarm)
+    ]};
 }
 
 export function GetAllExistingUnits(): IUnit[] {
@@ -23,7 +30,9 @@ export function GetAllExistingUnits(): IUnit[] {
         PrepareUnit(PinionsOfGod),
         PrepareUnit(DiggerSwarm),
         PrepareUnit(MycellumVanguard),
-        PrepareUnit(InfestedMob)
+        PrepareUnit(InfestedMob),
+        PrepareUnit(GaswaspFlight),
+        PrepareUnit(CantusGuardians)
     ];
 }
 
@@ -38,7 +47,8 @@ export function GetAllFungalUnits(): IUnit[]{
     return [
         PrepareUnit(DiggerSwarm),
         PrepareUnit(MycellumVanguard),
-        PrepareUnit(InfestedMob)
+        PrepareUnit(InfestedMob),
+        PrepareUnit(GaswaspFlight)
     ];
 }
 

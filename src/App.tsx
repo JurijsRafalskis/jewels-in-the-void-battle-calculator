@@ -139,7 +139,7 @@ export default function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h5">
-              Jewels in the Void battle simulator.
+              Jewels in the Void battle simulator
             </Typography>
             <Tooltip title="Source code">
               <IconButton
@@ -218,6 +218,7 @@ export default function App() {
                 </MenuItem>
                 <MenuItem
                   key={"Attacker vs stack"}
+                  disabled={defenderArmyStack.stack.length == 0}
                   onClick={() => {
                     setSingleSimulationAnchor(null)
                     runSingleAttackersGauntlet();
@@ -226,6 +227,7 @@ export default function App() {
                 </MenuItem>
                 <MenuItem
                   key={"Defender vs stack"}
+                  disabled={attackerArmyStack.stack.length == 0}
                   onClick={() => {
                     setSingleSimulationAnchor(null)
                     runSingleDefendersGauntlet();
@@ -262,6 +264,7 @@ export default function App() {
                 </MenuItem>
                 <MenuItem
                   key={"Attacker's vs stack simple analisys"}
+                  disabled={defenderArmyStack.stack.length == 0}
                   onClick={() => {
                     setMultiSimulationAnchor(null)
                     runSimpleMultiAttackersGauntlet();
@@ -270,6 +273,7 @@ export default function App() {
                 </MenuItem>
                 <MenuItem
                   key={"Defender's vs stack simple analisys"}
+                  disabled={attackerArmyStack.stack.length == 0}
                   onClick={() => {
                     setMultiSimulationAnchor(null)
                     runSimpleMultiDefendersGauntlet();
