@@ -58,6 +58,24 @@ export const PinionsOfGod: IUnit = {
     }
 };
 
+export const CantusGuardians: IUnit = {
+    Title: "Pinions of God",
+    Health: 15,
+    Organization: 80,
+    Morale: 3,
+    Maneuver: 0,
+    ManeuverStaticBonus: 0,
+    Traits:[],
+    FireBonus: {
+        Offensive: 0,
+        Defensive: 1
+    },
+    ShockBonus: {
+        Offensive: 0,
+        Defensive: 1
+    }
+};
+
 export const DiggerSwarm: IUnit = {
     Title: "Digger Swarm",
     Health: 15,
@@ -109,5 +127,23 @@ export const InfestedMob: IUnit = {
     ShockBonus: {
         Offensive: 1,
         Defensive: 1
+    }
+};
+
+export const GaswaspFlight: IUnit = {
+    Title: "Gaswasp Flight",
+    Health: 15,
+    Organization: 100,
+    Morale: 5,
+    Maneuver: 4,
+    ManeuverStaticBonus: 0,
+    Traits:[],
+    FireBonus: {
+        Offensive: 0,
+        Defensive: 1
+    },
+    ShockBonus: {
+        Offensive: 0,
+        Defensive: 2
     }
 };
