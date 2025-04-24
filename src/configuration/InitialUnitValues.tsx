@@ -59,7 +59,7 @@ export const PinionsOfGod: IUnit = {
 };
 
 export const CantusGuardians: IUnit = {
-    Title: "Pinions of God",
+    Title: "Cantus Guardians",
     Health: 15,
     Organization: 80,
     Morale: 3,
