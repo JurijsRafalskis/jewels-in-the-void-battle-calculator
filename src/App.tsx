@@ -16,7 +16,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import FullBattleLogDisplay from './components/display/FullBattleLogDisplay';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
-import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Link, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
@@ -27,6 +27,8 @@ import { BattleRole } from './model/BattleStructure';
 import React from 'react';
 import { IArmy } from './model/armyComposition/Army';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import { PresetGenerationMenu } from './components/controls/PresetGenerationMenu';
 
 const defaultTheme = createTheme({});
 
@@ -151,6 +153,16 @@ export default function App() {
                 <GitHubIcon fontSize='large'></GitHubIcon>
               </IconButton>
             </Tooltip>
+            <Tooltip title="Jewels in the Void quest link">
+              <IconButton
+                aria-label="Jewels in the Void quest link"
+                sx={{ "margin-left": "auto" }}
+                href="https://forums.sufficientvelocity.com/threads/jewels-in-the-void.137123/"
+                target='_blank'
+              >
+                <DiamondIcon fontSize='large'></DiamondIcon>
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
       </Box>
@@ -185,13 +197,21 @@ export default function App() {
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>Additional controls</AccordionSummary>
               <AccordionDetails>
-                <ButtonGroup variant="contained">
+                <ButtonGroup variant="contained" sx={{marginBottom:"10px"}} >
                   <Button variant="contained" onClick={() => {
                     setAttackerArmyStack({ ...attackerArmyStack, activeArmy: { ...attackerArmyStack.activeArmy, units: GenerateRandomSetOfUnits() } })
                   }}>Generate attacker</Button>
                   <Button variant="contained" onClick={() => {
                     setDefenderArmyStack({ ...defenderArmyStack, activeArmy: { ...defenderArmyStack.activeArmy, units: GenerateRandomSetOfUnits() } })
                   }}>Generate defender</Button>
+                </ButtonGroup>
+                <ButtonGroup variant="contained" sx={{marginBottom:"10px"}}>
+                  <PresetGenerationMenu  title="Set attacker's preset" callback={(army) => setAttackerArmyStack({activeArmy:army, stack:[]})}/>
+                  <PresetGenerationMenu  title="Set defender's preset" callback={(army) => setDefenderArmyStack({activeArmy:army, stack:[]})}/>
+                </ButtonGroup>
+                <ButtonGroup variant="contained">
+                  <PresetGenerationMenu  title="Add attacker's preset" callback={(army) => setAttackerArmyStack({...attackerArmyStack, stack: [...attackerArmyStack.stack, army]})}/>
+                  <PresetGenerationMenu  title="Add defender's preset" callback={(army) => setDefenderArmyStack({...defenderArmyStack, stack: [...defenderArmyStack.stack, army]})}/>
                 </ButtonGroup>
               </AccordionDetails>
             </Accordion>
@@ -310,3 +330,4 @@ export default function App() {
     </>
   )
 }
+

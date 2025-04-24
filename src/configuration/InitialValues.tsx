@@ -1,4 +1,5 @@
 import { IArmy } from "../model/armyComposition/Army";
+import { IArmyStack } from "../model/armyComposition/ArmyStack";
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { Hero } from "../model/armyComposition/Hero";
 import { BonusDamagePhase } from "../model/armyComposition/Traits/BonusDamagePhase";
@@ -8,6 +9,27 @@ import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValu
 import { PrepareUnit } from "../utils/GenericUtilities";
 import { RadiantLance, HundredWings } from "./InitialHeroValues";
 import { SlayersOfFleshUnit, DiggerSwarm, PinionsOfGod, MycellumVanguard, InfestedMob, GaswaspFlight, CantusGuardians } from "./InitialUnitValues";
+
+export interface PresetConfig {
+    presetTitle:string
+    presetStackCreation():IArmy
+}
+
+export function GetPresetConfigs():PresetConfig[]{
+    return [
+        {
+            presetTitle: "The Roaring Symphony",
+            presetStackCreation: () => { return {
+                    units: [
+                        PrepareUnit({...SlayersOfFleshUnit, Organization : 100}),
+                        PrepareUnit({...PinionsOfGod, Organization : 100 }),
+                        PrepareUnit(CantusGuardians)
+                    ]
+                }
+            }
+        }        
+    ];
+}
 
 export function GetDefaultAttackerComposition(): IArmy {
     return { units:[
