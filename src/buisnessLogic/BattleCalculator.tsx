@@ -5,7 +5,7 @@ import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultL
 import { DieSet, DieType, GetMaximumDieSetValue, GetMinimumDieSetValue, Roll, RollMaximumDieSetValue, RollMinimumDieSetValue, RollResult } from "../utils/DieUtilities";
 import { CloneUnit } from "../utils/UnitUtils";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
-import { BattlePhaseLogInstance, EndOfBattleLogInstance, ManeuvrePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
+import { BattlePhaseLogInstance, EndOfBattleLogInstance, ManeuvrePhaseLogInstance, MoralePhaseLogInstance, PreBattleConditionsLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
 export const ManeuvrePhasePriority = 100;
 export const FirePhasePriority = 200;
@@ -55,6 +55,8 @@ export class BattleCalculator {
     public execute(): IBattleContext {
         let context: IBattleContext = GenerateDefaultBattleContext(this.#config, this.#AttackerAggregation, this.#DefenderAggregation);
 
+        context.log.push(new PreBattleConditionsLogInstance(context));
+
         this.#AttackerAggregation.Traits.forEach(t =>{
             t.registerBattleModifications(this, context, BattleRole.Attacker);
         });
@@ -103,6 +105,7 @@ function GenerateDefaultBattleContext(config:IBattleConfiguration, attacker:IUni
         attackerManeuvreDieFunction: selectRollFunction(config.AttackerRollMode.ManeuverRollMode),
         defenderDamageDieFunction: selectRollFunction(config.DefenderRollMode.DamageRollMode),
         defenderManeuvreDieFunction: selectRollFunction(config.DefenderRollMode.ManeuverRollMode),
+        metadata: {}
     }
 }
 

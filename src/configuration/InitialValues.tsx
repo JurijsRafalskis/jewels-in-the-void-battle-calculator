@@ -1,8 +1,8 @@
 import { IArmy } from "../model/armyComposition/Army";
-import { IArmyStack } from "../model/armyComposition/ArmyStack";
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { Hero } from "../model/armyComposition/Hero";
 import { BonusDamagePhase } from "../model/armyComposition/Traits/BonusDamagePhase";
+import { PreBattleOrganisationImpactPhase } from "../model/armyComposition/Traits/PreBattleOrganisationImpactPhase";
 import { ITrait } from "../model/armyComposition/Traits/Trait";
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues, RollMode } from "../model/BattleConfiguration";
@@ -32,11 +32,7 @@ export function GetPresetConfigs():PresetConfig[]{
 }
 
 export function GetDefaultAttackerComposition(): IArmy {
-    return { units:[
-        PrepareUnit(SlayersOfFleshUnit),
-        PrepareUnit(PinionsOfGod),
-        PrepareUnit(CantusGuardians)
-    ]};
+    return GetPresetConfigs()[0].presetStackCreation();
 }
 
 export function GetDefaultDefenderComposition(): IArmy {
@@ -61,7 +57,8 @@ export function GetAllExistingUnits(): IUnit[] {
 export function GetAllParadaisoUnits(): IUnit[]{
     return [
         PrepareUnit(SlayersOfFleshUnit),
-        PrepareUnit(PinionsOfGod)
+        PrepareUnit(PinionsOfGod),
+        PrepareUnit(CantusGuardians)
     ];
 }
 
@@ -133,7 +130,8 @@ export function GetHeroList():Hero[]{
 
 export function GetTraitList():ITrait[]{
     const result:ITrait[] = [
-        new BonusDamagePhase()
+        new BonusDamagePhase(),
+        new PreBattleOrganisationImpactPhase()
     ];
 
     return result;

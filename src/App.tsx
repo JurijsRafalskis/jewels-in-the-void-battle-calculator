@@ -16,13 +16,13 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import FullBattleLogDisplay from './components/display/FullBattleLogDisplay';
 import { ILogInstance, LogInstance } from './buisnessLogic/BattleLogs/GenericLogInstance';
-import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Menu, MenuItem, Tooltip, useMediaQuery } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Backdrop, CircularProgress, createTheme, IconButton, Menu, MenuItem, Stack, Tooltip, useMediaQuery } from '@mui/material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { FullArmyStackCard } from './components/editors/FullArmyEditor';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { IArmyStack } from './model/armyComposition/ArmyStack';
-import { SimulateDoubleStackBattles, SimulateSimpleGauntletOfBattles, SimulateComplexGauntletOfBattles, SimulateExtremeCasesOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
+import { SimulateDoubleStackBattles, SimulateSimpleGauntletOfBattles, SimulateComplexGauntletOfBattles, SimulateSetOfBattles, SimulateSingleBattle, SimulateSingleGauntlet } from './buisnessLogic/CalculatorService';
 import { BattleRole } from './model/BattleStructure';
 import React from 'react';
 import { IArmy } from './model/armyComposition/Army';
@@ -143,26 +143,26 @@ export default function App() {
             <Typography variant="h5">
               Jewels in the Void battle simulator
             </Typography>
-            <Tooltip title="Source code">
-              <IconButton
-                aria-label="Source code"
-                sx={{ "margin-left": "auto" }}
-                href="https://github.com/JurijsRafalskis/jewels-in-the-void-battle-calculator"
-                target='_blank'
-              >
-                <GitHubIcon fontSize='large'></GitHubIcon>
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Jewels in the Void quest link">
-              <IconButton
-                aria-label="Jewels in the Void quest link"
-                sx={{ "margin-left": "auto" }}
-                href="https://forums.sufficientvelocity.com/threads/jewels-in-the-void.137123/"
-                target='_blank'
-              >
-                <DiamondIcon fontSize='large'></DiamondIcon>
-              </IconButton>
-            </Tooltip>
+            <Stack direction="row" spacing={1} sx={{ "margin-left": "auto" }}>
+              <Tooltip title="Source code">
+                <IconButton
+                  aria-label="Source code"
+                  href="https://github.com/JurijsRafalskis/jewels-in-the-void-battle-calculator"
+                  target='_blank'
+                >
+                  <GitHubIcon fontSize='large'></GitHubIcon>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Jewels in the Void quest link">
+                <IconButton
+                  aria-label="Jewels in the Void quest link"
+                  href="https://forums.sufficientvelocity.com/threads/jewels-in-the-void.137123/"
+                  target='_blank'
+                >
+                  <DiamondIcon fontSize='large'></DiamondIcon>
+                </IconButton>
+              </Tooltip>
+            </Stack>
           </Toolbar>
         </AppBar>
       </Box>

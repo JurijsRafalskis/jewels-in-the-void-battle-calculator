@@ -7,9 +7,10 @@ import { UnitCard } from './UnitCard';
 export interface UnitHoverProps {
     unit: IUnit;
     children: ReactNode;
+    renderTraits?:boolean;
 }
 
-function UnitHover(props: UnitHoverProps) {
+function UnitHover({renderTraits = false, ...props}: UnitHoverProps) {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const popoverOpen = Boolean(anchorEl);
     const id = "PopoverId_" + props.unit.Metadata?.Key;
@@ -38,7 +39,7 @@ function UnitHover(props: UnitHoverProps) {
             }}
             disableAutoFocus={true}
         >
-            <UnitCard unit={props.unit} renderActions={{ edit: false, remove: false }}></UnitCard>
+            <UnitCard unit={props.unit} renderActions={{ edit: false, remove: false }} renderTraits={renderTraits}></UnitCard>
         </Popover>
     </>
 }

@@ -10,8 +10,6 @@ import "../../styles/ComponentStyles/StatsCardTables.css";
 import { Tooltip } from '@mui/material';
 import { TraitDisplay } from '../fields/TraitPicker';
 
-import { useSortable } from '@dnd-kit/sortable';
-
 export interface IUnidCardActionsRender {
     edit?:boolean;
     remove?:boolean;
@@ -20,11 +18,12 @@ export interface IUnidCardActionsRender {
 export interface UnitCardProps {
     unit: IUnit;
     renderActions?:IUnidCardActionsRender;
+    renderTraits?:boolean;
     onChange?(unitProps: IUnit | null): void;
     backgroundColorOverride?:string;
 }
 
-export function UnitCard( {renderActions = {edit:true, remove:true}, onChange = (u) => {}, ...props}:UnitCardProps) {
+export function UnitCard({renderActions = {edit:true, remove:true}, renderTraits = true, onChange = (u) => {}, ...props}:UnitCardProps) {
     const [editModalOpen, setEditModalOpen] = useState(false);
     let primaryStyleOverride = {};
     if(props.backgroundColorOverride)
@@ -69,7 +68,7 @@ export function UnitCard( {renderActions = {edit:true, remove:true}, onChange = 
                                 <td>Shock: </td>
                                 <td>{props.unit.ShockBonus.Offensive}/{props.unit.ShockBonus.Defensive}</td>
                             </tr>
-                            {props.unit.Traits && props.unit.Traits.length > 0 && <tr>
+                            {renderTraits && props.unit.Traits && props.unit.Traits.length > 0 && <tr>
                                 <td>Traits:</td>
                                 <td><TraitDisplay traits={props.unit.Traits}/></td>
                             </tr>}

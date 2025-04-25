@@ -3,11 +3,13 @@ import { IUnit } from '../../model/armyComposition/Unit';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import { MenuItem, TextField, TextFieldVariants } from '@mui/material';
+import { TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import { UncontrolledLimitedIntegerNumberField } from '../fields/ControlledIntegerNumberField';
 import { CreateEmptyUnit } from '../../configuration/InitialUnitValues';
 import { CloneUnit } from '../../utils/UnitUtils';
+import { TraitEditor } from '../fields/TraitPicker';
+import { ITrait } from '../../model/armyComposition/Traits/Trait';
 
 export interface UnitFormProps {
     unit?: IUnit;
@@ -112,6 +114,19 @@ function UnitEditForm(props: UnitFormProps) {
                                         label="Offensive shock"
                                         defaultValue={currentUnit.ShockBonus.Defensive}
                                         onChange={v => setCurrentUnit(u => { return { ...u, ShockBonus: { ...u.ShockBonus, Defensive: v } } })}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                            <td>Traits:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <TraitEditor
+                                        traits={currentUnit.Traits}
+                                        onChange={function (traits: ITrait[]): void {
+                                            setCurrentUnit(u => {return {...u, Traits: traits}});
+                                        }}
                                     />
                                 </td>
                             </tr>
