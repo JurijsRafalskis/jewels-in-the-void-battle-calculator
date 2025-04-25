@@ -19,8 +19,8 @@ export class MultiStackSimulationLog implements ILogInstance {
     #mainCombatantRole:BattleRole;
     #mainCombatantHealth:ConditionAccumulator;
     #victoryDictionary:NumberKeyedDictionary<number> = {};
-    #organisationChangeDictionary:NumberKeyedDictionary<number> = {};
-    #organisationGainTotal:number = 0;
+    #organizationChangeDictionary:NumberKeyedDictionary<number> = {};
+    #organizationGainTotal:number = 0;
     #totalCount:number = 0;
     #personalDestructionsCount:number = 0;
     #initalUnitState:IUnit;
@@ -46,10 +46,10 @@ export class MultiStackSimulationLog implements ILogInstance {
         else this.#victoryDictionary[victoryCount]++;
         if(finalUnitState.Health == 0) this.#personalDestructionsCount++;
         let postFinalUnitStats = PostBattleRevitalizationOfUnit(this.#initalUnitState, finalUnitState);
-        let organisationChange = postFinalUnitStats.Organization - this.#initalUnitState.Organization;
-        if(!this.#organisationChangeDictionary[organisationChange]) this.#organisationChangeDictionary[organisationChange] = 1;
-        else this.#organisationChangeDictionary[organisationChange]++;
-        this.#organisationGainTotal += organisationChange;
+        let organizationChange = postFinalUnitStats.Organization - this.#initalUnitState.Organization;
+        if(!this.#organizationChangeDictionary[organizationChange]) this.#organizationChangeDictionary[organizationChange] = 1;
+        else this.#organizationChangeDictionary[organizationChange]++;
+        this.#organizationGainTotal += organizationChange;
     }
 
     GetFormattedLogElement(): JSX.Element {
@@ -67,11 +67,11 @@ export class MultiStackSimulationLog implements ILogInstance {
             <Box>Number of fights ending in {BattleRole[this.#mainCombatantRole]}'s' army destruction: {this.#personalDestructionsCount}/{Math.round(this.#personalDestructionsCount * 100 / this.#totalCount)}%</Box>
             {this.#mainCombatantHealth.GetFormattedResults()}
             <Box sx={{marginBottom:"10px"}}>
-                Average change in organisation: {Math.round(this.#organisationGainTotal * 100 / this.#totalCount) / 100}
+                Average change in organization: {Math.round(this.#organizationGainTotal * 100 / this.#totalCount) / 100}
                 <BasicNumberHistogramHover
-                    title="Organisation change"
-                    data={this.#organisationChangeDictionary}
-                    xLabel="Organisation change"
+                    title="Organization change"
+                    data={this.#organizationChangeDictionary}
+                    xLabel="Organization change"
                     yLabel="Probability density"
                     normalize={true}
                 >

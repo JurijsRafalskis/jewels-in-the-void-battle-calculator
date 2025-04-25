@@ -2,7 +2,7 @@ import { IArmy } from "../model/armyComposition/Army";
 import { IBattleFieldModifier } from "../model/armyComposition/BattleFieldModifier";
 import { Hero } from "../model/armyComposition/Hero";
 import { BonusDamagePhase } from "../model/armyComposition/Traits/BonusDamagePhase";
-import { PreBattleOrganisationImpactPhase } from "../model/armyComposition/Traits/PreBattleOrganisationImpactPhase";
+import { PreBattleOrganizationImpactPhase } from "../model/armyComposition/Traits/PreBattleOrganizationImpactPhase";
 import { ITrait } from "../model/armyComposition/Traits/Trait";
 import { IUnit } from "../model/armyComposition/Unit";
 import { DieSelectionModeValues, IBattleConfiguration, MoraleCalculationModeValues, RollMode } from "../model/BattleConfiguration";
@@ -107,7 +107,7 @@ export function GetDefaultBattleFieldModifier():IBattleFieldModifier{
         HealthBonus: 0,
         ManeuverRollBonus: 0,
         ManeuverStaticBonus: 0,
-        OrganisationBonus: 0,
+        OrganizationBonus: 0,
         FireBonus: {
             Defensive: 0,
             Offensive: 0
@@ -131,7 +131,7 @@ export function GetHeroList():Hero[]{
 export function GetTraitList():ITrait[]{
     const result:ITrait[] = [
         new BonusDamagePhase(),
-        new PreBattleOrganisationImpactPhase()
+        new PreBattleOrganizationImpactPhase()
     ];
 
     return result;

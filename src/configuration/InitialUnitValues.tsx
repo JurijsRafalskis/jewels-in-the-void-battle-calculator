@@ -1,4 +1,4 @@
-import { PreBattleOrganisationImpactPhase } from "../model/armyComposition/Traits/PreBattleOrganisationImpactPhase";
+import { PreBattleOrganizationImpactPhase } from "../model/armyComposition/Traits/PreBattleOrganizationImpactPhase";
 import { IUnit } from "../model/armyComposition/Unit";
 import { AppendKeyToUnit } from "../utils/GenericUtilities";
 
@@ -59,12 +59,12 @@ export const PinionsOfGod: IUnit = {
     }
 };
 
-const cantusGuardiansDefaultTrait = new PreBattleOrganisationImpactPhase();
+const cantusGuardiansDefaultTrait = new PreBattleOrganizationImpactPhase();
 cantusGuardiansDefaultTrait.AppliesToOpponent = true;
 cantusGuardiansDefaultTrait.AppliesToSelf = false;
 cantusGuardiansDefaultTrait.TraitIdentifier = "Cantus of Defiance";
 cantusGuardiansDefaultTrait.MaximumApplications = 2;
-cantusGuardiansDefaultTrait.OrganisationImpact = -5;
+cantusGuardiansDefaultTrait.OrganizationImpact = -5;
 
 export const CantusGuardians: IUnit = {
     Title: "Cantus Guardians",

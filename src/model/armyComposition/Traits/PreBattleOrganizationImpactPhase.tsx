@@ -10,21 +10,21 @@ import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { UncontrolledLimitedIntegerNumberField } from "../../../components/fields/ControlledIntegerNumberField";
 import { TextField } from '@mui/material';
 
-const traitTitle = "Pre-battle Organisation impact";
+const traitTitle = "Pre-battle Organization impact";
 
-interface PreBattleOrganisationImpactPhaseRelevantValues {
+interface PreBattleOrganizationImpactPhaseRelevantValues {
     TraitIdentifier: string;
-    OrganisationImpact: number;
+    OrganizationImpact: number;
     MaximumApplications: number;
     AppliesToSelf: boolean;
     AppliesToOpponent: boolean;
 }
 
-export class PreBattleOrganisationImpactPhase implements ITrait, PreBattleOrganisationImpactPhaseRelevantValues {
+export class PreBattleOrganizationImpactPhase implements ITrait, PreBattleOrganizationImpactPhaseRelevantValues {
     Title: string = traitTitle;
     TraitIdentifier: string = "Cantus of Defiance";
     #key: string = GenerateKey();
-    OrganisationImpact: number = -5;
+    OrganizationImpact: number = -5;
     MaximumApplications: number = 2;
     AppliesToSelf: boolean = false;
     AppliesToOpponent: boolean = true;
@@ -34,20 +34,20 @@ export class PreBattleOrganisationImpactPhase implements ITrait, PreBattleOrgani
     createEditForm(onChange: (v: ITrait) => void, onClose: () => void): ReactElement {
         return <BonusDamagePhaseEditor
             TraitIdentifier={this.TraitIdentifier}
-            OrganisationImpact={this.OrganisationImpact}
+            OrganizationImpact={this.OrganizationImpact}
             MaximumApplications={this.MaximumApplications}
             AppliesToSelf={this.AppliesToSelf}
             AppliesToOpponent={this.AppliesToOpponent}
             onClose={onClose}
             onSave={(traitValues) => {
                 //recreating the object to ensure that react rerenders everything correctly... Might be unneccessary, and is definetely unwieldy for bigger traits.
-                var result = new PreBattleOrganisationImpactPhase();
+                var result = new PreBattleOrganizationImpactPhase();
                 onChange(Object.assign(result, traitValues));
             }}
         />
     }
     createTooltip(): ReactElement {
-        return <>{this.OrganisationImpact > 0 ? "Increases " : "Reduces "}{this.AppliesToSelf && "own"}{this.AppliesToSelf && this.AppliesToOpponent ? " and " : ""}{this.AppliesToOpponent && "opponent's"} Organisation by {this.OrganisationImpact} up until maximum of {this.OrganisationImpact * this.MaximumApplications}</>
+        return <>{this.OrganizationImpact > 0 ? "Increases " : "Reduces "}{this.AppliesToSelf && "own"}{this.AppliesToSelf && this.AppliesToOpponent ? " and " : ""}{this.AppliesToOpponent && "opponent's"} Organization by {this.OrganizationImpact} up until maximum of {this.OrganizationImpact * this.MaximumApplications}</>
     }
     registerBattleModifications(calculator: BattleCalculator, context: IBattleContext, role: BattleRole): void {
         const metadataKey = this.getMetadataKey();
@@ -64,23 +64,23 @@ export class PreBattleOrganisationImpactPhase implements ITrait, PreBattleOrgani
 
         if (this.AppliesToSelf) {
             if (role == BattleRole.Attacker) {
-                context.attackerCurrentState.Organization += this.OrganisationImpact;
-                context.log.push(new PreBattleOrganisationStepLogs(context, BattleRole.Attacker, this));
+                context.attackerCurrentState.Organization += this.OrganizationImpact;
+                context.log.push(new PreBattleOrganizationStepLogs(context, BattleRole.Attacker, this));
             }
             else {
-                context.defenderCurrentState.Organization += this.OrganisationImpact;
-                context.log.push(new PreBattleOrganisationStepLogs(context, BattleRole.Defender, this));
+                context.defenderCurrentState.Organization += this.OrganizationImpact;
+                context.log.push(new PreBattleOrganizationStepLogs(context, BattleRole.Defender, this));
             }
         }
 
         if (this.AppliesToOpponent) {
             if (role == BattleRole.Attacker) {
-                context.defenderCurrentState.Organization += this.OrganisationImpact;
-                context.log.push(new PreBattleOrganisationStepLogs(context, BattleRole.Defender, this));
+                context.defenderCurrentState.Organization += this.OrganizationImpact;
+                context.log.push(new PreBattleOrganizationStepLogs(context, BattleRole.Defender, this));
             }
             else {
-                context.attackerCurrentState.Organization += this.OrganisationImpact;
-                context.log.push(new PreBattleOrganisationStepLogs(context, BattleRole.Attacker, this));
+                context.attackerCurrentState.Organization += this.OrganizationImpact;
+                context.log.push(new PreBattleOrganizationStepLogs(context, BattleRole.Attacker, this));
             }
         }
 
@@ -88,11 +88,11 @@ export class PreBattleOrganisationImpactPhase implements ITrait, PreBattleOrgani
     }
 
     getMetadataKey(): string {
-        return `PreBattleOrganisationApplianceCount_${this.TraitIdentifier}`;
+        return `PreBattleOrganizationApplianceCount_${this.TraitIdentifier}`;
     }
 
     clone(): ITrait {
-        var result = new PreBattleOrganisationImpactPhase();
+        var result = new PreBattleOrganizationImpactPhase();
         return Object.assign(result, this);
     }
     getKey(): string {
@@ -100,14 +100,14 @@ export class PreBattleOrganisationImpactPhase implements ITrait, PreBattleOrgani
     }
 }
 
-interface PreBattleOrganisationEditorProps extends PreBattleOrganisationImpactPhaseRelevantValues {
-    onSave: (v: PreBattleOrganisationImpactPhaseRelevantValues) => void;
+interface PreBattleOrganizationEditorProps extends PreBattleOrganizationImpactPhaseRelevantValues {
+    onSave: (v: PreBattleOrganizationImpactPhaseRelevantValues) => void;
     onClose: () => void
 }
 
-function BonusDamagePhaseEditor({ TraitIdentifier = "", OrganisationImpact = -5, MaximumApplications = 2, AppliesToSelf = false, AppliesToOpponent = true, ...props }: PreBattleOrganisationEditorProps) {
+function BonusDamagePhaseEditor({ TraitIdentifier = "", OrganizationImpact = -5, MaximumApplications = 2, AppliesToSelf = false, AppliesToOpponent = true, ...props }: PreBattleOrganizationEditorProps) {
     const [currentTraitIdentifier, setCurrentTraitIdentifier] = useState(TraitIdentifier);
-    const [currentOrganisationImpact, setOrganisationImpact] = useState(OrganisationImpact);
+    const [currentOrganizationImpact, setOrganizationImpact] = useState(OrganizationImpact);
     const [currentMaximumApplications, setMaximumApplications] = useState(MaximumApplications);
     const [currentAppliesToSelf, setCurrentAppliesToSelf] = useState(AppliesToSelf);
     const [currentAppliesToOpponent, setCurrentAppliesToOpponent] = useState(AppliesToOpponent);
@@ -138,9 +138,9 @@ function BonusDamagePhaseEditor({ TraitIdentifier = "", OrganisationImpact = -5,
                         </tr>
                         <tr>
                             <td><UncontrolledLimitedIntegerNumberField
-                                label="Organisation Impact"
-                                defaultValue={currentOrganisationImpact}
-                                onChange={newPriority => setOrganisationImpact(newPriority)}
+                                label="Organization Impact"
+                                defaultValue={currentOrganizationImpact}
+                                onChange={newPriority => setOrganizationImpact(newPriority)}
                             /></td>
                         </tr>
                         <tr>
@@ -173,9 +173,9 @@ function BonusDamagePhaseEditor({ TraitIdentifier = "", OrganisationImpact = -5,
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={() => {
-                    const newTrait = new PreBattleOrganisationImpactPhase();
+                    const newTrait = new PreBattleOrganizationImpactPhase();
                     newTrait.TraitIdentifier = currentTraitIdentifier;
-                    newTrait.OrganisationImpact = currentOrganisationImpact;
+                    newTrait.OrganizationImpact = currentOrganizationImpact;
                     newTrait.MaximumApplications = currentMaximumApplications;
                     newTrait.AppliesToSelf = currentAppliesToSelf;
                     newTrait.AppliesToOpponent = currentAppliesToOpponent;
@@ -187,10 +187,10 @@ function BonusDamagePhaseEditor({ TraitIdentifier = "", OrganisationImpact = -5,
     </>
 }
 
-export class PreBattleOrganisationStepLogs extends LogInstance {
+export class PreBattleOrganizationStepLogs extends LogInstance {
     #role: BattleRole
-    #step: PreBattleOrganisationImpactPhase;
-    constructor(context: IBattleContext, role: BattleRole, step: PreBattleOrganisationImpactPhase) {
+    #step: PreBattleOrganizationImpactPhase;
+    constructor(context: IBattleContext, role: BattleRole, step: PreBattleOrganizationImpactPhase) {
         super(context);
         this.#role = role;
         this.#step = step;
@@ -198,10 +198,10 @@ export class PreBattleOrganisationStepLogs extends LogInstance {
 
     public GetFormattedLogElement(): JSX.Element {
         return <Box>
-            <Box><Box component="span" sx={{ fontWeight: 'bold' }}>{`Pre battle Organisation impact caused by "${this.#step.TraitIdentifier}":`}</Box></Box>
+            <Box><Box component="span" sx={{ fontWeight: 'bold' }}>{`Pre battle Organization impact caused by "${this.#step.TraitIdentifier}":`}</Box></Box>
             <Box>
                 <Box>
-                    <Box component="span">{BattleRole[this.#role]} organisation has been impacted by {this.#step.OrganisationImpact}.</Box>
+                    <Box component="span">{BattleRole[this.#role]} organization has been impacted by {this.#step.OrganizationImpact}.</Box>
                     <UnitHover unit={this.#role == BattleRole.Attacker ? this.attacker : this.defender}><FlashOnIcon fontSize={"inherit"} /></UnitHover>
                 </Box>
             </Box>
