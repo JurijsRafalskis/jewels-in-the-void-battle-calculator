@@ -198,21 +198,12 @@ export default function App() {
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>Additional controls</AccordionSummary>
               <AccordionDetails>
                 <ButtonGroup variant="contained" sx={{marginBottom:"10px"}} >
-                <ButtonGroup variant="contained" sx={{marginBottom:"10px"}} >
                   <Button variant="contained" onClick={() => {
                     setAttackerArmyStack({ ...attackerArmyStack, activeArmy: { ...attackerArmyStack.activeArmy, units: GenerateRandomSetOfUnits() } })
                   }}>Generate attacker</Button>
                   <Button variant="contained" onClick={() => {
                     setDefenderArmyStack({ ...defenderArmyStack, activeArmy: { ...defenderArmyStack.activeArmy, units: GenerateRandomSetOfUnits() } })
                   }}>Generate defender</Button>
-                </ButtonGroup>
-                <ButtonGroup variant="contained" sx={{marginBottom:"10px"}}>
-                  <PresetGenerationMenu  title="Set attacker's preset" callback={(army) => setAttackerArmyStack({activeArmy:army, stack:[]})}/>
-                  <PresetGenerationMenu  title="Set defender's preset" callback={(army) => setDefenderArmyStack({activeArmy:army, stack:[]})}/>
-                </ButtonGroup>
-                <ButtonGroup variant="contained">
-                  <PresetGenerationMenu  title="Add attacker's preset" callback={(army) => setAttackerArmyStack({...attackerArmyStack, stack: [...attackerArmyStack.stack, army]})}/>
-                  <PresetGenerationMenu  title="Add defender's preset" callback={(army) => setDefenderArmyStack({...defenderArmyStack, stack: [...defenderArmyStack.stack, army]})}/>
                 </ButtonGroup>
                 <ButtonGroup variant="contained" sx={{marginBottom:"10px"}}>
                   <PresetGenerationMenu  title="Set attacker's preset" callback={(army) => setAttackerArmyStack({activeArmy:army, stack:[]})}/>
