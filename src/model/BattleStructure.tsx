@@ -1,4 +1,5 @@
 import { ILogInstance, LogInstance } from "../buisnessLogic/BattleLogs/GenericLogInstance";
+import { StringKeyedDictionary } from "../structures/Dictionaries";
 import { DieSet, RollResult } from "../utils/DieUtilities";
 import { IUnit } from "./armyComposition/Unit";
 import { IBattleConfiguration } from "./BattleConfiguration";
@@ -58,6 +59,7 @@ export interface IBattleContext {
     defenderDamageDieFunction:(set:DieSet[])=>RollResult;
     attackerManeuvreDieFunction:(set:DieSet[])=>RollResult;
     defenderManeuvreDieFunction:(set:DieSet[])=>RollResult;
+    metadata:StringKeyedDictionary<any>;
 }
 
 export interface BattleStep {

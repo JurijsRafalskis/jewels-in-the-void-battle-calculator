@@ -52,8 +52,8 @@ export function BattleFieldModifierTableContent({ shouldRenderWrapperTable = tru
     const tableContent = (<>
         
         <tr>
-            <td>Organisation: </td>
-            <td>{props.modifier.OrganisationBonus}</td>
+            <td>Organization: </td>
+            <td>{props.modifier.OrganizationBonus}</td>
         </tr>
         <tr>
             <td>Manuever: </td>
@@ -109,8 +109,8 @@ export function BattleFieldModifierEditor(props: IBattleFieldModifierEditorProps
                         <td>
                             <UncontrolledLimitedIntegerNumberField
                                 label="Organization"
-                                defaultValue={curentModifier.OrganisationBonus}
-                                onChange={v => setCurrentModifier(u => { return { ...u, OrganisationBonus: v }; })}
+                                defaultValue={curentModifier.OrganizationBonus}
+                                onChange={v => setCurrentModifier(u => { return { ...u, OrganizationBonus: v }; })}
                             />
                         </td>
                     </tr>

@@ -5,7 +5,7 @@ import { BattleStep, IBattleContext, BattleResult, VictoryType, GetBattleResultL
 import { DieSet, DieType, GetMaximumDieSetValue, GetMinimumDieSetValue, Roll, RollMaximumDieSetValue, RollMinimumDieSetValue, RollResult } from "../utils/DieUtilities";
 import { CloneUnit } from "../utils/UnitUtils";
 import { CalculateTotalArmyStats } from "./ArmyTotals";
-import { BattlePhaseLogInstance, EndOfBattleLogInstance, ManeuvrePhaseLogInstance, MoralePhaseLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
+import { BattlePhaseLogInstance, EndOfBattleLogInstance, ManeuvrePhaseLogInstance, MoralePhaseLogInstance, PreBattleConditionsLogInstance, StartOfBattleLogInstance } from "./BattleLogs/LogInstances";
 
 export const ManeuvrePhasePriority = 100;
 export const FirePhasePriority = 200;
@@ -55,6 +55,8 @@ export class BattleCalculator {
     public execute(): IBattleContext {
         let context: IBattleContext = GenerateDefaultBattleContext(this.#config, this.#AttackerAggregation, this.#DefenderAggregation);
 
+        context.log.push(new PreBattleConditionsLogInstance(context));
+
         this.#AttackerAggregation.Traits.forEach(t =>{
             t.registerBattleModifications(this, context, BattleRole.Attacker);
         });
@@ -103,6 +105,7 @@ function GenerateDefaultBattleContext(config:IBattleConfiguration, attacker:IUni
         attackerManeuvreDieFunction: selectRollFunction(config.AttackerRollMode.ManeuverRollMode),
         defenderDamageDieFunction: selectRollFunction(config.DefenderRollMode.DamageRollMode),
         defenderManeuvreDieFunction: selectRollFunction(config.DefenderRollMode.ManeuverRollMode),
+        metadata: {}
     }
 }
 
@@ -180,14 +183,14 @@ function damagePhase(context: IBattleContext, config: IBattleConfiguration, cont
     let phaseBonusSelector: (unit: IDamageBonusStats) => IBattleBonusStats = contactPhase == BattleContactPhase.Fire ? (u => u.FireBonus) : (u => u.ShockBonus);
     let attackerDamgeRoll = context.attackerDamageDieFunction(context.attackersDamageDie);
     let attackersAttack = Math.max(Math.round(
-        ((context.attackerCurrentState.Organization + config.AttackersBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
+        ((context.attackerCurrentState.Organization + config.AttackersBattleFieldModifiers.OrganizationBonus + config.GlobalBattlefieldModifiers.OrganizationBonus) / 100.0) *
         (attackerDamgeRoll.total + phaseBonusSelector(context.attackerCurrentState).Offensive + phaseBonusSelector(config.AttackersBattleFieldModifiers).Offensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Offensive)
     ),0 );
     let attackersDamage = Math.max(attackersAttack - context.currentDefendersManeuverRollBonus,0);
     context.defenderCurrentState.Health = Math.max(context.defenderCurrentState.Health - attackersDamage, 0);
     let defenderDamageRoll = context.defenderDamageDieFunction(context.defendersDamageDie);
     let defenderAttack = Math.max(Math.round(
-        ((context.defenderCurrentState.Organization + config.DefenderBattleFieldModifiers.OrganisationBonus + config.GlobalBattlefieldModifiers.OrganisationBonus) / 100.0) *
+        ((context.defenderCurrentState.Organization + config.DefenderBattleFieldModifiers.OrganizationBonus + config.GlobalBattlefieldModifiers.OrganizationBonus) / 100.0) *
         (defenderDamageRoll.total + phaseBonusSelector(context.defenderCurrentState).Defensive + phaseBonusSelector(config.DefenderBattleFieldModifiers).Defensive + phaseBonusSelector(config.GlobalBattlefieldModifiers).Defensive)
     ), 0);
     let defendersDamage = Math.max(defenderAttack - context.currentAttackersManeuverRollBonus,0);

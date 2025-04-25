@@ -115,8 +115,8 @@ export function HeroEditForm(props: IHeroFormProps) {
                             <td>
                                 <UncontrolledLimitedIntegerNumberField
                                     label="Organization"
-                                    defaultValue={hero.OrganisationBonus}
-                                    onChange={v => setHeroValues(h => { return new Hero({ ...h, OrganisationBonus: v }); })}
+                                    defaultValue={hero.OrganizationBonus}
+                                    onChange={v => setHeroValues(h => { return new Hero({ ...h, OrganizationBonus: v }); })}
                                 />
                             </td>
                         </tr>

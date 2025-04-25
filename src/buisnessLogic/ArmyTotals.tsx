@@ -37,7 +37,7 @@ export function CalculateTotalArmyStats(army:IArmy, configuration:IBattleConfigu
     if(army.hero){
         armyStats.Maneuver += army.hero.ManeuverRollBonus;
         armyStats.ManeuverStaticBonus += army.hero.ManeuverStaticBonus;
-        armyStats.Organization += army.hero.OrganisationBonus;
+        armyStats.Organization += army.hero.OrganizationBonus;
         armyStats.FireBonus.Offensive += army.hero.FireBonus.Offensive;
         armyStats.FireBonus.Defensive += army.hero.FireBonus.Defensive;
         armyStats.ShockBonus.Offensive += army.hero.ShockBonus.Offensive;
@@ -80,7 +80,7 @@ export function GenerateDescriptiveArmyName(army:IArmy):string {
 }
 
 
-//Health is retained, morale is restored, organisation climbs up.
+//Health is retained, morale is restored, organization climbs up.
 export function PostBattleRevitalizationOfUnit(initialValues:IUnit, currentValues:IUnit, increaseOrganization:boolean = true):IUnit{
     let result = CloneUnit(initialValues);
     result.Health = currentValues.Health;

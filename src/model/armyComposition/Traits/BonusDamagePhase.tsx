@@ -20,6 +20,7 @@ interface BonusDamagePhaseRelevantValues {
 }
 
 export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues {
+    //Maybe modift constructor to accept efaul values easier?
     Title: string = traitTitle;
     #key: string = GenerateKey();
     Repeatable: boolean = false;
@@ -54,9 +55,9 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
 
     createEditForm(onChange: (v: ITrait) => void, onClose: () => void): ReactElement {
         return <BonusDamagePhaseEditor
-            damage={this.Damage}
-            priority={this.Priority}
-            repeatable={this.Repeatable}
+            Damage={this.Damage}
+            Priority={this.Priority}
+            Repeatable={this.Repeatable}
             onClose={onClose}
             onSave={(traitValues) => {
                 //recreating the object to ensure that react rerenders everything correctly... Might be unneccessary, and is definetely unwieldy for bigger traits.
@@ -79,18 +80,15 @@ export class BonusDamagePhase implements ITrait, BonusDamagePhaseRelevantValues 
     }
 }
 
-interface BonusDamagePhaseEditorProps {
-    repeatable: boolean;
-    priority: number;
-    damage: DieSet[];
+interface BonusDamagePhaseEditorProps extends BonusDamagePhaseRelevantValues {
     onSave: (v: BonusDamagePhaseRelevantValues) => void;
     onClose: () => void
 }
 
-function BonusDamagePhaseEditor({ repeatable = false, priority = 150, damage = [], ...props }: BonusDamagePhaseEditorProps) {
-    const [currentPriority, setCurrentPriority] = useState(priority);
-    const [currentRepeatability, setCurrentRepeatability] = useState(repeatable);
-    const [currentDamage, setCurrentDamage] = useState(damage);
+function BonusDamagePhaseEditor({ Repeatable  = false, Priority = 150, Damage = [], ...props }: BonusDamagePhaseEditorProps) {
+    const [currentPriority, setCurrentPriority] = useState(Priority);
+    const [currentRepeatability, setCurrentRepeatability] = useState(Repeatable);
+    const [currentDamage, setCurrentDamage] = useState(Damage);
     return <>
         <Card>
             <CardHeader>

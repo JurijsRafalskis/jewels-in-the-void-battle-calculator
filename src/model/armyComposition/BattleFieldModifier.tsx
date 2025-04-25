@@ -1,7 +1,7 @@
 import { IBattleBonusStats, IDamageBonusStats } from "./Unit";
 
 export interface IBattleFieldModifier extends IDamageBonusStats {
-    OrganisationBonus: number;
+    OrganizationBonus: number;
     ManeuverRollBonus: number;
     ManeuverStaticBonus: number;
     HealthBonus:number;
