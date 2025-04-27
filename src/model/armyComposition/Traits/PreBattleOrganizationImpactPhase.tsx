@@ -47,7 +47,7 @@ export class PreBattleOrganizationImpactPhase implements ITrait, PreBattleOrgani
         />
     }
     createTooltip(): ReactElement {
-        return <>{this.OrganizationImpact > 0 ? "Increases " : "Reduces "}{this.AppliesToSelf && "own"}{this.AppliesToSelf && this.AppliesToOpponent ? " and " : ""}{this.AppliesToOpponent && "opponent's"} Organization by {this.OrganizationImpact} up until maximum of {this.OrganizationImpact * this.MaximumApplications}</>
+        return <>{this.OrganizationImpact > 0 ? "Increases " : "Reduces "}{this.AppliesToSelf && "own"}{this.AppliesToSelf && this.AppliesToOpponent ? " and " : ""}{this.AppliesToOpponent && "opponent's"} Organization by {Math.abs(this.OrganizationImpact)} up until maximum of {Math.abs(this.OrganizationImpact * this.MaximumApplications)}</>
     }
     registerBattleModifications(calculator: BattleCalculator, context: IBattleContext, role: BattleRole): void {
         const metadataKey = this.getMetadataKey();
@@ -201,7 +201,7 @@ export class PreBattleOrganizationStepLogs extends LogInstance {
             <Box><Box component="span" sx={{ fontWeight: 'bold' }}>{`Pre battle Organization impact caused by "${this.#step.TraitIdentifier}":`}</Box></Box>
             <Box>
                 <Box>
-                    <Box component="span">{BattleRole[this.#role]} organization has been impacted by {this.#step.OrganizationImpact}.</Box>
+                    <Box component="span">{BattleRole[this.#role]} organization has been {this.#step.OrganizationImpact > 0 ? "increased" : "decreased"} by {Math.abs(this.#step.OrganizationImpact)}.</Box>
                     <UnitHover unit={this.#role == BattleRole.Attacker ? this.attacker : this.defender}><FlashOnIcon fontSize={"inherit"} /></UnitHover>
                 </Box>
             </Box>
