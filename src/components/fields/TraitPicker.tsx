@@ -78,7 +78,7 @@ export function TraitEditor(props: ITraitEditorProps) {
                     }}
                     onRemoval={function (): void {
                         let newTraits = [...props.traits]
-                        newTraits = newTraits.splice(index, 1);
+                        newTraits.splice(index, 1);
                         props.onChange(newTraits);
                     }} />
             })}
