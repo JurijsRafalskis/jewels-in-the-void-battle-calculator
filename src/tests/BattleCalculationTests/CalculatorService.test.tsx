@@ -44,17 +44,17 @@ test("Multi fight smulation should run", () =>{
     expect(edgeCases).toBeTruthy();
 });
 
-test("Simple gauntlet smulation should run", () =>{
+test("Simple gauntlet smulation should run", async () =>{
     let config = {
         ...GetDefaultConfig(),
         PostSimulatedHistory: false
     };
     let mainCombatant = GetDefaultAttackerComposition();
     let opossition:IArmyStack = {activeArmy: GetDefaultDefenderComposition(), stack:[GetDefaultDefenderComposition(), GetDefaultDefenderComposition()]} ;
-    let [attackerSetResult, attackerSetEdgeCases] =  SimulateSimpleGauntletOfBattles(mainCombatant, opossition, config, BattleRole.Attacker);
+    let [attackerSetResult, attackerSetEdgeCases] = await SimulateSimpleGauntletOfBattles(mainCombatant, opossition, config, BattleRole.Attacker);
     expect(attackerSetResult).toBeTruthy();
     expect(attackerSetEdgeCases).toBeTruthy();
-    let [defenderSetResult, defenderSetEdgeCases] =  SimulateSimpleGauntletOfBattles(mainCombatant, opossition, config, BattleRole.Defender);
+    let [defenderSetResult, defenderSetEdgeCases] = await SimulateSimpleGauntletOfBattles(mainCombatant, opossition, config, BattleRole.Defender);
     expect(defenderSetResult).toBeTruthy();
     expect(defenderSetEdgeCases).toBeTruthy();
 });

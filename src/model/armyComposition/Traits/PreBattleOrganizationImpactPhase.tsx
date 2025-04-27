@@ -19,7 +19,7 @@ interface PreBattleOrganizationImpactPhaseRelevantValues {
     AppliesToSelf: boolean;
     AppliesToOpponent: boolean;
 }
-
+ 
 export class PreBattleOrganizationImpactPhase implements ITrait, PreBattleOrganizationImpactPhaseRelevantValues {
     Title: string = traitTitle;
     TraitIdentifier: string = "Cantus of Defiance";

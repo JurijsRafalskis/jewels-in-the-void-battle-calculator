@@ -63,9 +63,9 @@ export default function App() {
 
   const runSingleStackVsStackSimulation = async () => {
     setBackdropOpened(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setCurrentLog([]);
-      let result = SimulateDoubleStackBattles(attackerArmyStack, defenderArmyStack, calculatorConfiguration);
+      let result = await SimulateDoubleStackBattles(attackerArmyStack, defenderArmyStack, calculatorConfiguration);
       setCurrentLog(result);
       setBackdropOpened(false);
       scrollToLog();
@@ -86,9 +86,9 @@ export default function App() {
   const createSingleGauntletStart = (role: BattleRole) => {
     return async () => {
       setBackdropOpened(true);
-      setTimeout(() => {
+      setTimeout(async () => {
         setCurrentLog([]);
-        let result = SimulateSingleGauntlet(
+        let result = await SimulateSingleGauntlet(
           role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy,
           role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack,
           calculatorConfiguration,
@@ -106,13 +106,13 @@ export default function App() {
   const createMultiGauntletStart =
     (
       role: BattleRole,
-      calculation: (mainCombatant: IArmy, opposition: IArmyStack, configuration: IBattleConfiguration, mainCombatantRole: BattleRole) => ILogInstance[]
+      calculation: (mainCombatant: IArmy, opposition: IArmyStack, configuration: IBattleConfiguration, mainCombatantRole: BattleRole) => Promise<ILogInstance[]>
     ) => {
       return async () => {
         setBackdropOpened(true);
-        setTimeout(() => {
+        setTimeout(async () => {
           setCurrentLog([]);
-          let result = calculation(
+          let result = await calculation(
             role == BattleRole.Attacker ? attackerArmyStack.activeArmy : defenderArmyStack.activeArmy,
             role == BattleRole.Attacker ? defenderArmyStack : attackerArmyStack,
             calculatorConfiguration,
