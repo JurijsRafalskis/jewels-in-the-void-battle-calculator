@@ -38,7 +38,7 @@ export function SimulateSetOfBattles(attacker:IArmy, defender:IArmy, configurati
     return [aggregatedLog, extremeLogs, ...additionalLogs];
 }
 
-export async function SimulateSingleGauntlet(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):ILogInstance[]{
+export async function SimulateSingleGauntlet(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):Promise<ILogInstance[]>{
     let result:ILogInstance[] = [];
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
     let currentMainCombatant = CloneUnit(initialCombatant);
@@ -57,7 +57,7 @@ export async function SimulateSingleGauntlet(mainCombatant:IArmy, opposition:IAr
 }
 
 
-export async function SimulateSimpleGauntletOfBattles(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):ILogInstance[]{
+export async function SimulateSimpleGauntletOfBattles(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):Promise<ILogInstance[]>{
     let resultingLogs:ILogInstance[] = [];
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
     let fullOpposition = [opposition.activeArmy, ...opposition.stack].map(o => CalculateTotalArmyStats(o, configuration, true));
@@ -87,8 +87,8 @@ export async function SimulateSimpleGauntletOfBattles(mainCombatant:IArmy, oppos
 }
 
 
-export async function SimulateComplexGauntletOfBattles(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):ILogInstance[]{
-    //throw new Error("SimulateGauntletOfBattles is not yet implemented.");
+export async function SimulateComplexGauntletOfBattles(mainCombatant:IArmy, opposition:IArmyStack, configuration:IBattleConfiguration, mainCombatantRole:BattleRole):Promise<ILogInstance[]>{
+    throw new Error("SimulateGauntletOfBattles is not yet implemented.");
 
     let result:ILogInstance[] = [];
     let initialCombatant = CalculateTotalArmyStats(mainCombatant, configuration);
@@ -104,12 +104,13 @@ export async function SimulateComplexGauntletOfBattles(mainCombatant:IArmy, oppo
         }
         const combatHealthStatistics = aggregatedLog.GetHealthData();
         const mainCombatantHealthStatistics = SelectPositionsByRole(combatHealthStatistics[0], combatHealthStatistics[1], mainCombatantRole);
+
     }
 
     return result;
 }
 
-export async function SimulateDoubleStackBattles(attacker:IArmyStack, defender:IArmyStack, configuration:IBattleConfiguration):ILogInstance[]{
+export async function SimulateDoubleStackBattles(attacker:IArmyStack, defender:IArmyStack, configuration:IBattleConfiguration):Promise<ILogInstance[]>{
     throw new Error("SimulateDoubleStackBattles is not yet implemented.");
     let result:ILogInstance[] = [];
 
