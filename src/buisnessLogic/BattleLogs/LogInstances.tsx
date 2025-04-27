@@ -132,7 +132,7 @@ export class StartOfBattleLogInstance extends LogInstance{
     public GetFormattedLogElement(): JSX.Element {
         return <Box>
                 <Box sx={{ fontWeight: 'bold' }}>
-                    Battle start.
+                    Battle has started.
                 </Box>
         </Box>
     }
